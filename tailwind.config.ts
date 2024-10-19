@@ -52,6 +52,9 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        backgroundImage:{
+          bannerImg : "url('./public/batman.png')"
+        }
       },
       borderRadius: {
         lg: "var(--radius)",
