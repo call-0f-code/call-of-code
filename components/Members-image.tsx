@@ -7,7 +7,6 @@ function MembersHead(){
             MEMBERS__
             </div>
             <div className="">
-            <Image src="/batman.png" alt="background image" layout="fill" objectFit="cover" className="z-0" />
             </div>
             
             

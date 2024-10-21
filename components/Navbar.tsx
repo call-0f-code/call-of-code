@@ -1,5 +1,7 @@
-import { FloatingDock } from "@/components/ui/floating-dock";
-import React from "react";
+"use client"
+
+import React from "react"
+import { FloatingDock } from "@/components/ui/floating-dock"
 import {
   IconBrandGithub,
   IconBrandX,
@@ -7,7 +9,7 @@ import {
   IconHome,
   IconNewSection,
   IconTerminal2,
-} from "@tabler/icons-react";
+} from "@tabler/icons-react"
 
 export function FloatingNavbar() {
   const links = [
@@ -18,14 +20,13 @@ export function FloatingNavbar() {
       ),
       href: "/#home",
     },
-
     {
       title: "About",
       icon: (
         <IconTerminal2 className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
       href: "/#about",
-      target:"_blank"
+      target: "_blank"
     },
     {
       title: "Members",
@@ -48,10 +49,14 @@ export function FloatingNavbar() {
       ),
       href: "https://github.com/call-0f-code",
     },
-  ];
+  ]
+
   return (
-    <div className="fixed bottom-0 left-0 w-full flex justify-center pb-4 z-50">
-      <FloatingDock items={links} />
+    <div className="fixed bottom-4 left-4 z-50 md:bottom-0 md:left-0 md:w-full md:flex md:justify-center md:pb-4">
+      <FloatingDock 
+        mobileClassName="flex-row space-x-2 origin-left"
+        items={links}
+      />
     </div>
-  );
+  )
 }
