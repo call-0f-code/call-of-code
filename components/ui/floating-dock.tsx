@@ -44,7 +44,7 @@ export const FloatingDockMobile = ({
         {open && (
           <motion.div
             layoutId="nav"
-            className="absolute bottom-0 left-full ml-2 flex flex-row items-center gap-2"
+            className="absolute bottom-0 left-full ml-2 flex flex-row items-center gap-6"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
