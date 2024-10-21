@@ -1,12 +1,13 @@
 import { About } from "@/components/About";
-import { HomePage } from "@/components/Home";
+
+import ParticlesDemo  from "@/components/Home";
 
 
 export default function Main() {
   return (
     <div>
       <div>
-        <HomePage />
+        <ParticlesDemo />
       </div>
       <div>
         <div id ="about">
