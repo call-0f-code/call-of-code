@@ -1,9 +1,9 @@
-import HyperTextDemo from "@/components/Members-Text"
+import PageCard from "@/components/Members-Text"
 
 function members(){
     return(
         <div>
-            <HyperTextDemo />
+            <PageCard />
         </div>
     )
 }
