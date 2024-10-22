@@ -1,13 +1,13 @@
 import { About } from "@/components/About";
 
-import ParticlesDemo  from "@/components/Home";
+import Particle  from "@/components/Home";
 
 
 export default function Main() {
   return (
     <div>
       <div>
-        <ParticlesDemo />
+        <Particle />
       </div>
       <div>
         <div id ="about">

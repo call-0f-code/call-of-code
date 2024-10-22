@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Particles from "@/components/ui/particles"
 
-export default function ParticlesDemo() {
+export default function Particle() {
   const [color, setColor] = useState("#000000")
 
   useEffect(() => {

@@ -1,9 +1,9 @@
-import MembersHead from "@/components/Members-image"
+import HyperTextDemo from "@/components/Members-Text"
 
 function members(){
     return(
         <div>
-            <MembersHead />
+            <HyperTextDemo />
         </div>
     )
 }
