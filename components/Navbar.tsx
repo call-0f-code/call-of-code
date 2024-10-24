@@ -1,5 +1,3 @@
-"use client"
-
 import React from "react"
 import { FloatingDock } from "@/components/ui/floating-dock"
 import {
@@ -9,6 +7,7 @@ import {
   IconNewSection,
   IconTerminal2,
 } from "@tabler/icons-react"
+import { Trophy , BrickWall , Users} from "lucide-react"
 
 export function FloatingNavbar() {
   const links = [
@@ -20,33 +19,32 @@ export function FloatingNavbar() {
       href: "/#home",
     },
     {
-      title: "About",
+      title: "About Us",
       icon: (
-        <IconTerminal2 className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+        <BrickWall className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
       href: "/#about",
-      target: "_blank"
     },
     {
       title: "Members",
       icon: (
-        <IconNewSection className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+        <Users className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
       href: "/members",
     },
     {
-      title: "Twitter",
+      title: "Achievements",
       icon: (
-        <IconBrandX className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+        <Trophy className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "https://x.com/raut_madridista",
+      href: "/#achievements",
     },
     {
-      title: "GitHub",
+      title: "Projects",
       icon: (
-        <IconBrandGithub className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+        <IconTerminal2 className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "https://github.com/call-0f-code",
+      href: "/projects",
     },
   ]
 
@@ -59,3 +57,15 @@ export function FloatingNavbar() {
     </div>
   )
 }
+
+
+
+
+
+
+
+
+
+
+
+
