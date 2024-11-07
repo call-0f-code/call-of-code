@@ -21,9 +21,11 @@ export const ImagesSlider = ({
   direction?: "up" | "down";
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [loading,setLoading] = useState(true);
   const [loadedImages, setLoadedImages] = useState<string[]>([]);
-
+  if (loading) {
+    setLoading(false)
+  }
   const handleNext = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex + 1 === images.length ? 0 : prevIndex + 1
@@ -70,7 +72,7 @@ export const ImagesSlider = ({
     window.addEventListener("keydown", handleKeyDown);
 
     // autoplay
-    let interval: any;
+    let interval: NodeJS.Timeout | undefined;
     if (autoplay) {
       interval = setInterval(() => {
         handleNext();

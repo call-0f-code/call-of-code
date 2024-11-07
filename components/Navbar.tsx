@@ -1,10 +1,7 @@
 import React from "react"
 import { FloatingDock } from "@/components/ui/floating-dock"
 import {
-  IconBrandGithub,
-  IconBrandX,
   IconHome,
-  IconNewSection,
   IconTerminal2,
 } from "@tabler/icons-react"
 import { Trophy , BrickWall , Users} from "lucide-react"
