@@ -24,8 +24,8 @@ export default function Particle() {
       
       <Particles
         className="absolute inset-0"
-        quantity={150}
-        ease={80}
+        quantity={400}
+        ease={90}
         size={1.25}
         color={color}
         refresh
