@@ -15,7 +15,7 @@ export default function Memberscard({
   linkedinLink = "#"
 }: MemberscardProps) {
   return (
-    <div className="bg-card text-card-foreground rounded-lg overflow-hidden shadow-md w-[335px]">
+    <div className="bg-card text-card-foreground rounded-lg overflow-hidden shadow-md w-[300px]">
       <Image
         src={imageSrc}
         width={300}
