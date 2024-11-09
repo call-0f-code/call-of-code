@@ -19,7 +19,7 @@ const ThemeProviderContext = React.createContext<
 >(undefined);
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const [theme, setTheme] = React.useState<Theme>("dark");
+  const [theme, setTheme] = React.useState<Theme>("light");
 
   React.useEffect(() => {
     const root = window.document.documentElement;

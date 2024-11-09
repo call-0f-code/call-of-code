@@ -3,6 +3,7 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/project-card"
 import { Button } from "@/components/ui/project-button"
 import { Github, ExternalLink } from "lucide-react"
+import {motion } from "framer-motion"
 
 // Mock data for projects
 const projects = [
@@ -74,9 +75,19 @@ const projects = [
 
 export default function ProjectsPage() {
   return (
-    <div className="container mx-auto py-12">
-      <h1 className="text-4xl font-bold mb-8 text-center">PROJECTS</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="container mx-auto py-16">
+      
+      <div className="relative z-10 text-center">
+          <motion.h1 
+            className="text-6xl font-bold mb-4 bg-gradient-to-r from-primary to-primary-foreground bg-clip-text text-transparent"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            PROJECTS
+          </motion.h1>
+        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {projects.map((project) => (
           <Card backgroundImage={project.backgroundImage} key={project.id} className={`${project.color} border-2 transition-all hover:shadow-lg hover:scale-105`}>
             <CardHeader>
@@ -108,3 +119,4 @@ export default function ProjectsPage() {
     </div>
   )
 }
+
