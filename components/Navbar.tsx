@@ -46,7 +46,7 @@ export function FloatingNavbar() {
   ]
 
   return (
-    <div className="fixed bottom-4 left-4 z-50 md:bottom-0 md:left-0 md:w-full md:flex md:justify-center md:pb-4">
+    <div className="fixed bottom-4 left-4 z-50  md:bottom-0 md:left-0 md:w-full md:flex md:justify-center md:pb-4">
       <FloatingDock 
         mobileClassName="flex-row space-x-2 origin-left"
         items={links}

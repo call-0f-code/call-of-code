@@ -10,9 +10,10 @@ export default function Main() {
         <Particle />
       </div>
       <div>
-        <div id ="about">
+        <div className="w-full h-full">
           <About />
         </div>
+    
       </div>
     
     </div>
