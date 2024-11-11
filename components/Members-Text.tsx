@@ -4,7 +4,7 @@ import Memberscard from '@/components/ui/members-card'
 export default function PageCard() {
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="flex justify-between items-center p-4">
+      <header className="flex justify-center items-center p-4">
         <div className="text-4xl font-bold ">&lt;&gt; COC &lt;/&gt;</div>
       </header>
       
