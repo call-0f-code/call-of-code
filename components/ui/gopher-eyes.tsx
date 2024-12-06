@@ -23,8 +23,8 @@ function Gopher() {
     const distance = Math.sqrt(dx * dx + dy * dy);
     const angle = Math.atan2(dy, dx);
 
-    let offsetX = Math.cos(angle) * Math.min(distance, maxOffset);
-    let offsetY = Math.sin(angle) * Math.min(distance, maxOffset);
+    const offsetX = Math.cos(angle) * Math.min(distance, maxOffset);
+    const offsetY = Math.sin(angle) * Math.min(distance, maxOffset);
 
     return { 
       x: offsetX, 
