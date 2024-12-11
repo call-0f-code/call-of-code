@@ -1,4 +1,4 @@
-import { About } from "@/components/About";
+import About from "@/components/About";
 
 import Particle  from "@/components/Home";
 
@@ -12,6 +12,7 @@ export default function Main() {
       <div>
         <div className="w-full h-full">
           <About />
+          
         </div>
     
       </div>
