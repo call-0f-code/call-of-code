@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/project-button"
 import { Github, ExternalLink } from "lucide-react"
 import {motion } from "framer-motion"
-
+export const runtime = "edge";
 // Mock data for projects
 const projects = [
   {
