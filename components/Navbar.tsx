@@ -34,8 +34,9 @@ export function FloatingNavbar() {
       icon: (
         <Trophy className="h-full w-full text-neutral-500 dark:text-neutral-300" />
       ),
-      href: "/#achievements",
+      href: "/achivement", // Ensure it matches the folder name
     },
+    
     {
       title: "Projects",
       icon: (
