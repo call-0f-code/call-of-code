@@ -18,6 +18,18 @@ const config = {
       },
     },
     extend: {
+      transformOrigin: {
+        "style-3d": "preserve-3d",
+      },
+      rotate: {
+        "y-180": "rotateY(180deg)",
+      },
+      perspective: {
+        "default": "1000px",
+      },
+      backfaceVisibility: {
+        hidden: "hidden",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
