@@ -1,10 +1,10 @@
 'use client';
 import { motion, useTransform, useScroll } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 
 const About = () => {
   return (
-    <div className="bg-neutral-200 dark:bg-neutral-800">
+    <div className="bg-white dark:bg-black">
       <HorizontalScrollCarousel />
     </div>
   );
@@ -12,22 +12,40 @@ const About = () => {
 
 const HorizontalScrollCarousel = () => {
   const targetRef = useRef<HTMLDivElement | null>(null);
+  const [scrollRange, setScrollRange] = useState(0);
+
   const { scrollYProgress } = useScroll({
     target: targetRef,
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["1%", "-95%"]);
+  useEffect(() => {
+    // Calculate the total scrollable width dynamically
+    const cardWidth = 450; // Width of each card
+    const gap = 16; // Gap between cards (Tailwind's `gap-4` = 16px)
+    const totalCards = cards.length;
+    const viewportWidth = window.innerWidth; // Current viewport width
+
+    const totalScrollWidth = totalCards * (cardWidth + gap) - gap; // Total width of all cards
+    const finalScrollRange = totalScrollWidth - viewportWidth;
+
+    setScrollRange(Math.max(finalScrollRange, 0)); // Ensure scroll range is not negative
+  }, []);
+
+  const x = useTransform(scrollYProgress, [0, 1], [0, -scrollRange]);
 
   return (
     <section
       ref={targetRef}
-      className="relative h-[300vh] bg-neutral-100 dark:bg-neutral-900"
+      className="relative h-[300vh] bg-white dark:bg-black"
     >
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-        <motion.div style={{ x }} className="flex gap-4">
-          {cards.map((card) => {
-            return <Card card={card} key={card.id} />;
-          })}
+        <motion.div
+          style={{ x }}
+          className="flex gap-4"
+        >
+          {cards.map((card) => (
+            <Card card={card} key={card.id} />
+          ))}
         </motion.div>
       </div>
     </section>
@@ -38,7 +56,7 @@ const Card = ({ card }: { card: CardType }) => {
   return (
     <div
       key={card.id}
-      className="group relative h-[450px] w-[450px] overflow-hidden bg-neutral-300 dark:bg-neutral-700"
+      className="group relative h-[450px] w-[450px] overflow-hidden bg-white dark:bg-neutral-700 rounded-3xl"
     >
       <div
         style={{
@@ -67,41 +85,37 @@ type CardType = {
 
 const cards: CardType[] = [
   {
-    url: "/coding-difference-1.jpg",
+    url: "/cartoon-students.jpg",
     description: "Innovate and Build Together",
     id: 1,
   },
   {
-    url: "/coding-difference-1.jpg",
+    url: "/cartoon-students.jpg",
     description: "Learn New Programming Paradigms",
     id: 2,
   },
   {
-    url: "/coding-difference-1.jpg",
+    url: "/cartoon-students.jpg",
     description: "Collaborate on Open Source Projects",
     id: 3,
   },
   {
-    url: "/coding-difference-1.jpg",
+    url: "/cartoon-students.jpg",
     description: "Hackathons and Coding Competitions",
     id: 4,
   },
   {
-    url: "/coding-difference-1.jpg",
+    url: "/cartoon-students.jpg",
     description: "Master Algorithms and Data Structures",
     id: 5,
   },
   {
-    url: "/coding-difference-1.jpg",
+    url: "/cartoon-students.jpg",
     description: "Explore Emerging Technologies",
     id: 6,
   },
-  {
-    url: "/coding-difference-1.jpg",
-    description: "Build a Community of Coders",
-    id: 7,
-  },
 ];
+
 
 
 
