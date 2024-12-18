@@ -5,7 +5,7 @@ const achievements = [
     title: "Winner of Hunar Intern Web Development Hackathon",
     description: "Developed the award-winning healthcare website, WellnessWave.",
     date: "August 2024",
-    imageSrc: "/batman.png",
+    imageSrc: "/Hunar.jpg",
   },
   {
     title: "BITS Pilani Postman API Hackathon 3.0",
