@@ -17,7 +17,7 @@ export default function Main() {
         <div className="mx-5">
           <About />
           </div>
-          <footer className="bg-gray-800 text-gray-300 py-4">
+          <footer className="bg-black dark:bg-white text-gray-300 py-4">
         <div className="container mx-auto">
           <Footer />
         </div>
