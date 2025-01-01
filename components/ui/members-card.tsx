@@ -1,18 +1,18 @@
-import Image from 'next/image'
-import { GithubIcon, LinkedinIcon } from 'lucide-react'
+import Image from "next/image";
+import { GithubIcon, LinkedinIcon } from "lucide-react";
 
 interface MemberscardProps {
-  name: string
-  imageSrc: string
-  githubLink: string
-  linkedinLink: string
+  name: string;
+  imageSrc: string;
+  githubLink: string;
+  linkedinLink: string;
 }
 
 export default function Memberscard({
   name = "Shivaji Raut",
   imageSrc = "/placeholder.svg?height=200&width=300",
   githubLink = "#",
-  linkedinLink = "#"
+  linkedinLink = "#",
 }: MemberscardProps) {
   return (
     <div className="relative bg-card text-card-foreground rounded-lg overflow-hidden shadow-md w-[300px] group">
@@ -53,5 +53,5 @@ export default function Memberscard({
         </div>
       </div>
     </div>
-  )
+  );
 }

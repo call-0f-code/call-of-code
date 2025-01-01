@@ -1,6 +1,6 @@
 import { About } from "@/components/About";
 
-import Particle  from "@/components/Home";
+import Particle from "@/components/Home";
 
 export const runtime = "edge";
 export default function Main() {
@@ -13,11 +13,7 @@ export default function Main() {
         <div className="w-full h-full">
           <About />
         </div>
-    
       </div>
-    
     </div>
-      
   );
 }
-

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useState, useEffect, useRef } from "react";
 
@@ -14,21 +14,19 @@ function Gopher() {
     const eyeCenterX = eyeRect.left + eyeRect.width / 2;
     const eyeCenterY = eyeRect.top + eyeRect.height / 2;
 
-    
     const dx = mouseCoordinates.x - eyeCenterX;
     const dy = mouseCoordinates.y - eyeCenterY;
 
-    
-    const maxOffset = 9; 
+    const maxOffset = 9;
     const distance = Math.sqrt(dx * dx + dy * dy);
     const angle = Math.atan2(dy, dx);
 
     const offsetX = Math.cos(angle) * Math.min(distance, maxOffset);
     const offsetY = Math.sin(angle) * Math.min(distance, maxOffset);
 
-    return { 
-      x: offsetX, 
-      y: offsetY 
+    return {
+      x: offsetX,
+      y: offsetY,
     };
   }
 
@@ -44,7 +42,7 @@ function Gopher() {
   }, []);
 
   return (
-    <div >
+    <div>
       {/* Gopher Image */}
       <div>
         <img
@@ -57,17 +55,15 @@ function Gopher() {
       <div
         ref={eyeLeft}
         className="absolute top-[300px] left-[95px] w-[50px] h-[50px] rounded-full overflow-hidden"
-        style={{ transform: 'rotate(-10deg)' }}
+        style={{ transform: "rotate(-10deg)" }}
       >
-        <div 
-          className="absolute w-full h-full bg-white"
-        >
-          <div 
+        <div className="absolute w-full h-full bg-white">
+          <div
             className="absolute w-[10px] h-[10px] bg-black rounded-full"
             style={{
               left: `calc(50% + ${calculateEyeMovement(eyeLeft).x}px)`,
               top: `calc(50% + ${calculateEyeMovement(eyeLeft).y}px)`,
-              transform: 'translate(-50%, -50%)'
+              transform: "translate(-50%, -50%)",
             }}
           ></div>
         </div>
@@ -77,17 +73,15 @@ function Gopher() {
       <div
         ref={eyeRight}
         className="absolute top-[305px] left-[160px] w-[30px] h-[40px] rounded-full overflow-hidden"
-        style={{ transform: 'rotate(-5deg)' }}
+        style={{ transform: "rotate(-5deg)" }}
       >
-        <div 
-          className="absolute w-full h-full bg-white"
-        >
-          <div 
+        <div className="absolute w-full h-full bg-white">
+          <div
             className="absolute w-[10px] h-[10px] bg-black rounded-full"
             style={{
               left: `calc(50% + ${calculateEyeMovement(eyeRight).x}px)`,
               top: `calc(50% + ${calculateEyeMovement(eyeRight).y}px)`,
-              transform: 'translate(-50%, -50%)'
+              transform: "translate(-50%, -50%)",
             }}
           ></div>
         </div>
