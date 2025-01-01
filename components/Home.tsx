@@ -1,23 +1,26 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from "react"
-import Particles from "@/components/ui/particles"
-import Gopher from "./ui/gopher-eyes"
+import { useEffect, useState } from "react";
+import Particles from "@/components/ui/particles";
+import Gopher from "./ui/gopher-eyes";
 
 export default function Particle() {
-  const [color, setColor] = useState("#000000")
+  const [color, setColor] = useState("#000000");
 
   useEffect(() => {
     const updateColor = () => {
-      const isDarkTheme = document.documentElement.classList.contains('dark')
-      setColor(isDarkTheme ? "#ffffff" : "#000000")
-    }
-    updateColor()
-    const observer = new MutationObserver(updateColor)
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+      const isDarkTheme = document.documentElement.classList.contains("dark");
+      setColor(isDarkTheme ? "#ffffff" : "#000000");
+    };
+    updateColor();
+    const observer = new MutationObserver(updateColor);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
 
-    return () => observer.disconnect()
-  }, [])
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-background">
@@ -25,12 +28,14 @@ export default function Particle() {
         &lt;&gt; CALL OF CODE &lt;/&gt;
       </h2>
       <p className="max-w-xl mx-auto text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl text-neutral-700 dark:text-neutral-400 text-center leading-relaxed px-4 mb-8">
-        Welcome to Call of Code! Join us to explore, innovate, and collaborate on exciting projects while enhancing your coding skills through workshops, hackathons, and peer learning.
+        Welcome to Call of Code! Join us to explore, innovate, and collaborate
+        on exciting projects while enhancing your coding skills through
+        workshops, hackathons, and peer learning.
       </p>
       <div className="hidden md:block">
         <Gopher />
       </div>
-      
+
       <Particles
         className="absolute inset-0"
         quantity={400}
@@ -40,6 +45,5 @@ export default function Particle() {
         refresh
       />
     </div>
-  )
+  );
 }
-

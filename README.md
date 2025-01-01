@@ -7,21 +7,21 @@ Welcome to the official repository for the **Call of Code** programming club web
 To get a local copy up and running, follow these steps:
 
 1. **Clone the repository:**
-    ```bash
-    git clone https://github.com/yourusername/call-of-code.git
-    ```
+   ```bash
+   git clone https://github.com/yourusername/call-of-code.git
+   ```
 2. **Navigate to the project directory:**
-    ```bash
-    cd call-of-code
-    ```
+   ```bash
+   cd call-of-code
+   ```
 3. **Install dependencies:**
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 4. **Run the development server:**
-    ```bash
-    npm run dev
-    ```
+   ```bash
+   npm run dev
+   ```
 
 ## Contributing
 

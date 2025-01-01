@@ -26,13 +26,11 @@ export function About() {
         className="z-50 flex flex-col justify-center items-center"
       >
         <motion.p className="font-bold text-xl md:text-xl text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 py-4">
-            ABOUT US <br />
-            We are a group of students working on software hackathons expert in web dev , ML , and Android Develeopment
+          ABOUT US <br />
+          We are a group of students working on software hackathons expert in
+          web dev , ML , and Android Develeopment
         </motion.p>
       </motion.div>
     </ImagesSlider>
   );
 }
-
-
-
