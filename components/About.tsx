@@ -1,36 +1,172 @@
-"use client";
-import { motion } from "framer-motion";
-import React from "react";
-import { ImagesSlider } from "@/components/ui/images-slider";
+'use client';
+import { motion, useTransform, useScroll } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 
-export function About() {
-  const images = [
-    "https://images.unsplash.com/photo-1485433592409-9018e83a1f0d?q=80&w=1814&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1483982258113-b72862e6cff6?q=80&w=3456&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1482189349482-3defd547e0e9?q=80&w=2848&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  ];
+const About = () => {
   return (
-    <ImagesSlider className="h-[40rem]" images={images}>
-      <motion.div
-        initial={{
-          opacity: 0,
-          y: -80,
-        }}
-        animate={{
-          opacity: 1,
-          y: 0,
-        }}
-        transition={{
-          duration: 0.6,
-        }}
-        className="z-50 flex flex-col justify-center items-center"
-      >
-        <motion.p className="font-bold text-xl md:text-xl text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-400 py-4">
-          ABOUT US <br />
-          We are a group of students working on software hackathons expert in
-          web dev , ML , and Android Develeopment
-        </motion.p>
-      </motion.div>
-    </ImagesSlider>
+    <div className="bg-white dark:bg-black">
+      <HorizontalScrollCarousel />
+    </div>
   );
-}
+};
+
+const HorizontalScrollCarousel = () => {
+  const targetRef = useRef<HTMLDivElement | null>(null);
+  const [scrollRange, setScrollRange] = useState(0);
+
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+  });
+
+  useEffect(() => {
+    const cardWidth = 450;
+    const gap = 16;
+    const totalCards = cards.length;
+    const viewportWidth = window.innerWidth;
+    const totalScrollWidth = totalCards * (cardWidth + gap) - gap;
+    const finalScrollRange = totalScrollWidth - viewportWidth;
+    setScrollRange(Math.max(finalScrollRange, 0));
+  }, []);
+
+  const x = useTransform(scrollYProgress, [0, 1], [0, -scrollRange]);
+  
+  // Add fade-in animation for the container
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { duration: 0.8 } }
+  };
+
+  return (
+    <motion.section
+      ref={targetRef}
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+      className="relative h-[300vh] bg-white dark:bg-black"
+    >
+      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+        <motion.div
+          style={{ x }}
+          className="flex gap-4"
+        >
+          {cards.map((card, index) => (
+            <Card card={card} key={card.id} index={index} />
+          ))}
+        </motion.div>
+      </div>
+    </motion.section>
+  );
+};
+
+const Card = ({ card, index }: { card: CardType; index: number }) => {
+  // Card animation variants
+  const cardVariants = {
+    hidden: { 
+      opacity: 0,
+      y: 50
+    },
+    visible: { 
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        delay: index * 0.2,
+        ease: "easeOut"
+      }
+    },
+    hover: {
+      y: -10,
+      transition: {
+        duration: 0.3,
+        ease: "easeInOut"
+      }
+    }
+  };
+
+  // Text animation variants
+  const textVariants = {
+    hidden: {
+      opacity: 0,
+      scale: 0.8
+    },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.4,
+        delay: 0.2
+      }
+    }
+  };
+
+  return (
+    <motion.div
+      key={card.id}
+      variants={cardVariants}
+      initial="hidden"
+      animate="visible"
+      whileHover="hover"
+      className="group relative h-[450px] w-[450px] overflow-hidden bg-white dark:bg-neutral-700 rounded-3xl"
+    >
+      <motion.div
+        style={{
+          backgroundImage: `url(${card.url})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+        whileHover={{ scale: 1.1 }}
+        transition={{ duration: 0.4 }}
+        className="absolute inset-0 z-0"
+      />
+      <div className="absolute inset-0 z-10 grid place-content-center">
+        <motion.p
+          variants={textVariants}
+          className="bg-gradient-to-br from-white/30 to-white/0 dark:from-black/30 dark:to-black/0 p-8 text-4xl font-black text-black dark:text-white backdrop-blur-lg"
+        >
+          {card.description}
+        </motion.p>
+      </div>
+    </motion.div>
+  );
+};
+
+type CardType = {
+  url: string;
+  description: string;
+  id: number;
+};
+
+const cards: CardType[] = [
+  {
+    url: "/cartoon-students.jpg",
+    description: "Innovate and Build Together",
+    id: 1,
+  },
+  {
+    url: "/cartoon-students.jpg",
+    description: "Learn New Programming Paradigms",
+    id: 2,
+  },
+  {
+    url: "/cartoon-students.jpg",
+    description: "Collaborate on Open Source Projects",
+    id: 3,
+  },
+  {
+    url: "/cartoon-students.jpg",
+    description: "Hackathons and Coding Competitions",
+    id: 4,
+  },
+  {
+    url: "/cartoon-students.jpg",
+    description: "Master Algorithms and Data Structures",
+    id: 5,
+  },
+  {
+    url: "/cartoon-students.jpg",
+    description: "Explore Emerging Technologies",
+    id: 6,
+  },
+];
+
+export default About;

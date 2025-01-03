@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Particles from "@/components/ui/particles";
-import Gopher from "./ui/gopher-eyes";
+import { useEffect, useState } from "react"
+import Particles from "@/components/ui/particles"
+import Gopher from "./ui/gopher-eyes"
+import { TextRevealCardPreview } from "./ui/text-card"
 
 export default function Particle() {
   const [color, setColor] = useState("#000000");
@@ -35,7 +36,7 @@ export default function Particle() {
       <div className="hidden md:block">
         <Gopher />
       </div>
-
+      
       <Particles
         className="absolute inset-0"
         quantity={400}
