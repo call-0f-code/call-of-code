@@ -1,13 +1,8 @@
 import type { Config } from "tailwindcss";
-const defaultTheme = require("tailwindcss/defaultTheme");
-const colors = require("tailwindcss/colors");
-const {
-  default: flattenColorPalette,
-} = require("tailwindcss/lib/util/flattenColorPalette");
 
 /** @type {import('tailwindcss').Config} */
 const config = {
-  darkMode: 'class',
+  darkMode: "class",
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -24,6 +19,18 @@ const config = {
       },
     },
     extend: {
+      transformOrigin: {
+        "style-3d": "preserve-3d",
+      },
+      rotate: {
+        "y-180": "rotateY(180deg)",
+      },
+      perspective: {
+        default: "1000px",
+      },
+      backfaceVisibility: {
+        hidden: "hidden",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -59,7 +66,7 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
         backgroundImage:{
-          bannerImg : "url('/public/batman.png')"
+          bannerImg : "url('./public/batman.png')"
         }
       },
       borderRadius: {
@@ -83,7 +90,7 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), addVariablesForColors,],
+  plugins: [require("tailwindcss-animate")],
 } satisfies Config;
 function addVariablesForColors({ addBase, theme }: any) {
   let allColors = flattenColorPalette(theme("colors"));
