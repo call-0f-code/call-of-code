@@ -73,7 +73,7 @@ export const StickyScroll = ({
                 animate={{
                   opacity: activeCard === index ? 1 : 0.3,
                 }}
-                className="text-3xl font-bold text-slate-100" // Increased font size
+                className="text-3xl font-bold text-black dark:text-white" // Text color updated to black in light mode
               >
                 {item.title}
               </motion.h2>
@@ -84,7 +84,7 @@ export const StickyScroll = ({
                 animate={{
                   opacity: activeCard === index ? 1 : 0.3,
                 }}
-                className="text-lg text-slate-300 max-w-md mt-5" // Increased font size
+                className="text-lg text-black dark:text-white max-w-md mt-5" // Text color updated to black in light mode
               >
                 {item.description}
               </motion.p>

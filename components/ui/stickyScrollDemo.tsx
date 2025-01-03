@@ -23,7 +23,7 @@ const content = [
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.5 }}
         whileHover={{ scale: 1.05 }}
-        className="h-full w-full flex flex-col items-center justify-center text-white bg-gradient-to-br from-cyan-500 to-emerald-500 dark:from-cyan-800 dark:to-emerald-800 rounded-xl p-6"
+        className="h-full w-full flex flex-col items-center justify-center text-black dark:text-white bg-gradient-to-br from-cyan-500 to-emerald-500 dark:from-cyan-800 dark:to-emerald-800 rounded-xl p-6"
       >
         <Code className="w-16 h-16 mb-4" />
         <motion.h2 
@@ -46,7 +46,7 @@ const content = [
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="h-full w-full flex items-center justify-center text-white relative group"
+        className="h-full w-full flex items-center justify-center text-black dark:text-white relative group"
       >
         <motion.div
           whileHover={{ scale: 1.05 }}
@@ -80,7 +80,7 @@ const content = [
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.5 }}
         whileHover={{ scale: 1.05 }}
-        className="h-full w-full flex flex-col items-center justify-center text-white bg-gradient-to-br from-orange-500 to-yellow-500 dark:from-orange-800 dark:to-yellow-800 rounded-xl p-6"
+        className="h-full w-full flex flex-col items-center justify-center text-black dark:text-white bg-gradient-to-br from-orange-500 to-yellow-500 dark:from-orange-800 dark:to-yellow-800 rounded-xl p-6"
       >
         <Users className="w-16 h-16 mb-4" />
         <motion.div 
@@ -106,7 +106,7 @@ const content = [
         animate={{ scale: 1, opacity: 1 }}
         transition={{ duration: 0.5 }}
         whileHover={{ scale: 1.05 }}
-        className="h-full w-full flex flex-col items-center justify-center text-white bg-gradient-to-br from-cyan-500 to-emerald-500 dark:from-cyan-800 dark:to-emerald-800 rounded-xl p-6 relative overflow-hidden"
+        className="h-full w-full flex flex-col items-center justify-center text-black dark:text-white bg-gradient-to-br from-cyan-500 to-emerald-500 dark:from-cyan-800 dark:to-emerald-800 rounded-xl p-6 relative overflow-hidden"
       >
         <motion.div
           animate={{ 
@@ -141,5 +141,3 @@ export function StickyScrollRevealDemo() {
     </div>
   );
 }
-
-
