@@ -9,7 +9,7 @@ export default function Main() {
   return (
     <div>
       <div>
-        <Particle />
+        <HeroSection />
       </div>
       <div>
         <div className="w-full h-full">
