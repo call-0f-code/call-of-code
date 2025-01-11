@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Particles from "@/components/ui/particles"
 import Gopher from "./ui/gopher-eyes"
-import { TextRevealCardPreview } from "./ui/text-card"
+//import { TextRevealCardPreview } from "./ui/text-card"
 
 export default function Particle() {
   const [color, setColor] = useState("#000000");
