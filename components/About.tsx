@@ -1,12 +1,12 @@
 'use client';
 
 import { motion, useTransform, useScroll } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Code2, Terminal, Git, Database, Cloud, Brain } from 'lucide-react';
 
 const About = () => {
   return (
-    <div className="bg-slate-900">
+    <div className="w-full bg-gradient-to-b from-zinc-200 to-white dark:from-black dark:to-slate-950 transition-colors duration-300">
       <HorizontalScrollCarousel />
     </div>
   );
@@ -27,7 +27,7 @@ const HorizontalScrollCarousel = () => {
       const totalCards = codeBlocks.length;
       const viewportWidth = window.innerWidth;
       const totalScrollWidth = totalCards * (cardWidth + gap) - gap;
-      const finalScrollRange = totalScrollWidth - viewportWidth;
+      const finalScrollRange = totalScrollWidth - viewportWidth + 48;
       setScrollRange(Math.max(finalScrollRange, 0));
     };
 
@@ -50,10 +50,13 @@ const HorizontalScrollCarousel = () => {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="relative h-[300vh] bg-slate-900"
+      className="relative h-[300vh] bg-transparent w-full transition-colors duration-300"
     >
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-        <motion.div style={{ x }} className="flex gap-4">
+        <motion.div 
+          style={{ x }} 
+          className="flex gap-4 pl-6"
+        >
           {codeBlocks.map((block, index) => (
             <CodeBlock block={block} key={block.id} index={index} />
           ))}
@@ -88,7 +91,7 @@ const CodeBlock = ({ block, index }: { block: CodeBlockType; index: number }) =>
     },
   };
 
-  const IconComponent = block.icon || Code2; // Fallback to a default icon if undefined
+  const IconComponent = block.icon || Code2;
 
   return (
     <motion.div
@@ -96,32 +99,39 @@ const CodeBlock = ({ block, index }: { block: CodeBlockType; index: number }) =>
       initial="hidden"
       animate="visible"
       whileHover="hover"
-      className="group relative h-[450px] w-[450px] overflow-hidden rounded-3xl bg-gradient-to-br from-slate-800 to-slate-900 p-6 border border-slate-700"
+      className="group relative h-[450px] w-[450px] overflow-hidden rounded-3xl dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-900 bg-gradient-to-br from-white to-slate-100 p-6 border border-slate-200 dark:border-slate-700 shadow-xl dark:shadow-2xl dark:shadow-slate-900/50 backdrop-blur-sm transition-all duration-300"
     >
+      {/* Terminal dots */}
       <div className="absolute top-4 left-4 flex space-x-2">
-        <div className="h-3 w-3 rounded-full bg-red-500"></div>
-        <div className="h-3 w-3 rounded-full bg-yellow-500"></div>
-        <div className="h-3 w-3 rounded-full bg-green-500"></div>
+        <div className="h-3 w-3 rounded-full bg-red-500/80 dark:bg-red-500"></div>
+        <div className="h-3 w-3 rounded-full bg-yellow-500/80 dark:bg-yellow-500"></div>
+        <div className="h-3 w-3 rounded-full bg-green-500/80 dark:bg-green-500"></div>
       </div>
 
       <div className="mt-8 flex flex-col items-center space-y-6">
-        <IconComponent className="h-16 w-16 text-blue-400" />
+        <IconComponent className="h-16 w-16 text-blue-500 dark:text-blue-400 transition-colors duration-300" />
 
-        <h3 className="text-2xl font-bold text-white">{block.title}</h3>
+        <h3 className="text-2xl font-bold text-slate-900 dark:text-white transition-colors duration-300">
+          {block.title}
+        </h3>
 
-        <div className="h-48 w-full overflow-hidden rounded-lg bg-slate-800 p-4">
-          <pre className="text-sm">
-            <code className="text-blue-300">{block.codeSnippet}</code>
+        <div className="h-48 w-full overflow-hidden rounded-lg bg-indigo-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-colors duration-300">
+          <pre className="text-sm p-4">
+            <code className="text-slate-800 dark:text-blue-300 transition-colors duration-300">
+              {block.codeSnippet}
+            </code>
           </pre>
         </div>
 
-        <p className="text-center text-slate-300">{block.description}</p>
+        <p className="text-center text-slate-600 dark:text-slate-300 transition-colors duration-300">
+          {block.description}
+        </p>
 
-        <div className="flex space-x-3">
+        <div className="flex flex-wrap justify-center gap-2">
           {block.tags.map((tag, i) => (
             <span
               key={i}
-              className="rounded-full bg-blue-500/10 px-3 py-1 text-sm text-blue-400"
+              className="rounded-full bg-blue-500 dark:bg-blue-500/10 px-3 py-1 text-sm text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/20 transition-colors duration-300"
             >
               {tag}
             </span>

@@ -1,143 +1,138 @@
-"use client";
-import React from "react";
-import { StickyScroll } from "../ui/sticky-scroll-reveal";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { ArrowRight, Code, Users, Rocket, Trophy } from "lucide-react";
+'use client';
 
-const IconMap = {
-  0: Code,
-  1: Trophy,
-  2: Users,
-  3: Rocket,
-};
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { StickyScroll } from "../ui/sticky-scroll-reveal";
+import { Code, Terminal, Database, Cpu } from "lucide-react";
 
 const content = [
   {
-    title: "Welcome to Call of Code",
-    description:
-      "Call of Code, our college's official coding club, is a dynamic hub for tech enthusiasts eager to explore the world of programming. The club serves as a collaborative space where creativity and innovation come together, empowering students to master coding while building a strong community.",
+    title: "Master the Code",
+    description: "Dive into the world of programming with our comprehensive learning paths. From web development to algorithms, we cover everything you need to become a proficient developer in today's tech landscape.",
     content: (
-      <motion.div 
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        whileHover={{ scale: 1.05 }}
-        className="h-full w-full flex flex-col items-center justify-center text-black dark:text-white bg-gradient-to-br from-cyan-500 to-emerald-500 dark:from-cyan-800 dark:to-emerald-800 rounded-xl p-6"
-      >
-        <Code className="w-16 h-16 mb-4" />
-        <motion.h2 
+      <div className="relative h-full w-full bg-gradient-to-br from-blue-500/10 to-purple-500/10 p-8">
+        <motion.div 
+          className="absolute inset-0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="h-full w-full bg-[url('/grid.svg')] opacity-20" />
+        </motion.div>
+        <motion.div 
+          className="relative h-full w-full flex flex-col items-center justify-center"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="text-3xl font-bold text-center"
         >
-          Welcome to CALL OF CODE
-        </motion.h2>
-      </motion.div>
+          <Code className="w-20 h-20 text-blue-300 mb-6" />
+          <div className="space-y-2 text-center">
+            <h3 className="text-2xl font-bold text-white">{"<Code />"}</h3>
+            <p className="text-blue-200/80 text-sm">Master modern programming</p>
+          </div>
+        </motion.div>
+      </div>
     ),
   },
   {
-    title: "Igniting Passion Through Events",
-    description:
-      "Call of Code organizes exciting hackathons, coding contests, and interactive workshops throughout the year. These events are designed to challenge members, spark creativity, and encourage teamwork, helping students sharpen their technical and problem-solving skills.",
+    title: "Command Line Mastery",
+    description: "Learn to harness the power of the command line interface. Our advanced terminal workshops will teach you essential DevOps skills, shell scripting, and automation techniques used by professional developers.",
     content: (
-      <motion.div 
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        className="h-full w-full flex items-center justify-center text-black dark:text-white relative group"
-      >
+      <div className="relative h-full w-full bg-gradient-to-br from-indigo-500/10 to-purple-500/10 p-8">
         <motion.div
-          whileHover={{ scale: 1.05 }}
-          className="relative w-full h-full overflow-hidden rounded-xl"
+          className="h-full w-full flex flex-col items-center justify-center"
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5 }}
         >
-          <Image
-            src="/keep-coding.webp"
-            width={300}
-            height={300}
-            className="h-full w-full object-cover dark:opacity-90 transition-transform duration-300 group-hover:scale-110"
-            alt="linear board demo"
-          />
+          <Terminal className="w-20 h-20 text-indigo-300 mb-6" />
           <motion.div 
-            initial={{ opacity: 0 }}
-            whileHover={{ opacity: 1 }}
-            className="absolute inset-0 bg-black/40 flex items-center justify-center"
+            className="text-center space-y-2"
+            animate={{ 
+              opacity: [1, 0.8, 1],
+            }}
+            transition={{ 
+              duration: 2,
+              repeat: Infinity,
+            }}
           >
-            <Trophy className="w-16 h-16" />
+            <h3 className="text-2xl font-mono text-white">&gt;_</h3>
+            <p className="text-indigo-200/80 text-sm">Terminal expertise</p>
           </motion.div>
         </motion.div>
-      </motion.div>
+      </div>
     ),
   },
   {
-    title: "Learn and Grow Together",
-    description:
-      "With a strong focus on mentorship, Call of Code ensures every member feels supported. Whether you're a beginner or an advanced coder, you'll benefit from expert guidance on trending topics like app development, machine learning, and competitive programming.",
+    title: "Database Design",
+    description: "Explore the fundamentals of database architecture and management. Learn how to design efficient schemas, optimize queries, and master both SQL and NoSQL databases for building scalable applications.",
     content: (
-      <motion.div 
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        whileHover={{ scale: 1.05 }}
-        className="h-full w-full flex flex-col items-center justify-center text-black dark:text-white bg-gradient-to-br from-orange-500 to-yellow-500 dark:from-orange-800 dark:to-yellow-800 rounded-xl p-6"
-      >
-        <Users className="w-16 h-16 mb-4" />
+      <div className="relative h-full w-full bg-gradient-to-br from-green-500/10 to-blue-500/10 p-8">
         <motion.div 
-          initial={{ x: -20, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="flex items-center gap-2"
+          className="h-full w-full flex flex-col items-center justify-center"
+          whileHover={{ scale: 1.02 }}
         >
-          <span className="text-2xl font-bold">Learn</span>
-          <ArrowRight className="w-6 h-6" />
-          <span className="text-2xl font-bold">Grow</span>
+          <motion.div
+            animate={{ 
+              rotateY: [0, 360],
+            }}
+            transition={{ 
+              duration: 3,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+          >
+            <Database className="w-20 h-20 text-green-300 mb-6" />
+          </motion.div>
+          <div className="space-y-2 text-center">
+            <h3 className="text-2xl font-bold text-white">DB</h3>
+            <p className="text-green-200/80 text-sm">Data architecture</p>
+          </div>
         </motion.div>
-      </motion.div>
+      </div>
     ),
   },
   {
-    title: "Launchpad to Success",
-    description:
-      "As part of Call of Code, members gain access to unique networking opportunities, industry insights, and real-world projects. The club provides a platform to enhance your resume, collaborate on groundbreaking ideas, and prepare for a successful career in tech.",
+    title: "System Architecture",
+    description: "Learn to design and implement robust system architectures. Understand microservices, distributed systems, and cloud computing principles to build scalable and resilient applications.",
     content: (
-      <motion.div 
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        whileHover={{ scale: 1.05 }}
-        className="h-full w-full flex flex-col items-center justify-center text-black dark:text-white bg-gradient-to-br from-cyan-500 to-emerald-500 dark:from-cyan-800 dark:to-emerald-800 rounded-xl p-6 relative overflow-hidden"
-      >
-        <motion.div
-          animate={{ 
-            y: [0, -10, 0],
-            rotate: [0, 5, 0]
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        >
-          <Rocket className="w-16 h-16 mb-4" />
-        </motion.div>
-        <motion.span 
+      <div className="relative h-full w-full bg-gradient-to-br from-pink-500/10 to-purple-500/10 p-8">
+        <motion.div 
+          className="h-full w-full flex flex-col items-center justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="text-2xl font-bold"
+          transition={{ duration: 0.5 }}
         >
-          Launch Your Career
-        </motion.span>
-      </motion.div>
+          <motion.div
+            animate={{ 
+              y: [-10, 10],
+              rotate: [0, 5, -5, 0]
+            }}
+            transition={{ 
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          >
+            <Cpu className="w-20 h-20 text-pink-300 mb-6" />
+          </motion.div>
+          <div className="space-y-2 text-center">
+            <h3 className="text-2xl font-bold text-white">Systems</h3>
+            <p className="text-pink-200/80 text-sm">Build at scale</p>
+          </div>
+        </motion.div>
+      </div>
     ),
   },
 ];
 
-export function StickyScrollRevealDemo() {
+export default function EnhancedStickyScrollDemo() {
   return (
-    <div className="p-0 bg-white dark:bg-black transition-colors duration-300">
-      <StickyScroll content={content} />
+    <div className="w-full bg-slate-950">
+      <StickyScroll 
+        content={content} 
+        contentClassName="bg-slate-900/50 backdrop-blur-lg ring-1 ring-slate-700/50 shadow-lg shadow-slate-900/50"
+      />
     </div>
   );
 }
