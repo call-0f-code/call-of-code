@@ -8,8 +8,7 @@ const Footer = () => {
       <Head>
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
-        />
+          href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"/>
       </Head>
       <footer className="w-full bg-black dark:bg-white text-gray-300 dark:text-black py-16">
         <div className="container mx-auto px-6">

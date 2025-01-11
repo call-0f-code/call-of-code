@@ -1,7 +1,6 @@
 import About from "@/components/About";
 import Footer from "@/components/Footer";
-
-import Particle  from "@/components/Home";
+import HeroSection from "@/components/Home";
 import { StickyScrollRevealDemo } from "@/components/ui/stickyScrollDemo";
 
 export const runtime = "edge";
