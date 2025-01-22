@@ -52,7 +52,7 @@ export default function PageCard() {
             {[...Array(10)].map((_, index) => (
               <Memberscard
                 key={index}
-                name="Shivaji Raut"
+                name="Shivaji J. Raut"
                 imageSrc="/batman.png"
                 githubLink="https://github.com/shivaji43"
                 linkedinLink="https://www.linkedin.com/in/shivajiraut/"
