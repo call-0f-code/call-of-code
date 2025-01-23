@@ -16,7 +16,7 @@ export const runtime = "edge";
 const projects = [
   {
     id: 1,
-    title: "CoC Website",
+    title: "Call of Code Website",
     description: "Official Website",
     github: "https://github.com/call-0f-code/call-of-code",
     live: "https://callofcode.in",
@@ -25,7 +25,7 @@ const projects = [
   },
   {
     id: 2,
-    title: "CoC Website",
+    title: "Call of Code Website",
     description: "Official Website",
     github: "https://github.com/call-0f-code/call-of-code",
     color: "border-green-500",
@@ -33,7 +33,7 @@ const projects = [
   },
   {
     id: 3,
-    title: "CoC Website",
+    title: "Call of Code Website",
     description: "Official Website",
     github: "https://github.com/call-0f-code/call-of-code",
     live: "https://callofcode.in",
@@ -42,7 +42,7 @@ const projects = [
   },
   {
     id: 4,
-    title: "CoC Website",
+    title: "Call of Code Website",
     description: "Official Website",
     github: "https://github.com/call-0f-code/call-of-code",
     color: "border-red-500",
@@ -50,7 +50,7 @@ const projects = [
   },
   {
     id: 5,
-    title: "CoC Website",
+    title: "Call of Code Website",
     description: "Official Website",
     github: "https://github.com/call-0f-code/call-of-code",
     live: "https://callofcode.in",
@@ -59,7 +59,7 @@ const projects = [
   },
   {
     id: 6,
-    title: "CoC Website",
+    title: "Call of Code Website",
     description: "Official Website",
     github: "https://github.com/call-0f-code/call-of-code",
     live: "https://callofcode.in",
@@ -68,7 +68,7 @@ const projects = [
   },
   {
     id: 7,
-    title: "CoC Website",
+    title: "Call of Code Website",
     description: "Official Website",
     github: "https://github.com/call-0f-code/call-of-code",
     live: "https://callofcode.in",
