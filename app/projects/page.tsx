@@ -16,7 +16,7 @@ export const runtime = "edge";
 const projects = [
   {
     id: 1,
-    title: "Call of Code Website",
+    title: "Call ofCode Website",
     description: "Official Website",
     github: "https://github.com/call-0f-code/call-of-code",
     live: "https://callofcode.in",
