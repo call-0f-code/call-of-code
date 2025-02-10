@@ -10,7 +10,7 @@ const members = [
   },
   {
     name: "Vansh Waldeo (Vice President)",
-    imageSrc: "/vansh.jpg",
+    imageSrc: "/vanshone.jpg",
     githubLink: "https://github.com/VanshKing30",
     linkedinLink: "https://www.linkedin.com/in/vansh-waldeo-81ab31285/",
   },
