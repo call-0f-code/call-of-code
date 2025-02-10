@@ -10,7 +10,7 @@ const members = [
   },
   {
     name: "Vansh Waldeo (Vice President)",
-    imageSrc: "/myImageLol.jpg",
+    imageSrc: "/vansh.jpg",
     githubLink: "https://github.com/VanshKing30",
     linkedinLink: "https://www.linkedin.com/in/vansh-waldeo-81ab31285/",
   },
@@ -83,7 +83,6 @@ export default function PageCard() {
             {members.map((member, index) => (
               <div
                 key={index}
-                className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300 p-4 backdrop-blur-md bg-opacity-50 dark:bg-opacity-40"
               >
                 <Memberscard
                   name={member.name}
