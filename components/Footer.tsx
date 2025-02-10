@@ -1,6 +1,7 @@
 import React from "react";
 import { FaTwitter, FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 import Head from "next/head";
+import Link from "next/link";
 
 const Footer = () => {
   return (
@@ -8,7 +9,8 @@ const Footer = () => {
       <Head>
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"/>
+          href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+        />
       </Head>
       <footer className="w-full bg-white dark:bg-black text-gray-300 dark:text-white py-16">
         <div className="container mx-auto px-6">
@@ -38,8 +40,9 @@ const Footer = () => {
               >
                 About Us
               </h2>
-              <p className="text-sm text-gray-800 dark:text-gray-400 text-center"
-              style={{ fontFamily: "'Press Start 2P', cursive", fontSize: "0.5rem"}}
+              <p 
+                className="text-sm text-gray-800 dark:text-gray-400 text-center"
+                style={{ fontFamily: "'Press Start 2P', cursive", fontSize: "0.5rem" }}
               >
                 Call Of Code is your go-to platform for coding tutorials,
                 challenges, and resources. Join us to explore the world of
@@ -59,17 +62,17 @@ const Footer = () => {
                 {[
                   { href: "/about", text: "About Us" },
                   { href: "/resources", text: "Projects" },
-                  { href: "tel:+917821851324", text: "Contact" },
+                  { href: "/contact", text: "Contact" },
                   { href: "/privacy", text: "Privacy Policy" },
                 ].map((link) => (
                   <li key={link.href}>
-                    <a
+                    <Link
                       href={link.href}
                       className="relative group text-black dark:text-white dark:hover:text-gray-400 transition-colors duration-300"
                     >
                       {link.text}
                       <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-black dark:bg-gray-400 transition-all duration-300 group-hover:w-full"></span>
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -96,7 +99,7 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className="text-gray-900 transition-all duration-300 hover:text-black dark:hover:text-gray-400 hover:transform hover:scale-125"
+                    className="text-gray-900 dark:text-gray-400 transition-all duration-300 hover:text-black dark:hover:text-white hover:transform hover:scale-125"
                   >
                     <Icon className="text-3xl" />
                   </a>

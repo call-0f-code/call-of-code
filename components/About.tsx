@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { motion, useTransform, useScroll } from "framer-motion";
 import React, { useRef, useEffect, useState } from "react";
-import { Code2, Terminal, Git, Database, Cloud, Brain } from 'lucide-react';
+import { Code2, Terminal, GitBranchIcon as Git, Database, Cloud, Brain } from 'lucide-react';
 
 const About = () => {
   return (
@@ -45,6 +46,7 @@ const HorizontalScrollCarousel = () => {
   };
 
   return (
+    <>
     <motion.section
       ref={targetRef}
       initial="hidden"
@@ -63,6 +65,7 @@ const HorizontalScrollCarousel = () => {
         </motion.div>
       </div>
     </motion.section>
+    </>
   );
 };
 
@@ -94,6 +97,8 @@ const CodeBlock = ({ block, index }: { block: CodeBlockType; index: number }) =>
   const IconComponent = block.icon || Code2;
 
   return (
+    <div>
+    
     <motion.div
       variants={blockVariants}
       initial="hidden"
@@ -139,6 +144,7 @@ const CodeBlock = ({ block, index }: { block: CodeBlockType; index: number }) =>
         </div>
       </div>
     </motion.div>
+    </div>
   );
 };
 

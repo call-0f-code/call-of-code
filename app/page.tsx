@@ -1,7 +1,6 @@
 import About from "@/components/About";
 import Footer from "@/components/Footer";
 import HeroSection from "@/components/Home";
-import  EnhancedStickyScrollDemo  from "@/components/ui/stickyScrollDemo";
 
 export const runtime = "edge";
 export default function Main() {
@@ -12,7 +11,6 @@ export default function Main() {
       </div>
       <div>
         <div className="w-full h-full">
-        <EnhancedStickyScrollDemo />
         <div className="mx-5">
           <About />
           </div>
