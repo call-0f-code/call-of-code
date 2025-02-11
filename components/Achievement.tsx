@@ -6,7 +6,12 @@ import AchievementCard from "./ui/achievement-card"
 const achievements = [
   {
     title: "Winner of Hunar Intern Web Development Hackathon",
-    description: "Developed the award-winning healthcare website, WellnessWave.",
+    description: (
+      <>
+        Developed the award-winning healthcare website, WellnessWave. <br />
+        <b>Team Webwizards</b> <br/> 1.Shubham Tohake<br/>2.Shashwati Meshram
+      </>
+    ),
     date: "August 2024",
     imageSrc: "/Hunar.jpg",
   },
@@ -14,44 +19,21 @@ const achievements = [
     title: "BITS Pilani Postman API Hackathon 3.0",
     description: "First Runner Up Team",
     date: "November 2023",
-    imageSrc: "/batman.png",
+    imageSrc: "/Hunar.jpg",
   },
   {
     title: "BITS Pilani Postman API Hackathon 3.0",
     description: "First Runner Up Team",
     date: "November 2023",
-    imageSrc: "/batman.png",
+    imageSrc: "/Hunar.jpg",
   },
   {
     title: "BITS Pilani Postman API Hackathon 3.0",
     description: "First Runner Up Team",
     date: "November 2023",
-    imageSrc: "/batman.png",
+    imageSrc: "/Hunar.jpg",
   },
-  {
-    title: "BITS Pilani Postman API Hackathon 3.0",
-    description: "First Runner Up Team",
-    date: "November 2023",
-    imageSrc: "/batman.png",
-  },
-  {
-    title: "BITS Pilani Postman API Hackathon 3.0",
-    description: "First Runner Up Team",
-    date: "November 2023",
-    imageSrc: "/batman.png",
-  },
-  {
-    title: "BITS Pilani Postman API Hackathon 3.0",
-    description: "First Runner Up Team",
-    date: "November 2023",
-    imageSrc: "/batman.png",
-  },
-  {
-    title: "BITS Pilani Postman API Hackathon 3.0",
-    description: "First Runner Up Team",
-    date: "November 2023",
-    imageSrc: "/batman.png",
-  },
+  
 ];
 
 export default function AchievementsPage() {
