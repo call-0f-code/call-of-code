@@ -5,7 +5,7 @@ import { XCircleIcon } from "@heroicons/react/24/solid";
 
 interface AchievementCardProps {
   title: string;
-  description: string;
+  description: string | JSX.Element;
   date: string;
   imageSrc: string;
   imageWidth?: number;
