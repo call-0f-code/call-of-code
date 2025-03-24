@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ThemeProvider, ThemeSwitcher } from "@/components/ui/theme-provider";
 import { FloatingNavbar } from "@/components/Navbar";
 import localFont from "next/font/local";
+import AuthProvider from "@/components/ui/auth-provider";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -30,6 +31,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <AuthProvider>
         <ThemeProvider>
           <div className="fixed top-4 right-4 z-50">
             <ThemeSwitcher />
@@ -38,8 +40,10 @@ export default function RootLayout({
             <FloatingNavbar />
           </div>
         </ThemeProvider>
+        
 
         {children}
+        </AuthProvider>
       </body>
     </html>
   );
