@@ -2,6 +2,7 @@ import React from "react";
 import { FloatingDock } from "@/components/ui/floating-dock";
 import { IconHome, IconTerminal2 } from "@tabler/icons-react";
 import { Trophy, BrickWall, Users } from "lucide-react";
+import LoginButton from "@/components/ui/login-button";
 
 export function FloatingNavbar() {
   const links = [
@@ -33,7 +34,6 @@ export function FloatingNavbar() {
       ),
       href: "/achievements", 
     },
-
     {
       title: "Projects",
       icon: (
@@ -44,11 +44,16 @@ export function FloatingNavbar() {
   ];
 
   return (
-    <div className="fixed bottom-4 left-4 z-50  md:bottom-14 md:left-0 md:w-full md:flex md:justify-center md:pb-4">
-      <FloatingDock
-        mobileClassName="flex-row space-x-2 origin-left"
-        items={links}
-      />
-    </div>
+    <>
+      <div className="fixed top-4 left-4 z-50">
+        <LoginButton />
+      </div>
+      <div className="fixed bottom-4 left-4 z-50 md:bottom-14 md:left-0 md:w-full md:flex md:justify-center md:pb-4">
+        <FloatingDock
+          mobileClassName="flex-row space-x-2 origin-left"
+          items={links}
+        />
+      </div>
+    </>
   );
 }
