@@ -1,4 +1,3 @@
-// utils/auth.ts
 import { getServerSession } from "next-auth/next";
 import { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";

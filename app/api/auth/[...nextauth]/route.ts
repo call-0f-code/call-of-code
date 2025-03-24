@@ -1,4 +1,3 @@
-// app/api/auth/[...nextauth]/route.ts
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 
@@ -11,7 +10,6 @@ const handler = NextAuth({
   ],
   callbacks: {
     async session({ session, token }) {
-      // Send properties to the client, like an access_token and user id from a provider
       if (session.user && token.sub) {
         session.user.id = token.sub;
       }

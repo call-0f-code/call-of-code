@@ -40,8 +40,6 @@ export default function RootLayout({
             <FloatingNavbar />
           </div>
         </ThemeProvider>
-        
-
         {children}
         </AuthProvider>
       </body>

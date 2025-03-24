@@ -1,9 +1,8 @@
-// components/Navbar.tsx
 import React from "react";
 import { FloatingDock } from "@/components/ui/floating-dock";
 import { IconHome, IconTerminal2 } from "@tabler/icons-react";
 import { Trophy, BrickWall, Users } from "lucide-react";
-import LoginButton from "@/components/ui/login-button"; // Added import
+import LoginButton from "@/components/ui/login-button";
 
 export function FloatingNavbar() {
   const links = [
@@ -46,7 +45,6 @@ export function FloatingNavbar() {
 
   return (
     <>
-      {/* Added login button container */}
       <div className="fixed top-4 left-4 z-50">
         <LoginButton />
       </div>

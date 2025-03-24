@@ -1,4 +1,3 @@
-// components/ui/login-button.tsx
 "use client";
 
 import { signIn, signOut, useSession } from "next-auth/react";
