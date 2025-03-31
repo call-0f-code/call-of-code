@@ -48,13 +48,13 @@ function Gopher() {
         <img
           src="/gopher.png"
           alt="Gopher"
-          className="absolute top-[265px] left-[66px] w-[135px] h-[135px]overflow-hidden"
+          className="absolute top-[265px] left-[156px] w-[135px] h-[135px]overflow-hidden"
         />
       </div>
       {/* Left Eye */}
       <div
         ref={eyeLeft}
-        className="absolute top-[300px] left-[95px] w-[50px] h-[50px] rounded-full overflow-hidden"
+        className="absolute top-[300px] left-[185px] w-[50px] h-[50px] rounded-full overflow-hidden"
         style={{ transform: "rotate(-10deg)" }}
       >
         <div className="absolute w-full h-full bg-white">
@@ -72,7 +72,7 @@ function Gopher() {
       {/* Right Eye */}
       <div
         ref={eyeRight}
-        className="absolute top-[305px] left-[160px] w-[30px] h-[40px] rounded-full overflow-hidden"
+        className="absolute top-[305px] left-[250px] w-[30px] h-[40px] rounded-full overflow-hidden"
         style={{ transform: "rotate(-5deg)" }}
       >
         <div className="absolute w-full h-full bg-white">
