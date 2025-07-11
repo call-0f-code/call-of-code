@@ -15,14 +15,13 @@ export default function Memberscard({
   linkedinLink = "#",
 }: MemberscardProps) {
   return (
-    <div className="relative bg-card text-card-foreground rounded-lg overflow-hidden shadow-md w-[300px] group">
-      <div className="relative">
+    <div className="relative bg-card text-card-foreground rounded-lg overflow-hidden shadow-md w-full max-w-xs group mx-auto">
+      <div className="relative aspect-[4/3] w-full">
         <Image
           src={imageSrc}
-          width={300}
-          height={200}
+          fill
           alt={`${name}'s profile`}
-          className="w-full h-72 object-cover transition-transform duration-300 ease-in-out group-hover:blur-sm group-hover:scale-105"
+          className="object-cover transition-transform duration-300 ease-in-out group-hover:blur-sm group-hover:scale-105 rounded-t-lg"
         />
       </div>
 

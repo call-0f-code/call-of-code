@@ -17,7 +17,7 @@ const Footer = () => {
           {/* Header Section with Animation */}
           <div className="text-center mb-12 transition-all duration-700">
             <h1
-              className="text-5xl md:text-6xl lg:text-7xl font-normal text-black dark:text-white pixel-shadow whitespace-nowrap"
+              className="text-4xl md:text-6xl lg:text-7xl font-normal text-black dark:text-white pixel-shadow whitespace-nowrap"
               style={{
                 fontFamily: "'Press Start 2P', cursive",
                 lineHeight: "1.5",

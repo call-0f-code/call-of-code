@@ -56,9 +56,9 @@ export default function PageCard() {
         </header>
 
         {/* Main Section */}
-        <main className="container mx-auto px-6 py-10 space-y-12">
+        <main className="container mx-auto px-2 sm:px-4 md:px-6 py-10 space-y-12">
           {/* Hero Section */}
-          <div className="relative overflow-hidden rounded-2xl shadow-lg">
+          <div className="relative overflow-hidden rounded-2xl shadow-lg mask-b-from-50">
             <Image
               src="/coc.jpg"
               width={800}
@@ -67,7 +67,7 @@ export default function PageCard() {
               className="w-full h-64 object-cover brightness-75"
             />
             <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-              <h1 className="text-6xl font-extrabold tracking-wider text-white drop-shadow-lg">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-wider text-white drop-shadow-lg">
                 MEMBERS
               </h1>
             </div>
