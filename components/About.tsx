@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { motion, useTransform, useScroll } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 import React, { useRef, useEffect, useState } from "react";
 import { Code2, Terminal, GitBranchIcon as Git, Database, Cloud, Brain } from 'lucide-react';
 
