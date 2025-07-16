@@ -33,7 +33,7 @@ const Footer = () => {
           {[
             { href: "/about", text: "About Us" },
             { href: "/resources", text: "Projects" },
-            { href: "/contact", text: "Contact" },
+            { href: "https://mail.google.com/mail/?view=cm&fs=1&to=callofcode07@gmail.com", text: "Contact" },
             { href: "/privacy", text: "Privacy Policy" },
           ].map((link) => (
             <li key={link.href}>
@@ -51,41 +51,44 @@ const Footer = () => {
     {
       title: "Follow Us",
       content: (
-        <div className="flex justify-center gap-6 mt-2">
-          {[
-            {
-              Icon: FaInstagram,
-              href: "https://www.instagram.com/pvpitprogrammingclub?igsh=MWswZ2kxcHpiaXF2dA==",
-              label: "Instagram",
-            },
-            {
-              Icon: FaGithub,
-              href: "https://github.com/call-0f-code",
-              label: "GitHub",
-            },
-            {
-              Icon: FaLinkedin,
-              href: "https://www.linkedin.com/company/callofcode/",
-              label: "LinkedIn",
-            },
-            {
-              Icon: FaTwitter,
-              href: "https://x.com/call_0f_code?t=pBGojoV9Hw5LkDD7-1u0UA&s=09",
-              label: "Twitter",
-            },
-          ].map(({ Icon, href, label }) => (
-            <a
-              key={href}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={label}
-              className="text-gray-600 hover:text-black dark:hover:text-gray-300 transition-all duration-300 hover:scale-110"
-            >
-              <Icon className="text-2xl sm:text-3xl" />
-            </a>
-          ))}
-        </div>
+        <div className="grid grid-cols-2 gap-x-16 gap-y-4 mt-4">
+  {[
+    {
+      Icon: FaInstagram,
+      href: "https://www.instagram.com/pvpitprogrammingclub?igsh=MWswZ2kxcHpiaXF2dA==",
+      label: "Instagram",
+    },
+    {
+      Icon: FaGithub,
+      href: "https://github.com/call-0f-code",
+      label: "GitHub",
+    },
+    {
+      Icon: FaLinkedin,
+      href: "https://www.linkedin.com/company/callofcode/",
+      label: "LinkedIn",
+    },
+    {
+      Icon: FaTwitter,
+      href: "https://x.com/call_0f_code?t=pBGojoV9Hw5LkDD7-1u0UA&s=09",
+      label: "Twitter",
+    },
+  ].map(({ Icon, href, label }, index) => (
+    <a
+      key={href}
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      className={`text-gray-600 hover:text-black dark:hover:text-gray-300 transition-all duration-300 hover:scale-110 text-3xl sm:text-4xl ${
+        index % 2 === 0 ? "justify-self-end" : "justify-self-start"
+      }`}
+    >
+      <Icon />
+    </a>
+  ))}
+</div>
+
       ),
     },
   ];
