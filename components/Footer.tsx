@@ -93,7 +93,7 @@ const Footer = () => {
           </div>
 
           {/* Footer Bottom Section */}
-          <div className="mt-14 text-center text-2xl sm:text-sm text-gray-600 dark:text-gray-500">
+          <div className="mt-14 text-center text-sm sm:text-base text-gray-600 dark:text-gray-500">  
             <p className="transition-opacity duration-300 hover:opacity-100 opacity-75">
               © {new Date().getFullYear()} Call Of Code. All rights reserved.
             </p>
