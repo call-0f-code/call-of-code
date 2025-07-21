@@ -111,7 +111,7 @@ const MemberGrid = ({ members }: { members: typeof foundersData }) => {
   const isCompact = members.length < 4;
 
   return (
-    <div className="relative bg-gradient-to-r from-[rgba(139,92,246,1)] to-[rgba(233,30,99,1)] rounded-2xl shadow-xl p-6 border border-gray-300 dark:border-gray-700 min-h-[600px]">
+    <div className="relative bg-gradient-to-r from-[rgba(139,92,246,1)] to-[rgba(233,30,99,1)] rounded-2xl shadow-xl p-6 border border-gray-300 dark:border-gray-700 min-h-[820px]">
       {isCompact ? (
         <div className="flex justify-center gap-6 flex-wrap">
           {members.map((member, index) => (

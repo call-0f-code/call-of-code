@@ -26,6 +26,7 @@ export const Tabs = ({
   const [hovering, setHovering] = useState(false);
 
   const moveSelectedTabToTop = (idx: number) => {
+    if (idx < 0 || idx >= propTabs.length) return;
     const newTabs = [...propTabs];
     const selectedTab = newTabs.splice(idx, 1);
     newTabs.unshift(selectedTab[0]);
@@ -89,7 +90,6 @@ export const FadeInDiv = ({
   hovering,
 }: {
   className?: string;
-  key?: string;
   tabs: Tab[];
   active: Tab;
   hovering?: boolean;
