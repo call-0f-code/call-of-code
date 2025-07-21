@@ -19,7 +19,7 @@ const Footer = () => {
     {
       title: "About Us",
       content: (
-        <p className="text-[11px] sm:text-xs leading-relaxed text-left text-gray-700 dark:hover:text-gray-500">
+        <p className="text-[10px] sm:text-xs leading-relaxed text-left text-gray-700 dark:text-gray-300 dark:hover:text-gray-100">
           Call Of Code is your go-to platform for coding tutorials,<br />
           challenges, and resources. Join us to explore the world<br />
           of programming and technology.
