@@ -37,8 +37,11 @@ export default function RootLayout({
           <div>
             <FloatingNavbar />
           </div>
+
           {children}
+
         </ThemeProvider>
+
       </body>
     </html>
   );
