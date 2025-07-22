@@ -19,7 +19,7 @@ export const AnimatedTooltip: React.FC<AnimatedTooltipProps> = ({ items }) => {
       {items.map((item, idx) => (
         <div
           className="relative group"
-          key={item.name}
+          key={item.id}
           onMouseEnter={() => setHoveredIndex(item.id)}
           onMouseLeave={() => setHoveredIndex(null)}
         >

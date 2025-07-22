@@ -35,7 +35,6 @@ export const BentoGridItem = ({
   tooltipItems?: Array<{
     id: number;
     name: string;
-    designation: string;
     image: string;
   }>;
 }) => {
@@ -95,6 +94,5 @@ export const BentoGridItem = ({
     </div>
   </div>
 </div>
-
   );
 };

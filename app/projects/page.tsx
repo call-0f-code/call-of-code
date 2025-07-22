@@ -1,60 +1,99 @@
 "use client";
+import { useState } from "react";
 import React from "react";
 import { BentoGrid, BentoGridItem } from "@/components/ui/BentoCard";
 import Particles from "@/components/ui/particles";
 import { useTheme } from "@/components/ui/theme-provider";
+import Image from "next/image";
 
-const Skeleton = ({ src }: { src: string }) => (
-  <img
-    src={src}
-    alt="Preview"
-    className="w-full h-full object-cover rounded-lg"
-  />
-);
+const Skeleton = ({ src, alt = "Preview" }: { src: string; alt?: string }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
-const ProjectPage = () => {
-  const { theme } = useTheme();
+  if (hasError) {
+    return (
+      <div className="w-full h-full bg-gray-200 dark:bg-gray-800 rounded-lg flex items-center justify-center">
+        <span className="text-gray-500">Failed to load image</span>
+      </div>
+    );
+  }
+
   return (
     <>
-      <main className="relative container mx-auto px-6 py-10 space-y-12 z-10">
-  {/* Background Particles */}
-  <Particles
-        className="absolute inset-0 -z-10"
-        quantity={300}
-        color={theme === "dark" ? "#ffffff" : "#000000"} // ← dynamic color
-        staticity={30}
-        ease={60}
-        size={1.75}
+      {isLoading && (
+        <div className="w-full h-full bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse" />
+      )}
+      <img
+        src={src}
+        alt={alt}
+        className={`w-full h-full object-cover rounded-lg ${isLoading ? 'hidden' : ''}`}
+        onLoad={() => setIsLoading(false)}
+        onError={() => setHasError(true)}
       />
-
-  {/* Hero Section */}
-  <h1 className="text-6xl flex justify-center font-extrabold tracking-wider text-black dark:text-white drop-shadow-lg">
-    Projects
-  </h1>
-
-  {/* Progress Bar */}
-  <div className="w-full bg-gray-300 dark:bg-gray-700 h-2 rounded-full overflow-hidden">
-    <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-full w-3/4 rounded-full animate-pulse"></div>
-  </div>
-
-  {/* Bento Grid */}
-  <BentoGrid>
-    {items.map((item, i) => (
-      <BentoGridItem
-        key={i}
-        title={item.title}
-        header={item.header}
-        github={item.github}
-        live={item.live}
-        tooltipItems={item.tooltipItems}
-        className={i === 3 || i === 6 ? "md:col-span-2" : ""}
-      />
-    ))}
-  </BentoGrid>
-</main>
     </>
   );
 };
+
+const ProjectPage = () => {
+  const { theme } = useTheme();
+
+  return (
+    <div className={`relative min-h-screen w-full ${theme === "dark" ? "bg-black" : "bg-white"}`}>
+      {/* Particle Background */}
+      <Particles
+        quantity={500}
+        color={theme === "dark" ? "#ffffff" : "#000000"}
+        className="absolute inset-0 z-0"
+        size={1.5}
+        staticity={50}
+        ease={40}
+      />
+
+      {/* Page Content */}
+      <div className="relative z-10 min-h-screen">
+        {/* Header */}
+        <header className="flex justify-center p-6">
+          <Image
+            src="/coc-logo.jpg"
+            alt="COC Logo"
+            width={80}
+            height={80}
+            className="rounded-md object-contain invert dark:invert-0"
+          />
+        </header>
+
+        {/* Main Section */}
+        <main className="container mx-auto px-6 py-10 space-y-12">
+          {/* Hero Heading */}
+          <h1 className="text-6xl font-extrabold tracking-wider text-center text-black dark:text-white drop-shadow-lg">
+            Projects
+          </h1>
+
+          {/* Progress Bar */}
+          <div className="w-full bg-gray-300 dark:bg-gray-700 h-2 rounded-full overflow-hidden">
+            <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-full w-3/4 rounded-full animate-pulse" />
+          </div>
+
+          {/* Bento Grid */}
+          <BentoGrid>
+            {items.map((item, i) => (
+              <BentoGridItem
+                key={i}
+                title={item.title}
+                header={item.header}
+                github={item.github}
+                live={item.live}
+                tooltipItems={item.tooltipItems}
+                className={i === 3 || i === 6 ? "md:col-span-2" : ""}
+              />
+            ))}
+          </BentoGrid>
+        </main>
+      </div>
+    </div>
+  );
+};
+
 
 
 const items = [
@@ -67,19 +106,16 @@ const items = [
       {
         id: 1,
         name: "Alex Chen",
-        designation: "Lead Developer",
         image: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
       {
         id: 2,
         name: "Sarah Kim",
-        designation: "UI/UX Designer",
         image: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
       {
         id: 3,
         name: "Mike Johnson",
-        designation: "Backend Engineer",
         image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
     ],
@@ -93,13 +129,11 @@ const items = [
       {
         id: 4,
         name: "Emma Davis",
-        designation: "Product Manager",
         image: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
       {
         id: 5,
         name: "James Wilson",
-        designation: "DevOps Engineer",
         image: "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
     ],
@@ -113,19 +147,16 @@ const items = [
       {
         id: 6,
         name: "Lisa Zhang",
-        designation: "Creative Director",
         image: "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
       {
         id: 7,
         name: "David Brown",
-        designation: "Graphic Designer",
         image: "https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
       {
         id: 8,
         name: "Anna Lee",
-        designation: "Brand Strategist",
         image: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
     ],
@@ -139,13 +170,11 @@ const items = [
       {
         id: 9,
         name: "Tom Garcia",
-        designation: "Marketing Lead",
         image: "https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
       {
         id: 10,
         name: "Rachel Green",
-        designation: "Content Writer",
         image: "https://images.pexels.com/photos/1858175/pexels-photo-1858175.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
     ],
@@ -159,25 +188,21 @@ const items = [
       {
         id: 11,
         name: "Dr. Smith",
-        designation: "Research Lead",
         image: "https://images.pexels.com/photos/1516680/pexels-photo-1516680.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
       {
         id: 12,
         name: "Prof. Johnson",
-        designation: "Data Scientist",
         image: "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
       {
         id: 13,
         name: "Maya Patel",
-        designation: "ML Engineer",
         image: "https://images.pexels.com/photos/1181519/pexels-photo-1181519.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
       {
         id: 14,
         name: "Kevin Liu",
-        designation: "Research Assistant",
         image: "https://images.pexels.com/photos/1212984/pexels-photo-1212984.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
     ],
@@ -191,13 +216,11 @@ const items = [
       {
         id: 15,
         name: "Sofia Rodriguez",
-        designation: "Creative Lead",
         image: "https://images.pexels.com/photos/1542085/pexels-photo-1542085.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
       {
         id: 16,
         name: "Marcus Thompson",
-        designation: "Art Director",
         image: "https://images.pexels.com/photos/1300402/pexels-photo-1300402.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
     ],
@@ -211,19 +234,16 @@ const items = [
       {
         id: 17,
         name: "Jake Adventure",
-        designation: "Explorer",
         image: "https://images.pexels.com/photos/1484794/pexels-photo-1484794.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
       {
         id: 18,
         name: "Luna Explorer",
-        designation: "Travel Guide",
         image: "https://images.pexels.com/photos/1674752/pexels-photo-1674752.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
       {
         id: 19,
         name: "Max Journey",
-        designation: "Adventure Photographer",
         image: "https://images.pexels.com/photos/1559486/pexels-photo-1559486.jpeg?auto=compress&cs=tinysrgb&w=150",
       },
     ],
