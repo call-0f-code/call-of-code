@@ -14,29 +14,42 @@ type ThemeProviderState = {
   setTheme: (theme: Theme) => void;
 };
 
-const ThemeProviderContext = React.createContext<
-  ThemeProviderState | undefined
->(undefined);
+const ThemeProviderContext = React.createContext<ThemeProviderState | undefined>(undefined);
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const [theme, setTheme] = React.useState<Theme>("light");
+  const [theme, setThemeState] = React.useState<Theme>("dark");
+  const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
+    // 1. Try localStorage first
+    const savedTheme = localStorage.getItem("theme") as Theme | null;
+
+    // 2. Otherwise use system preference
+    const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
+    const initialTheme: Theme = savedTheme || (prefersDark ? "dark" : "light");
+
+    setThemeState(initialTheme);
+
     const root = window.document.documentElement;
     root.classList.remove("light", "dark");
-    root.classList.add(theme);
-  }, [theme]);
+    root.classList.add(initialTheme);
 
-  const value = React.useMemo(
-    () => ({
-      theme,
-      setTheme: (theme: Theme) => {
-        setTheme(theme);
-        localStorage.setItem("theme", theme);
-      },
-    }),
-    [theme],
-  );
+    setMounted(true);
+  }, []);
+
+  const setTheme = (newTheme: Theme) => {
+    setThemeState(newTheme);
+    localStorage.setItem("theme", newTheme);
+
+    const root = window.document.documentElement;
+    root.classList.remove("light", "dark");
+    root.classList.add(newTheme);
+  };
+
+  const value = React.useMemo(() => ({ theme, setTheme }), [theme]);
+
+  // ⛔️ Avoid hydration mismatch
+  if (!mounted) return null;
 
   return (
     <ThemeProviderContext.Provider value={value}>
@@ -68,15 +81,5 @@ export function ThemeSwitcher() {
         <Sun className="h-5 w-5" />
       )}
     </button>
-  );
-}
-
-export default function Component() {
-  return (
-    <ThemeProvider>
-      <div className="flex items-center justify-center min-h-screen bg-background text-foreground">
-        <ThemeSwitcher />
-      </div>
-    </ThemeProvider>
   );
 }
