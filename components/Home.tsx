@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Particles from "@/components/ui/particles";
 import Gopher from "@/components/ui/gopher-eyes";
+import Ferris from "./ui/ferris-eyes";
 
 export default function HeroSection() {
   const [color, setColor] = useState("#000000");
@@ -164,6 +165,7 @@ export default function HeroSection() {
       </p>
       <div className="hidden md:block">
         <Gopher />
+        <Ferris />
       </div>
       <Particles
         className="absolute inset-0"

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 
-function Gopher() {
+function Ferris() {
   const [mouseCoordinates, setMouseCoordinates] = useState({ x: 0, y: 0 });
 
   const eyeLeft = useRef<HTMLDivElement>(null);
@@ -17,7 +17,7 @@ function Gopher() {
     const dx = mouseCoordinates.x - eyeCenterX;
     const dy = mouseCoordinates.y - eyeCenterY;
 
-    const maxOffset = 9;
+    const maxOffset = 4;
     const distance = Math.sqrt(dx * dx + dy * dy);
     const angle = Math.atan2(dy, dx);
 
@@ -43,51 +43,45 @@ function Gopher() {
 
   return (
     <div>
-      {/* Gopher Image */}
+      {/* Ferris Image */}
       <div>
         <img
-          src="/gopher.png"
-          alt="Gopher"
-          className="absolute top-[265px] left-[156px] w-[135px] h-[135px]overflow-hidden"
+          src="/rustacean-flat-happy.png"
+          alt="Ferris the Crab"
+          className="absolute top-[250px] right-[100px] w-[250px] h-[250px] object-contain"
         />
       </div>
       {/* Left Eye */}
       <div
         ref={eyeLeft}
-        className="absolute top-[300px] left-[185px] w-[50px] h-[50px] rounded-full overflow-hidden"
-        style={{ transform: "rotate(-10deg)" }}
+        className="absolute top-[370px] right-[225px] w-[22px] h-[28px] bg-black rounded-[50%] overflow-hidden"
       >
-        <div className="absolute w-full h-full bg-white">
-          <div
-            className="absolute w-[10px] h-[10px] bg-black rounded-full"
-            style={{
-              left: `calc(50% + ${calculateEyeMovement(eyeLeft).x}px)`,
-              top: `calc(50% + ${calculateEyeMovement(eyeLeft).y}px)`,
-              transform: "translate(-50%, -50%)",
-            }}
-          ></div>
-        </div>
+        <div
+          className="absolute w-[11px] h-[14px] bg-white rounded-[50%]"
+          style={{
+            left: `calc(50% + ${calculateEyeMovement(eyeLeft).x}px)`,
+            top: `calc(50% + ${calculateEyeMovement(eyeLeft).y}px)`,
+            transform: "translate(-50%, -50%)",
+          }}
+        ></div>
       </div>
 
       {/* Right Eye */}
       <div
         ref={eyeRight}
-        className="absolute top-[305px] left-[250px] w-[30px] h-[40px] rounded-full overflow-hidden"
-        style={{ transform: "rotate(-5deg)" }}
+        className="absolute top-[370px] right-[190px] w-[22px] h-[28px] bg-black rounded-[50%] overflow-hidden"
       >
-        <div className="absolute w-full h-full bg-white">
-          <div
-            className="absolute w-[10px] h-[10px] bg-black rounded-full"
-            style={{
-              left: `calc(50% + ${calculateEyeMovement(eyeRight).x}px)`,
-              top: `calc(50% + ${calculateEyeMovement(eyeRight).y}px)`,
-              transform: "translate(-50%, -50%)",
-            }}
-          ></div>
-        </div>
+        <div
+          className="absolute w-[11px] h-[14px] bg-white rounded-[50%]"
+          style={{
+            left: `calc(50% + ${calculateEyeMovement(eyeRight).x}px)`,
+            top: `calc(50% + ${calculateEyeMovement(eyeRight).y}px)`,
+            transform: "translate(-50%, -50%)",
+          }}
+        ></div>
       </div>
     </div>
   );
 }
 
-export default Gopher;
+export default Ferris;
