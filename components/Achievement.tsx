@@ -1,149 +1,349 @@
-"use client"
-
-import { motion, AnimatePresence } from "framer-motion"
-import { useState } from "react"
+"use client";
+import { motion } from "framer-motion"
+import { useState, useEffect } from "react"
 import AchievementCard from "./ui/achievement-card"
+import Particles from "./ui/particles";
+import { useTheme } from "./ui/theme-provider";
+import Image from "next/image";
 
 const achievements = [
   {
     title: "Winner of Hunar Intern Web Development Hackathon",
     description: "Developed the award-winning healthcare website, WellnessWave.",
     date: "August 2024",
-    imageSrc: "/Hunar.jpg",
+    imageSrc: "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800",
     teamMembers: [
-      { name: "John Doe", image: "/batman.png" },
-      { name: "Jane Smith", image: "/batman.png" },
-      { name: "Vansh", image: "/vansh.jpg" },
+      { name: "John Doe", image: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150" },
+      { name: "Jane Smith", image: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=150" },
+      { name: "Vansh", image: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150" },
     ],
-    slideshowImages: ["/batman.png", "/vansh.jpg", "/batman.png", "/batman.png"],
+    slideshowImages: [
+      "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ],
+    additionalInfo: "This hackathon focused on creating innovative healthcare solutions using modern web technologies."
   },
   {
     title: "BITS Pilani Postman API Hackathon 3.0",
     description: "First Runner Up Team",
     date: "November 2023",
-    imageSrc: "/batman.png",
+    imageSrc: "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=800",
     teamMembers: [
-      { name: "John Doe", image: "/batman.png" },
-      { name: "Jane Smith", image: "/batman.png" },
-      { name: "Mike Johnson", image: "/batman.png" },
+      { name: "John Doe", image: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150" },
+      { name: "Jane Smith", image: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=150" },
+      { name: "Mike Johnson", image: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150" },
     ],
-    slideshowImages: ["/batman.png", "/batman.png", "/batman.png", "/batman.png"],
+    slideshowImages: [
+      "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184287/pexels-photo-3184287.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184306/pexels-photo-3184306.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184317/pexels-photo-3184317.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ],
+    additionalInfo: "Competed against 200+ teams to secure the first runner-up position with our innovative API solution."
   },
   {
-    title: "BITS Pilani Postman API Hackathon 3.0",
-    description: "First Runner Up Team",
-    date: "November 2023",
-    imageSrc: "/batman.png",
+    title: "Google Developer Student Club Hackathon",
+    description: "Best UI/UX Design Award",
+    date: "September 2023",
+    imageSrc: "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800",
     teamMembers: [
-      { name: "John Doe", image: "/batman.png" },
-      { name: "Jane Smith", image: "/batman.png" },
-      { name: "Mike Johnson", image: "/batman.png" },
-      { name: "Mike Johnson", image: "/batman.png" },
+      { name: "Alice Brown", image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150" },
+      { name: "Bob Wilson", image: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=150" },
+      { name: "Carol Davis", image: "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=150" },
     ],
-    slideshowImages: ["/batman.png", "/batman.png", "/batman.png", "/batman.png"],
+    slideshowImages: [
+      "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ],
+    additionalInfo: "Recognized for exceptional user interface design and user experience implementation."
   },
   {
-    title: "BITS Pilani Postman API Hackathon 3.0",
-    description: "First Runner Up Team",
-    date: "November 2023",
-    imageSrc: "/batman.png",
+    title: "Microsoft Imagine Cup Regional Finals",
+    description: "Top 10 Finalist",
+    date: "March 2023",
+    imageSrc: "https://images.pexels.com/photos/3184454/pexels-photo-3184454.jpeg?auto=compress&cs=tinysrgb&w=800",
     teamMembers: [
-      { name: "John Doe", image: "/batman.png" },
-      { name: "Jane Smith", image: "/batman.png" },
-      { name: "Mike Johnson", image: "/batman.png" },
+      { name: "David Lee", image: "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=150" },
+      { name: "Emma Taylor", image: "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=150" },
+      { name: "Frank Miller", image: "https://images.pexels.com/photos/1212984/pexels-photo-1212984.jpeg?auto=compress&cs=tinysrgb&w=150" },
     ],
-    slideshowImages: ["/batman.png", "/vansh.jpg", "/batman.png", "/batman.png"],
+    slideshowImages: [
+      "https://images.pexels.com/photos/3184454/pexels-photo-3184454.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184432/pexels-photo-3184432.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184394/pexels-photo-3184394.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184375/pexels-photo-3184375.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ],
+    additionalInfo: "Developed an AI-powered educational platform that reached the regional finals."
   },
   {
-    title: "BITS Pilani Postman API Hackathon 3.0",
-    description: "First Runner Up Team",
-    date: "November 2023",
-    imageSrc: "/batman.png",
+    title: "IEEE Student Branch Innovation Challenge",
+    description: "Winner - Technical Excellence",
+    date: "January 2023",
+    imageSrc: "https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=800",
     teamMembers: [
-      { name: "John Doe", image: "/batman.png" },
-      { name: "Jane Smith", image: "/batman.png" },
-      { name: "Mike Johnson", image: "/batman.png" },
+      { name: "Grace Chen", image: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150" },
+      { name: "Henry Kim", image: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150" },
     ],
-    slideshowImages: ["/batman.png", "/batman.png", "/batman.png", "/batman.png"],
+    slideshowImages: [
+      "https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184421/pexels-photo-3184421.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184436/pexels-photo-3184436.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184448/pexels-photo-3184448.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ],
+    additionalInfo: "Created an IoT-based smart campus solution with real-time monitoring capabilities."
   },
   {
-    title: "BITS Pilani Postman API Hackathon 3.0",
-    description: "First Runner Up Team",
-    date: "November 2023",
-    imageSrc: "/batman.png",
+    title: "Open Source Contribution Award",
+    description: "GitHub Campus Expert Recognition",
+    date: "December 2022",
+    imageSrc: "https://images.pexels.com/photos/3184287/pexels-photo-3184287.jpeg?auto=compress&cs=tinysrgb&w=800",
     teamMembers: [
-      { name: "John Doe", image: "/batman.png" },
-      { name: "Jane Smith", image: "/batman.png" },
-      { name: "Mike Johnson", image: "/batman.png" },
+      { name: "Ivy Rodriguez", image: "https://images.pexels.com/photos/1181424/pexels-photo-1181424.jpeg?auto=compress&cs=tinysrgb&w=150" },
+      { name: "Jack Thompson", image: "https://images.pexels.com/photos/1043473/pexels-photo-1043473.jpeg?auto=compress&cs=tinysrgb&w=150" },
+      { name: "Kate Anderson", image: "https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg?auto=compress&cs=tinysrgb&w=150" },
     ],
-    slideshowImages: ["/batman.png", "/batman.png", "/batman.png", "/batman.png"],
+    slideshowImages: [
+      "https://images.pexels.com/photos/3184287/pexels-photo-3184287.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184302/pexels-photo-3184302.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184320/pexels-photo-3184320.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184342/pexels-photo-3184342.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ],
+    additionalInfo: "Recognized for significant contributions to open source projects and community building."
   },
   {
-    title: "BITS Pilani Postman API Hackathon 3.0",
-    description: "First Runner Up Team",
-    date: "November 2023",
-    imageSrc: "/batman.png",
+    title: "National Coding Championship",
+    description: "Second Place Winner",
+    date: "October 2022",
+    imageSrc: "https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg?auto=compress&cs=tinysrgb&w=800",
     teamMembers: [
-      { name: "John Doe", image: "/batman.png" },
-      { name: "Jane Smith", image: "/batman.png" },
-      { name: "Mike Johnson", image: "/batman.png" },
+      { name: "Alex Johnson", image: "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=150" },
+      { name: "Sarah Wilson", image: "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=150" },
     ],
-    slideshowImages: ["/batman.png", "/batman.png", "/batman.png", "/batman.png"],
+    slideshowImages: [
+      "https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ],
+    additionalInfo: "Competed in algorithmic programming challenges against 500+ participants nationwide."
   },
   {
-    title: "BITS Pilani Postman API Hackathon 3.0",
-    description: "First Runner Up Team",
-    date: "November 2023",
-    imageSrc: "/batman.png",
+    title: "AWS Cloud Computing Certification",
+    description: "Solutions Architect Associate",
+    date: "July 2022",
+    imageSrc: "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=800",
     teamMembers: [
-      { name: "John Doe", image: "/batman.png" },
-      { name: "Jane Smith", image: "/batman.png" },
-      { name: "Mike Johnson", image: "/batman.png" },
+      { name: "Individual Achievement", image: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150" },
     ],
-    slideshowImages: ["/batman.png", "/batman.png", "/batman.png", "/batman.png"],
+    slideshowImages: [
+      "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184375/pexels-photo-3184375.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ],
+    additionalInfo: "Achieved AWS Solutions Architect Associate certification with focus on cloud infrastructure design."
   },
   {
-    title: "BITS Pilani Postman API Hackathon 3.0",
-    description: "First Runner Up Team",
-    date: "November 2023",
-    imageSrc: "/batman.png",
+    title: "University Programming Contest",
+    description: "First Place Team",
+    date: "April 2022",
+    imageSrc: "https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=800",
     teamMembers: [
-      { name: "John Doe", image: "/batman.png" },
-      { name: "Jane Smith", image: "/batman.png" },
-      { name: "Mike Johnson", image: "/batman.png" },
+      { name: "Tom Brown", image: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150" },
+      { name: "Lisa Davis", image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150" },
+      { name: "Mark Taylor", image: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=150" },
     ],
-    slideshowImages: ["/batman.png", "/batman.png", "/batman.png", "/batman.png"],
+    slideshowImages: [
+      "https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184375/pexels-photo-3184375.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3184394/pexels-photo-3184394.jpeg?auto=compress&cs=tinysrgb&w=800"
+    ],
+    additionalInfo: "Won the inter-university programming contest with innovative algorithm solutions."
   },
   {
-    title: "BITS Pilani Postman API Hackathon 3.0",
-    description: "First Runner Up Team",
-    date: "November 2023",
-    imageSrc: "/batman.png",
-    teamMembers: [
-      { name: "John Doe", image: "/batman.png" },
-      { name: "Jane Smith", image: "/batman.png" },
-      { name: "Mike Johnson", image: "/batman.png" },
-    ],
-    slideshowImages: ["/batman.png", "/batman.png", "/batman.png", "/batman.png"],
-  },
+  title: "AI For Social Good Challenge",
+  description: "Finalist in AI for Social Impact competition",
+  date: "June 2022",
+  imageSrc: "https://images.pexels.com/photos/3184342/pexels-photo-3184342.jpeg?auto=compress&cs=tinysrgb&w=800",
+  teamMembers: [
+    { name: "Mia Allen", image: "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=150" },
+    { name: "Leo Walker", image: "https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg?auto=compress&cs=tinysrgb&w=150" }
+  ],
+  slideshowImages: [
+    "https://images.pexels.com/photos/3184342/pexels-photo-3184342.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/3184320/pexels-photo-3184320.jpeg?auto=compress&cs=tinysrgb&w=800"
+  ],
+  additionalInfo: "Used machine learning to predict areas of clean water scarcity and proposed actionable solutions."
+},
+{
+  title: "TechStars Startup Bootcamp",
+  description: "Top Pitch Award for EdTech Idea",
+  date: "May 2022",
+  imageSrc: "https://images.pexels.com/photos/3184436/pexels-photo-3184436.jpeg?auto=compress&cs=tinysrgb&w=800",
+  teamMembers: [
+    { name: "Ella Green", image: "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=150" },
+    { name: "Ryan Scott", image: "https://images.pexels.com/photos/1181424/pexels-photo-1181424.jpeg?auto=compress&cs=tinysrgb&w=150" }
+  ],
+  slideshowImages: [
+    "https://images.pexels.com/photos/3184436/pexels-photo-3184436.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/3184448/pexels-photo-3184448.jpeg?auto=compress&cs=tinysrgb&w=800"
+  ],
+  additionalInfo: "Presented a gamified learning platform to a panel of investors and startup mentors."
+},
+{
+  title: "Hack4Climate Global Hackathon",
+  description: "Best Sustainable Tech Solution",
+  date: "February 2022",
+  imageSrc: "https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=800",
+  teamMembers: [
+    { name: "Nina Parker", image: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150" },
+    { name: "Oscar Brooks", image: "https://images.pexels.com/photos/1043473/pexels-photo-1043473.jpeg?auto=compress&cs=tinysrgb&w=150" }
+  ],
+  slideshowImages: [
+    "https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=800"
+  ],
+  additionalInfo: "Built a blockchain-based carbon tracking app to promote transparency in emissions reporting."
+},
+{
+  title: "Facebook Developer Circle Hackathon",
+  description: "People's Choice Award",
+  date: "December 2021",
+  imageSrc: "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=800",
+  teamMembers: [
+    { name: "Isabella Torres", image: "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=150" },
+    { name: "Liam Bennett", image: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=150" }
+  ],
+  slideshowImages: [
+    "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/3184394/pexels-photo-3184394.jpeg?auto=compress&cs=tinysrgb&w=800"
+  ],
+  additionalInfo: "Created a collaborative productivity app that integrates real-time video and task management."
+},
+{
+  title: "National Robotics Challenge",
+  description: "Semi-Finalist Team",
+  date: "August 2021",
+  imageSrc: "https://images.pexels.com/photos/3184432/pexels-photo-3184432.jpeg?auto=compress&cs=tinysrgb&w=800",
+  teamMembers: [
+    { name: "Sophie Young", image: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150" },
+    { name: "Daniel Reed", image: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150" }
+  ],
+  slideshowImages: [
+    "https://images.pexels.com/photos/3184432/pexels-photo-3184432.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/3184454/pexels-photo-3184454.jpeg?auto=compress&cs=tinysrgb&w=800"
+  ],
+  additionalInfo: "Built an autonomous drone navigation system using computer vision and sensor fusion."
+},
+{
+  title: "Youth Innovation Forum",
+  description: "Innovation Grant Recipient",
+  date: "June 2021",
+  imageSrc: "https://images.pexels.com/photos/3184287/pexels-photo-3184287.jpeg?auto=compress&cs=tinysrgb&w=800",
+  teamMembers: [
+    { name: "Mason Clark", image: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150" }
+  ],
+  slideshowImages: [
+    "https://images.pexels.com/photos/3184287/pexels-photo-3184287.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/3184302/pexels-photo-3184302.jpeg?auto=compress&cs=tinysrgb&w=800"
+  ],
+  additionalInfo: "Received funding for a mobile-first platform connecting NGOs with youth volunteers."
+}
 ]
+
+// Predefined positions and rotations for scattered layout - these will repeat cyclically
+const cardPositions = [
+  // Row 1
+  { x: '4%', y: '2%', rotation: -7, zIndex: 5 },
+  { x: '35%', y: '4%', rotation: 5, zIndex: 7 },
+  { x: '65%', y: '1%', rotation: -6, zIndex: 6 },
+
+  // Row 2
+  { x: '6%', y: '23%', rotation: 6, zIndex: 5 },
+  { x: '35%', y: '25%', rotation: -4, zIndex: 6 },
+  { x: '65%', y: '23%', rotation: 3, zIndex: 4 },
+
+  // Row 3
+  { x: '6%', y: '45%', rotation: -3, zIndex: 5 },
+  { x: '35%', y: '50%', rotation: 2, zIndex: 4 },
+  { x: '65%', y: '45%', rotation: -5, zIndex: 3 },
+
+  // Row 4
+  { x: '8%', y: '70%', rotation: 4, zIndex: 4 },
+  { x: '38%', y: '69%', rotation: -2, zIndex: 5 },
+  { x: '70%', y: '63%', rotation: 3, zIndex: 3 },
+
+  // Row 5
+  { x: '10%', y: '90%', rotation: -4, zIndex: 5 },
+  { x: '40%', y: '90%', rotation: 4, zIndex: 4 },
+  { x: '65%', y: '85%', rotation: -3, zIndex: 3 },
+];
+
+// Function to calculate dynamic container height based on number of achievements
+const calculateContainerHeight = (totalCards: number, positionsPerCycle: number) => {
+  const cycles = Math.ceil(totalCards / positionsPerCycle);
+  return cycles * 300; // 120vh per cycle to ensure proper spacing
+};
+
 export default function AchievementsPage() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Function to handle card expansion
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const { theme } = useTheme();
+
   const handleCardExpand = (index: number) => {
     setExpandedIndex(expandedIndex === index ? null : index);
   };
 
-  return (
-    <div className="relative min-h-screen w-full dark:bg-black bg-white dark:bg-grid-white/[0.2] bg-grid-black/[0.2]">
-      {/* Background overlay */}
-      <div className="absolute pointer-events-none inset-0 dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
+  const sortedAchievements = [...achievements].sort((a, b) => {
+  const dateA = new Date(a.date);
+  const dateB = new Date(b.date);
+  return dateB.getTime() - dateA.getTime(); // Most recent first
+});
 
-      {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 py-10">
+
+
+  return (
+    <div className="relative min-h-screen w-full bg-white dark:bg-black transition-colors duration-300 pb-40">
+<div className="fixed inset-0 z-0 pointer-events-none">
+  <Particles
+    quantity={400}
+    size={1.5}
+    staticity={60}
+    color={theme === "dark" ? "#ffffff" : "#000000"}
+    className="w-full h-full"
+  />
+</div>
+
+
+          {/* Header */}
+          <header className="flex justify-center p-6">
+  <Image
+    src="/coc-logo.jpg"
+    alt="COC Logo"
+    width={80}
+    height={80}
+    className="rounded-md object-contain invert dark:invert-0"
+  />
+</header>
+
+
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_2px_2px,rgba(0,0,0,0.15)_1px,transparent_0)] bg-[length:30px_30px] dark:bg-[radial-gradient(circle_at_2px_2px,rgba(255,255,255,0.15)_1px,transparent_0)]" />
+      </div>
+
+      <div className="relative z-10 px-4 py-10 sm:px-6 lg:px-16">
         <motion.h1
-          className="text-6xl text-center font-bold mb-12 bg-gradient-to-r from-primary to-primary-foreground bg-clip-text text-transparent"
+          className="text-4xl md:text-6xl text-center font-bold mb-12 text-gray-800 dark:text-gray-100"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -151,39 +351,192 @@ export default function AchievementsPage() {
           Achievements
         </motion.h1>
 
-        <div className="relative">
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+        {/* Progress Bar */}
+          <div className="w-full bg-gray-300 dark:bg-gray-700 h-2 rounded-full overflow-hidden mb-14">
+            <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-full w-3/4 rounded-full animate-pulse" />
+          </div>
+
+
+{isMobile ? (
+  (() => {
+    const cardHeight = 26 * 16 + 120; // 26rem + 120px margin
+    const totalHeight = sortedAchievements.length * cardHeight + 200;
+
+    return (
+      <div
+        className="relative w-full max-w-md mx-auto overflow-visible pt-20 pb-40"
+        style={{ minHeight: `${totalHeight}px` }}
+      >
+        {/* Curly Dotted Line */}
+        <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 z-0 pointer-events-none overflow-hidden">
+          <svg
+            width="12"
+            height="100%"
+            viewBox="0 0 12 3000"
+            preserveAspectRatio="none"
+            className="h-full"
           >
-            {achievements.map((achievement, index) => (
+            <path
+              d="M6 0
+                 C 12 50, 0 100, 6 150
+                 C 12 200, 0 250, 6 300
+                 C 12 350, 0 400, 6 450
+                 C 12 500, 0 550, 6 600
+                 C 12 650, 0 700, 6 750
+                 C 12 800, 0 850, 6 900
+                 C 12 950, 0 1000, 6 1050
+                 C 12 1100, 0 1150, 6 1200
+                 C 12 1250, 0 1300, 6 1350
+                 C 12 1400, 0 1450, 6 1500
+                 C 12 1550, 0 1600, 6 1650
+                 C 12 1700, 0 1750, 6 1800
+                 C 12 1850, 0 1900, 6 1950
+                 C 12 2000, 0 2050, 6 2100
+                 C 12 2150, 0 2200, 6 2250
+                 C 12 2300, 0 2350, 6 2400
+                 C 12 2450, 0 2500, 6 2550
+                 C 12 2600, 0 2650, 6 2700
+                 C 12 2750, 0 2800, 6 2850
+                 C 12 2900, 0 2950, 6 3000"
+              stroke={theme === 'dark' ? '#ffffff' : '#000000'}
+              strokeDasharray="6,12"
+              fill="transparent"
+              strokeWidth="2"
+            />
+          </svg>
+        </div>
+
+        {/* Achievement Cards */}
+        <div className="relative z-10">
+          {sortedAchievements.map((achievement, index) => {
+            const position = cardPositions[index % cardPositions.length];
+
+            return (
               <motion.div
                 key={index}
-                className={`relative ${
-                  expandedIndex === index 
-                    ? "z-50" 
-                    : expandedIndex !== null 
-                    ? "opacity-50" 
-                    : "z-0"
-                }`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="relative w-80 md:w-96 h-[26rem] mx-auto"
+                style={{
+                  marginTop: index === 0 ? "0px" : "120px",
+                  zIndex: expandedIndex === index ? 50 : position.zIndex,
+                  transform:
+                    expandedIndex === null
+                      ? `rotate(${position.rotation}deg)`
+                      : "rotate(0deg)",
+                }}
+                initial={{
+                  opacity: 0,
+                  scale: 0.8,
+                  rotate: position.rotation + 20,
+                }}
+                animate={{
+                  opacity:
+                    expandedIndex !== null && expandedIndex !== index
+                      ? 0.3
+                      : 1,
+                  scale: 1,
+                  rotate: expandedIndex === null ? position.rotation : 0,
+                }}
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.1,
+                  type: "spring",
+                  stiffness: 100,
+                }}
+                whileHover={{
+                  scale: expandedIndex === null ? 1.05 : 1,
+                  rotate:
+                    expandedIndex === null
+                      ? position.rotation - 2
+                      : 0,
+                  zIndex: expandedIndex === null ? 10 : position.zIndex,
+                  transition: { duration: 0.3 },
+                }}
               >
-                <div className={expandedIndex === index ? "fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" : ""}>
-                  <AchievementCard
-                    {...achievement}
-                    isExpanded={expandedIndex === index}
-                    onExpand={() => handleCardExpand(index)}
-                  />
-                </div>
+                <AchievementCard
+                  {...achievement}
+                  isExpanded={expandedIndex === index}
+                  onExpand={() => handleCardExpand(index)}
+                />
               </motion.div>
-            ))}
-          </motion.div>
+            );
+          })}
         </div>
       </div>
+    );
+  })()
+) : (
+  <div
+  className="relative w-full max-w-7xl mx-auto" 
+  style={{
+    height: `${calculateContainerHeight(achievements.length, cardPositions.length)}vh`,
+  }}
+>
+    {achievements.map((achievement, index) => {
+      // Calculate which cycle this card belongs to
+      const cycleIndex = Math.floor(index / cardPositions.length);
+      const positionIndex = index % cardPositions.length;
+      const basePosition = cardPositions[positionIndex];
+      
+      // Adjust the Y position based on the cycle
+      const adjustedPosition = {
+        ...basePosition,
+        y: `${parseFloat(basePosition.y) + (cycleIndex * 120)}%`, // Add 120% for each cycle
+      };
+      
+      return (
+        <motion.div
+          key={index}
+          className="absolute w-80 md:w-96 h-[26rem]"
+          style={{
+            left: adjustedPosition.x,
+            top: adjustedPosition.y,
+            zIndex: expandedIndex === index ? 50 : adjustedPosition.zIndex,
+            transform:
+              expandedIndex === null
+                ? `rotate(${adjustedPosition.rotation}deg)`
+                : "rotate(0deg)",
+          }}
+          initial={{
+            opacity: 0,
+            scale: 0.8,
+            rotate: adjustedPosition.rotation + 20,
+          }}
+          animate={{
+            opacity:
+              expandedIndex !== null && expandedIndex !== index
+                ? 0.3
+                : 1,
+            scale: 1,
+            rotate: expandedIndex === null ? adjustedPosition.rotation : 0,
+          }}
+          transition={{
+            duration: 0.6,
+            delay: index * 0.1,
+            type: "spring",
+            stiffness: 100,
+          }}
+          whileHover={{
+            scale: expandedIndex === null ? 1.05 : 1,
+            rotate:
+              expandedIndex === null
+                ? adjustedPosition.rotation - 2
+                : 0,
+            zIndex:
+              expandedIndex === null ? 10 : adjustedPosition.zIndex,
+            transition: { duration: 0.3 },
+          }}
+        >
+          <AchievementCard
+            {...achievement}
+            isExpanded={expandedIndex === index}
+            onExpand={() => handleCardExpand(index)}
+          />
+        </motion.div>
+      );
+    })}
+  </div>
+)}
+      </div>
     </div>
-  )
+  );
 }

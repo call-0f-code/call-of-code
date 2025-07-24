@@ -1,6 +1,6 @@
-import Image from "next/image";
-import { useState, useRef } from "react";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import React, { useRef } from "react";
+import { ChevronRight, X } from "lucide-react";
+
 
 interface AchievementCardProps {
   title: string;
@@ -10,10 +10,7 @@ interface AchievementCardProps {
   teamMembers: {
     name: string;
     image: string;
-    role: string;
   }[];
-  additionalInfo?: string;
-  slideshowImages: string[];
   isExpanded?: boolean;
   onExpand?: () => void;
 }
@@ -24,259 +21,220 @@ export default function AchievementCard({
   date,
   imageSrc,
   teamMembers,
-  additionalInfo,
-  slideshowImages,
   isExpanded,
   onExpand,
 }: AchievementCardProps) {
-  const [currentSlide, setCurrentSlide] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const nextSlide = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setCurrentSlide((prev) => (prev + 1) % slideshowImages.length);
+  // Function to get random colorful border
+  const getBorderColor = () => {
+    const colors = [
+      'bg-gradient-to-br from-blue-400 to-blue-600',
+      'bg-gradient-to-br from-red-400 to-red-600', 
+      'bg-gradient-to-br from-yellow-400 to-yellow-600',
+      'bg-gradient-to-br from-green-400 to-green-600',
+      'bg-gradient-to-br from-purple-400 to-purple-600',
+      'bg-gradient-to-br from-pink-400 to-pink-600',
+      'bg-gradient-to-br from-indigo-400 to-indigo-600',
+      'bg-gradient-to-br from-orange-400 to-orange-600',
+    ];
+    
+    // Use title length to consistently assign colors
+    const colorIndex = title.length % colors.length;
+    return colors[colorIndex];
   };
 
-  const previousSlide = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setCurrentSlide((prev) => (prev - 1 + slideshowImages.length) % slideshowImages.length);
-  };
 
   return (
     <div 
       className={`transform-gpu transition-all duration-500 cursor-pointer ${
         isExpanded 
           ? "fixed inset-0 flex items-center justify-center z-50 bg-black/50 backdrop-blur-sm" 
-          : "w-full max-w-[400px] h-[350px] hover:scale-105"
+          : "w-full h-full"
       }`}
       onClick={onExpand}
     >
       <div 
-        className={`w-full h-full transition-all duration-500 ${
+        className={`transition-all duration-500 ${
           isExpanded 
-            ? "w-[70vw] max-w-[800px] h-[80vh] max-h-[500px] scale-100 opacity-100" 
-            : "scale-100 opacity-100"
+            ? "w-[90vw] sm:w-[70vw] max-w-[900px] h-[85vh] max-h-[600px]" 
+            : "w-full h-full"
         }`}
       >
         {/* Main Card */}
         {!isExpanded && (
-          <div className="relative w-full h-full rounded-xl overflow-hidden shadow-2xl">
-            <div className="relative w-full h-full group">
-              <Image 
-                src={imageSrc} 
-                alt={title} 
-                fill 
-                className="object-cover transition-all duration-700 group-hover:scale-110 group-hover:blur-[2px]" 
-              />
-              
-              {/* Gradient Overlays */}
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/50 to-transparent opacity-70" />
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/30 via-transparent to-emerald-500/30 mix-blend-overlay" />
-              
-              {/* Border Effect */}
-              <div className="absolute inset-0 border border-white/10 rounded-xl group-hover:border-white/20 transition-all duration-500" />
-              
-              {/* Card Content */}
-              <div className="absolute inset-0 flex flex-col justify-end p-8">
-                <div className="transform translate-y-4 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-                  <span className="inline-block px-4 py-1.5 rounded-full text-sm font-medium 
-                    bg-white/20 backdrop-blur-md text-white border border-white/20 shadow-lg">
-                    {date}
-                  </span>
-                </div>
+          <div className="relative w-full h-full group cursor-pointer">
+            {/* Colorful Border Frame */}
+            <div className={`absolute inset-0 rounded-2xl p-3 shadow-2xl transition-all duration-300 group-hover:shadow-3xl ${getBorderColor()}`}>
+              {/* Card Background */}
+              <div className="w-full h-full bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border-2 border-gray-100 dark:border-gray-700 transition-all duration-300 group-hover:shadow-xl">
                 
-                <h4 className="text-3xl font-bold text-white mt-4 mb-3 
-                  transform translate-y-4 transition-transform duration-500 group-hover:translate-y-0">
-                  {title}
-                </h4>
-                
-                <p className="text-white/90 text-sm line-clamp-2 transform translate-y-4 opacity-0 
-                  transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-                  {description}
-                </p>
-                
-                <div className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/20 
-                  backdrop-blur-md flex items-center justify-center opacity-0 transform scale-50 
-                  transition-all duration-500 group-hover:opacity-100 group-hover:scale-100
-                  border border-white/20 shadow-lg">
-                  <ChevronRight className="w-5 h-5 text-white" />
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Expanded View */}
-        {isExpanded && (
-          <div className="w-full h-full rounded-xl shadow-2xl overflow-hidden bg-slate-50 dark:bg-gray-900
-            animate-in fade-in zoom-in duration-300">
-            <div className="flex w-full h-full">
-              {/* Left Panel */}
-              <div className="w-1/3 h-full border-r border-slate-200 dark:border-sky-800/30 backdrop-blur-xl">
-                <div 
-                  ref={contentRef} 
-                  className="w-full h-full overflow-auto custom-scrollbar"
-                  style={{
-                    scrollbarWidth: 'thin',
-                    scrollbarColor: 'rgba(51, 65, 85, 0.5) rgba(51, 65, 85, 0.1)',
-                  }}
-                >
-                  {/* Scrollbar Styles */}
-                  <style jsx global>{`
-                    .custom-scrollbar::-webkit-scrollbar {
-                      width: 6px;
-                    }
-                    
-                    .custom-scrollbar::-webkit-scrollbar-track {
-                      background: rgba(226, 232, 240, 0.5);
-                      border-radius: 3px;
-                    }
-                    
-                    .custom-scrollbar::-webkit-scrollbar-thumb {
-                      background: rgba(71, 85, 105, 0.4);
-                      border-radius: 3px;
-                      transition: all 0.3s;
-                    }
-                    
-                    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-                      background: rgba(51, 65, 85, 0.6);
-                    }
-                    
-                    @media (prefers-color-scheme: dark) {
-                      .custom-scrollbar::-webkit-scrollbar-track {
-                        background: rgba(56, 189, 248, 0.1);
-                      }
-                      
-                      .custom-scrollbar::-webkit-scrollbar-thumb {
-                        background: rgba(56, 189, 248, 0.4);
-                      }
-                      
-                      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-                        background: rgba(56, 189, 248, 0.6);
-                      }
-                    }
-                  `}</style>
-
-                  {/* Content Sections */}
-                  <div className="p-6 bg-gradient-to-br from-slate-100 to-white dark:from-sky-950/50 dark:to-indigo-950/50">
-                    <div className="mb-4">
-                      <span className="px-3 py-1.5 rounded-full text-sm font-medium bg-slate-200 text-slate-700
-                        dark:bg-sky-900/40 dark:text-sky-300 shadow-sm">
-                        {date}
-                      </span>
-                    </div>
-                    <h4 className="text-2xl font-bold bg-gradient-to-br from-slate-800 to-slate-600 dark:from-sky-400 
-                      dark:to-indigo-400 bg-clip-text text-transparent mb-3">{title}</h4>
-                    <p className="text-sm text-slate-600 dark:text-gray-300 leading-relaxed">{description}</p>
+                {/* Image Section */}
+                <div className="relative h-48 overflow-hidden">
+                  <img 
+                    src={imageSrc} 
+                    alt={title} 
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                  />
+                  
+                  {/* Date Badge */}
+                  <div className="absolute top-3 left-3">
+                    <span className="px-3 py-1.5 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-full text-xs font-semibold text-gray-700 dark:text-gray-200 shadow-md border border-white/50 dark:border-gray-700/50">
+                      {date}
+                    </span>
                   </div>
-
-                  {/* Team Members */}
-                  <div className="p-6">
-                    <h5 className="text-base font-semibold text-slate-800 dark:text-gray-200 mb-4 flex items-center">
-                      <span className="w-6 h-0.5 bg-slate-300 dark:bg-sky-700 mr-3"></span>
-                      Team Members
-                    </h5>
-                    <div className="grid grid-cols-2 gap-3">
-                      {teamMembers.map((member, index) => (
-                        <div key={index} className="group/member relative bg-gradient-to-br from-white to-slate-100 
-                          dark:from-gray-800 dark:to-sky-900/30 p-3 rounded-xl hover:shadow-lg transition-all duration-300 
-                          border border-slate-200 dark:border-sky-800/30">
-                          <div className="relative w-12 h-12 mb-2 mx-auto rounded-full overflow-hidden ring-2 
-                            ring-slate-200 dark:ring-sky-800 ring-offset-2 ring-offset-white dark:ring-offset-gray-900">
-                            <Image
-                              src={member.image}
-                              alt={member.name}
-                              fill
-                              className="object-cover transition-transform duration-500 group-hover/member:scale-110"
-                            />
-                          </div>
-                          <div className="text-center">
-                            <p className="text-xs font-semibold text-slate-800 dark:text-gray-100">{member.name}</p>
-                          </div>
+                  
+                  {/* Expand Icon */}
+                  <div className="absolute top-3 right-3 w-8 h-8 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md border border-white/50 dark:border-gray-700/50 opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-75 group-hover:scale-100">
+                    <ChevronRight className="w-4 h-4 text-gray-600 dark:text-gray-300" />
+                  </div>
+                </div>
+                
+                {/* Content Section */}
+                <div className="p-5 bg-white dark:bg-gray-800">
+                  <h4 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-2 leading-tight line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
+                    {title}
+                  </h4>
+                  
+                  <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-3 leading-relaxed">
+                    {description}
+                  </p>
+                  
+                  {/* Team Members Preview */}
+                  <div className="flex items-center mt-4 space-x-2">
+                    <div className="flex -space-x-2">
+                      {teamMembers.slice(0, 3).map((member, index) => (
+                        <div key={index} className="w-6 h-6 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm">
+                          <img
+                            src={member.image}
+                            alt={member.name}
+                            className="w-full h-full object-cover"
+                          />
                         </div>
                       ))}
                     </div>
+                    {teamMembers.length > 3 && (
+                      <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+                        +{teamMembers.length - 3} more
+                      </span>
+                    )}
                   </div>
-
-                  {/* Additional Info */}
-                  {additionalInfo && (
-                    <div className="px-6 pb-6">
-                      <div className="p-4 bg-gradient-to-br from-slate-100 to-white dark:from-sky-900/20 
-                        dark:to-indigo-900/20 rounded-xl border border-slate-200 dark:border-sky-800/30">
-                        <h5 className="text-base font-semibold text-slate-800 dark:text-gray-200 mb-2 flex items-center">
-                          <span className="w-6 h-0.5 bg-slate-300 dark:bg-sky-700 mr-3"></span>
-                          Additional Information
-                        </h5>
-                        <p className="text-xs text-slate-600 dark:text-gray-300 leading-relaxed">
-                          {additionalInfo}
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Right Panel - Slideshow */}
-              <div className="w-2/3 h-full relative bg-gradient-to-br from-slate-100 to-white dark:from-sky-950/30 dark:to-indigo-950/30">
-                <Image 
-                  src={slideshowImages[currentSlide]} 
-                  alt={`Slide ${currentSlide + 1}`} 
-                  fill 
-                  className="object-contain p-6"
-                />
-                
-                {/* Navigation Buttons */}
-                <button 
-                  onClick={previousSlide}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-white dark:bg-gray-800/90 p-2 rounded-full 
-                    hover:bg-slate-50 dark:hover:bg-sky-900/50 shadow-lg transition-all hover:scale-110"
-                >
-                  <ChevronLeft className="w-5 h-5 text-slate-600 dark:text-sky-300" />
-                </button>
-                
-                <button 
-                  onClick={nextSlide}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-white dark:bg-gray-800/90 p-2 rounded-full 
-                    hover:bg-slate-50 dark:hover:bg-sky-900/50 shadow-lg transition-all hover:scale-110"
-                >
-                  <ChevronRight className="w-5 h-5 text-slate-600 dark:text-sky-300" />
-                </button>
-
-                {/* Slideshow Navigation */}
-                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 p-1.5 
-                  bg-white dark:bg-gray-800/90 rounded-full shadow-lg">
-                  {slideshowImages.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setCurrentSlide(index);
-                      }}
-                      className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                        currentSlide === index 
-                          ? 'bg-slate-800 dark:bg-sky-400 w-4' 
-                          : 'bg-slate-300 dark:bg-sky-800 hover:bg-slate-400 dark:hover:bg-sky-700'
-                      }`}
-                    />
-                  ))}
                 </div>
               </div>
             </div>
-
-            {/* Close Button */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onExpand?.();
-              }}
-              className="absolute top-4 right-4 p-2 bg-white dark:bg-gray-800/90 rounded-full 
-                hover:bg-slate-50 dark:hover:bg-sky-900/50 shadow-lg transition-all hover:scale-110"
-            >
-              <X className="w-5 h-5 text-slate-600 dark:text-sky-300" />
-            </button>
           </div>
         )}
+
+        {isExpanded && (
+  <div className="w-full h-full max-h-screen rounded-xl shadow-2xl overflow-hidden bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
+    <div className="flex flex-col sm:flex-row w-full h-full">
+      {/* Left Panel */}
+      <div className="w-full sm:w-1/2 h-1/2 sm:h-full border-b sm:border-b-0 sm:border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+        <div 
+          ref={contentRef} 
+          className="w-full h-full overflow-auto custom-scrollbar"
+        >
+          {/* Content Sections */}
+          <div className="p-6 bg-gradient-to-br from-gray-100 to-white dark:from-gray-800 dark:to-gray-900">
+            <div className="mb-4">
+              <span className="px-3 py-1.5 rounded-full text-sm font-medium bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 shadow-sm">
+                {date}
+              </span>
+            </div>
+            <h4 className="text-2xl font-bold bg-gradient-to-br from-gray-800 to-gray-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent mb-3">
+              {title}
+            </h4>
+            <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+              {description}
+            </p>
+          </div>
+
+          {/* Team Members */}
+          <div className="p-6">
+            <h5 className="text-base font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center">
+              <span className="w-6 h-0.5 bg-blue-300 dark:bg-blue-600 mr-3"></span>
+              Team Members
+            </h5>
+            <div className="grid grid-cols-2 gap-3">
+              {teamMembers.map((member, index) => (
+                <div key={index} className="group/member relative bg-gradient-to-br from-white to-slate-100 dark:from-gray-700 dark:to-gray-800 p-3 rounded-xl hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-600">
+                  <div className="relative w-12 h-12 mb-2 mx-auto rounded-full overflow-hidden ring-2 ring-blue-200 dark:ring-blue-700 ring-offset-2 ring-offset-white dark:ring-offset-gray-800">
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover/member:scale-110"
+                    />
+                  </div>
+                  <div className="text-center">
+                    <p className="text-xs font-semibold text-gray-800 dark:text-gray-100">{member.name}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
       </div>
+
+      {/* Right Panel - Static Image */}
+<div className="w-full sm:w-1/2 h-64 sm:h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-white dark:from-gray-800 dark:to-gray-900 p-4 sm:p-6">
+  <img 
+    src={imageSrc} 
+    alt={title} 
+    className="w-full max-h-full object-contain rounded-xl shadow-md"
+  />
+      </div>
+    </div>
+
+    {/* Close Button */}
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        onExpand?.();
+      }}
+      className="absolute top-4 right-4 p-2 bg-white dark:bg-gray-700 rounded-full hover:bg-gray-50 dark:hover:bg-gray-600 shadow-lg transition-all hover:scale-110 border border-gray-200 dark:border-gray-600"
+    >
+      <X className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+    </button>
+  </div>
+)}
+</div>
+
+
+      <style jsx global>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: rgba(229, 231, 235, 0.5);
+          border-radius: 3px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(107, 114, 128, 0.4);
+          border-radius: 3px;
+          transition: all 0.3s;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(75, 85, 99, 0.6);
+        }
+        
+        @media (prefers-color-scheme: dark) {
+          .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(75, 85, 99, 0.3);
+          }
+          
+          .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.4);
+          }
+          
+          .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(156, 163, 175, 0.6);
+          }
+        }
+      `}</style>
     </div>
   );
 }
