@@ -70,7 +70,7 @@ export default function AchievementCard({
               <div className="w-full h-full bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border-2 border-gray-100 dark:border-gray-700 transition-all duration-300 group-hover:shadow-xl">
                 
                 {/* Image Section */}
-                <div className="relative h-48 overflow-hidden">
+                <div className="relative h-50 overflow-hidden">
                   <img 
                     src={imageSrc} 
                     alt={title} 
@@ -100,25 +100,6 @@ export default function AchievementCard({
                     {description}
                   </p>
                   
-                  {/* Team Members Preview */}
-                  <div className="flex items-center mt-4 space-x-2">
-                    <div className="flex -space-x-2">
-                      {teamMembers.slice(0, 3).map((member, index) => (
-                        <div key={index} className="w-6 h-6 rounded-full overflow-hidden border-2 border-white dark:border-gray-700 shadow-sm">
-                          <img
-                            src={member.image}
-                            alt={member.name}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                    {teamMembers.length > 3 && (
-                      <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
-                        +{teamMembers.length - 3} more
-                      </span>
-                    )}
-                  </div>
                 </div>
               </div>
             </div>
