@@ -47,13 +47,12 @@ export default function AchievementCard({
 
   return (
     <div 
-      className={`transform-gpu transition-all duration-500 cursor-pointer ${
-        isExpanded 
-          ? "fixed inset-0 flex items-center justify-center z-50 bg-black/50 backdrop-blur-sm" 
-          : "w-full h-full"
-      }`}
-      onClick={onExpand}
-    >
+  className={`transform-gpu transition-all duration-500 cursor-pointer ${
+    isExpanded 
+      ? "fixed inset-0 flex items-center justify-center z-[100] bg-black/50 backdrop-blur-sm" 
+      : "w-full h-full"
+  }`}
+>
       <div 
         className={`transition-all duration-500 ${
           isExpanded 
@@ -63,7 +62,7 @@ export default function AchievementCard({
       >
         {/* Main Card */}
         {!isExpanded && (
-          <div className="relative w-full h-full group cursor-pointer">
+          <div className="relative w-full h-full group cursor-pointer" onClick={onExpand}>
             {/* Colorful Border Frame */}
             <div className={`absolute inset-0 rounded-2xl p-3 shadow-2xl transition-all duration-300 group-hover:shadow-3xl ${getBorderColor()}`}>
               {/* Card Background */}
@@ -107,7 +106,7 @@ export default function AchievementCard({
         )}
 
         {isExpanded && (
-  <div className="w-full h-full max-h-screen rounded-xl shadow-2xl overflow-hidden bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
+  <div className="w-full h-full max-h-screen relative rounded-xl shadow-2xl overflow-hidden bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
     <div className="flex flex-col sm:flex-row w-full h-full">
       {/* Left Panel */}
       <div className="w-full sm:w-1/2 h-1/2 sm:h-full border-b sm:border-b-0 sm:border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
@@ -182,7 +181,7 @@ export default function AchievementCard({
 </div>
 
 
-      <style jsx global>{`
+      <style jsx>{`
         .custom-scrollbar::-webkit-scrollbar {
           width: 6px;
         }

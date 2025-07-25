@@ -111,37 +111,32 @@ const MemberGrid = ({ members }: { members: typeof foundersData }) => {
   const isCompact = members.length < 4;
 
   return (
-    <div className="relative bg-gradient-to-r from-[rgba(139,92,246,1)] to-[rgba(233,30,99,1)] rounded-2xl shadow-xl p-6 border border-gray-300 dark:border-gray-700 min-h-[820px]">
-      {isCompact ? (
-        <div className="flex justify-center gap-6 flex-wrap">
-          {members.map((member, index) => (
-            <div key={index} className="w-full sm:w-[300px]">
-              <MembersCard
-                name={member.name}
-                imageSrc={member.imageSrc}
-                githubLink={member.githubLink}
-                linkedinLink={member.linkedinLink}
-              />
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
-          {members.map((member, index) => (
-            <div key={index} className="w-full sm:w-[300px]">
-              <MembersCard
-                name={member.name}
-                imageSrc={member.imageSrc}
-                githubLink={member.githubLink}
-                linkedinLink={member.linkedinLink}
-              />
-            </div>
-          ))}
-        </div>
-      )}
+  <div className="relative min-h-[820px]">
+    <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-[2px] rounded-2xl">
+      <div className="rounded-[14px] bg-white/5 dark:bg-black/10 backdrop-blur-md p-6">
+        {isCompact ? (
+          <div className="flex justify-center gap-6 flex-wrap">
+            {members.map((member, index) => (
+              <div key={index} className="w-full sm:w-[300px]">
+                <MembersCard {...member} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
+            {members.map((member, index) => (
+              <div key={index} className="w-full sm:w-[300px]">
+                <MembersCard {...member} />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
-  );
+  </div>
+);
 };
+
 
 export default function MembersPage() {
 

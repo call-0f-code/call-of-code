@@ -17,13 +17,6 @@ const achievements = [
       { name: "Jane Smith", image: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=150" },
       { name: "Vansh", image: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150" },
     ],
-    slideshowImages: [
-      "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    additionalInfo: "This hackathon focused on creating innovative healthcare solutions using modern web technologies."
   },
   {
     title: "BITS Pilani Postman API Hackathon 3.0",
@@ -35,13 +28,6 @@ const achievements = [
       { name: "Jane Smith", image: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=150" },
       { name: "Mike Johnson", image: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150" },
     ],
-    slideshowImages: [
-      "https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184287/pexels-photo-3184287.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184306/pexels-photo-3184306.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184317/pexels-photo-3184317.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    additionalInfo: "Competed against 200+ teams to secure the first runner-up position with our innovative API solution."
   },
   {
     title: "Google Developer Student Club Hackathon",
@@ -53,13 +39,6 @@ const achievements = [
       { name: "Bob Wilson", image: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=150" },
       { name: "Carol Davis", image: "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=150" },
     ],
-    slideshowImages: [
-      "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    additionalInfo: "Recognized for exceptional user interface design and user experience implementation."
   },
   {
     title: "Microsoft Imagine Cup Regional Finals",
@@ -71,13 +50,6 @@ const achievements = [
       { name: "Emma Taylor", image: "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=150" },
       { name: "Frank Miller", image: "https://images.pexels.com/photos/1212984/pexels-photo-1212984.jpeg?auto=compress&cs=tinysrgb&w=150" },
     ],
-    slideshowImages: [
-      "https://images.pexels.com/photos/3184454/pexels-photo-3184454.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184432/pexels-photo-3184432.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184394/pexels-photo-3184394.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184375/pexels-photo-3184375.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    additionalInfo: "Developed an AI-powered educational platform that reached the regional finals."
   },
   {
     title: "IEEE Student Branch Innovation Challenge",
@@ -88,13 +60,6 @@ const achievements = [
       { name: "Grace Chen", image: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150" },
       { name: "Henry Kim", image: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150" },
     ],
-    slideshowImages: [
-      "https://images.pexels.com/photos/3184405/pexels-photo-3184405.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184421/pexels-photo-3184421.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184436/pexels-photo-3184436.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184448/pexels-photo-3184448.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    additionalInfo: "Created an IoT-based smart campus solution with real-time monitoring capabilities."
   },
   {
     title: "Open Source Contribution Award",
@@ -106,13 +71,6 @@ const achievements = [
       { name: "Jack Thompson", image: "https://images.pexels.com/photos/1043473/pexels-photo-1043473.jpeg?auto=compress&cs=tinysrgb&w=150" },
       { name: "Kate Anderson", image: "https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg?auto=compress&cs=tinysrgb&w=150" },
     ],
-    slideshowImages: [
-      "https://images.pexels.com/photos/3184287/pexels-photo-3184287.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184302/pexels-photo-3184302.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184320/pexels-photo-3184320.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184342/pexels-photo-3184342.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    additionalInfo: "Recognized for significant contributions to open source projects and community building."
   },
   {
     title: "National Coding Championship",
@@ -123,12 +81,6 @@ const achievements = [
       { name: "Alex Johnson", image: "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=150" },
       { name: "Sarah Wilson", image: "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=150" },
     ],
-    slideshowImages: [
-      "https://images.pexels.com/photos/3184298/pexels-photo-3184298.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    additionalInfo: "Competed in algorithmic programming challenges against 500+ participants nationwide."
   },
   {
     title: "AWS Cloud Computing Certification",
@@ -138,12 +90,6 @@ const achievements = [
     teamMembers: [
       { name: "Individual Achievement", image: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150" },
     ],
-    slideshowImages: [
-      "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184375/pexels-photo-3184375.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    additionalInfo: "Achieved AWS Solutions Architect Associate certification with focus on cloud infrastructure design."
   },
   {
     title: "University Programming Contest",
@@ -155,12 +101,6 @@ const achievements = [
       { name: "Lisa Davis", image: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=150" },
       { name: "Mark Taylor", image: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=150" },
     ],
-    slideshowImages: [
-      "https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184375/pexels-photo-3184375.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3184394/pexels-photo-3184394.jpeg?auto=compress&cs=tinysrgb&w=800"
-    ],
-    additionalInfo: "Won the inter-university programming contest with innovative algorithm solutions."
   },
   {
   title: "AI For Social Good Challenge",
@@ -171,11 +111,6 @@ const achievements = [
     { name: "Mia Allen", image: "https://images.pexels.com/photos/1130626/pexels-photo-1130626.jpeg?auto=compress&cs=tinysrgb&w=150" },
     { name: "Leo Walker", image: "https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg?auto=compress&cs=tinysrgb&w=150" }
   ],
-  slideshowImages: [
-    "https://images.pexels.com/photos/3184342/pexels-photo-3184342.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "https://images.pexels.com/photos/3184320/pexels-photo-3184320.jpeg?auto=compress&cs=tinysrgb&w=800"
-  ],
-  additionalInfo: "Used machine learning to predict areas of clean water scarcity and proposed actionable solutions."
 },
 {
   title: "TechStars Startup Bootcamp",
@@ -186,11 +121,6 @@ const achievements = [
     { name: "Ella Green", image: "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=150" },
     { name: "Ryan Scott", image: "https://images.pexels.com/photos/1181424/pexels-photo-1181424.jpeg?auto=compress&cs=tinysrgb&w=150" }
   ],
-  slideshowImages: [
-    "https://images.pexels.com/photos/3184436/pexels-photo-3184436.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "https://images.pexels.com/photos/3184448/pexels-photo-3184448.jpeg?auto=compress&cs=tinysrgb&w=800"
-  ],
-  additionalInfo: "Presented a gamified learning platform to a panel of investors and startup mentors."
 },
 {
   title: "Hack4Climate Global Hackathon",
@@ -201,11 +131,6 @@ const achievements = [
     { name: "Nina Parker", image: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150" },
     { name: "Oscar Brooks", image: "https://images.pexels.com/photos/1043473/pexels-photo-1043473.jpeg?auto=compress&cs=tinysrgb&w=150" }
   ],
-  slideshowImages: [
-    "https://images.pexels.com/photos/3184339/pexels-photo-3184339.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=800"
-  ],
-  additionalInfo: "Built a blockchain-based carbon tracking app to promote transparency in emissions reporting."
 },
 {
   title: "Facebook Developer Circle Hackathon",
@@ -216,11 +141,6 @@ const achievements = [
     { name: "Isabella Torres", image: "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=150" },
     { name: "Liam Bennett", image: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=150" }
   ],
-  slideshowImages: [
-    "https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "https://images.pexels.com/photos/3184394/pexels-photo-3184394.jpeg?auto=compress&cs=tinysrgb&w=800"
-  ],
-  additionalInfo: "Created a collaborative productivity app that integrates real-time video and task management."
 },
 {
   title: "National Robotics Challenge",
@@ -231,11 +151,6 @@ const achievements = [
     { name: "Sophie Young", image: "https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=150" },
     { name: "Daniel Reed", image: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150" }
   ],
-  slideshowImages: [
-    "https://images.pexels.com/photos/3184432/pexels-photo-3184432.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "https://images.pexels.com/photos/3184454/pexels-photo-3184454.jpeg?auto=compress&cs=tinysrgb&w=800"
-  ],
-  additionalInfo: "Built an autonomous drone navigation system using computer vision and sensor fusion."
 },
 {
   title: "Youth Innovation Forum",
@@ -245,11 +160,6 @@ const achievements = [
   teamMembers: [
     { name: "Mason Clark", image: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150" }
   ],
-  slideshowImages: [
-    "https://images.pexels.com/photos/3184287/pexels-photo-3184287.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "https://images.pexels.com/photos/3184302/pexels-photo-3184302.jpeg?auto=compress&cs=tinysrgb&w=800"
-  ],
-  additionalInfo: "Received funding for a mobile-first platform connecting NGOs with youth volunteers."
 }
 ]
 
@@ -284,7 +194,7 @@ const cardPositions = [
 // Function to calculate dynamic container height based on number of achievements
 const calculateContainerHeight = (totalCards: number, positionsPerCycle: number) => {
   const cycles = Math.ceil(totalCards / positionsPerCycle);
-  return cycles * 300; // 120vh per cycle to ensure proper spacing
+  return cycles * 300; // 300px per cycle to ensure proper spacing
 };
 
 export default function AchievementsPage() {
@@ -409,6 +319,7 @@ export default function AchievementsPage() {
         {/* Achievement Cards */}
         <div className="relative z-10">
           {sortedAchievements.map((achievement, index) => {
+            if (expandedIndex !== null && expandedIndex !== index) return null;
             const position = cardPositions[index % cardPositions.length];
 
             return (
@@ -468,10 +379,11 @@ export default function AchievementsPage() {
   <div
   className="relative w-full max-w-7xl mx-auto" 
   style={{
-    height: `${calculateContainerHeight(achievements.length, cardPositions.length)}vh`,
+    height: `${calculateContainerHeight(sortedAchievements.length, cardPositions.length)}vh`,
   }}
 >
-    {achievements.map((achievement, index) => {
+    {sortedAchievements.map((achievement, index) => {
+      if (expandedIndex !== null && expandedIndex !== index) return null;
       // Calculate which cycle this card belongs to
       const cycleIndex = Math.floor(index / cardPositions.length);
       const positionIndex = index % cardPositions.length;

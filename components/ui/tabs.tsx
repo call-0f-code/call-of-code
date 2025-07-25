@@ -112,7 +112,11 @@ export const FadeInDiv = ({
             y: isActive(tab) ? [0, 40, 0] : 0,
           }}
           transition={{ duration: 0.5 }}
-          className={cn("w-full h-full absolute top-0 left-0", className)}
+          className={cn(
+  "w-full h-full",
+  idx === 0 ? "relative z-10" : "absolute top-0 left-0",
+  className
+)}
         >
           {tab.content}
         </motion.div>
