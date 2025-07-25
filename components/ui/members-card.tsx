@@ -1,53 +1,59 @@
-import Image from "next/image";
-import { GithubIcon, LinkedinIcon } from "lucide-react";
+import React from 'react';
+import { Github, Linkedin } from 'lucide-react';
 
-interface MemberscardProps {
+interface MembersCardProps {
   name: string;
   imageSrc: string;
   githubLink: string;
   linkedinLink: string;
 }
 
-export default function Memberscard({
-  name = "Shivaji Raut",
-  imageSrc = "/placeholder.svg?height=200&width=300",
-  githubLink = "#",
-  linkedinLink = "#",
-}: MemberscardProps) {
+export default function MembersCard({
+  name,
+  imageSrc,
+  githubLink,
+  linkedinLink,
+}: MembersCardProps) {
   return (
-    <div className="relative bg-card text-card-foreground rounded-lg overflow-hidden shadow-md w-full max-w-xs group mx-auto">
-      <div className="relative aspect-[4/3] w-full">
-        <Image
+
+    <div className="group relative overflow-hidden rounded-2xl bg-white dark:bg-black shadow-md hover:shadow-[0_0_30px_5px_rgba(128,128,128,0.4)] transition-all duration-300 hover:-translate-y-1 border border-gray-200 dark:border-gray-800 w-full max-w-[320px] mx-auto">
+      {/* Image */}
+      <div className="aspect-square overflow-hidden">
+        <img
           src={imageSrc}
-          fill
-          alt={`${name}'s profile`}
-          className="object-cover transition-transform duration-300 ease-in-out group-hover:blur-sm group-hover:scale-105 rounded-t-lg"
+          alt={`Profile picture of ${name}`}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          loading="lazy"
         />
       </div>
 
-      <div className="p-4 flex items-center justify-between">
-        <h3 className="text-lg font-semibold">{name}</h3>
-      </div>
+      {/* Name + Socials */}
+      <div className="p-4">
+        <h3 className="font-semibold text-lg text-center text-black dark:text-white mb-3 break-words">
+          {name}
+        </h3>
 
-      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <div className="flex space-x-4">
+        <div className="flex justify-center space-x-4">
+          {/* GitHub */}
           <a
             href={githubLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-3 rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
+            aria-label={`Visit ${name}'s GitHub`}
+            className="p-2 rounded-full bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-200"
           >
-            <GithubIcon className="h-6 w-6" />
-            <span className="sr-only">GitHub</span>
+            <Github size={18} className="text-black dark:text-white" />
           </a>
+
+          {/* LinkedIn */}
           <a
             href={linkedinLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-3 rounded-full bg-primary text-primary-foreground hover:bg-primary/90"
+            aria-label={`Visit ${name}'s LinkedIn`}
+            className="p-2 rounded-full bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-200"
           >
-            <LinkedinIcon className="h-6 w-6" />
-            <span className="sr-only">LinkedIn</span>
+            <Linkedin size={18} className="text-black dark:text-white" />
           </a>
         </div>
       </div>

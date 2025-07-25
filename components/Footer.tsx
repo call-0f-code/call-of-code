@@ -1,122 +1,158 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { FaTwitter, FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
-import Head from "next/head";
 import Link from "next/link";
+import localFont from "next/font/local";
+import { motion, AnimatePresence } from "framer-motion";
+
+const pressStart2P = localFont({
+  src: "../app/fonts/PressStart2P-Regular.ttf",
+  display: "swap",
+  variable: "--font-pressstart",
+});
 
 const Footer = () => {
+
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const cards = [
+    {
+      title: "About Us",
+      content: (
+        <p className="text-[10px] sm:text-xs leading-relaxed text-left text-gray-700 dark:text-gray-300 dark:hover:text-gray-100">
+          Call Of Code is your go-to platform for coding tutorials,<br />
+          challenges, and resources. Join us to explore the world<br />
+          of programming and technology.
+        </p>
+      ),
+    },
+    {
+      title: "Quick Links",
+      content: (
+        <ul className="space-y-3 text-[11px] sm:text-xs text-left">
+          {[
+            { href: "/about", text: "About Us" },
+            { href: "/resources", text: "Projects" },
+            { href: "https://mail.google.com/mail/?view=cm&fs=1&to=callofcode07@gmail.com", text: "Contact" },
+            { href: "/privacy", text: "Privacy Policy" },
+          ].map((link) => (
+            <li key={link.href}>
+              <Link
+                href={link.href}
+                className="text-gray-600 hover:text-black dark:hover:text-gray-300 transition-colors duration-300"
+              >
+                {link.text}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      ),
+    },
+    {
+      title: "Follow Us",
+      content: (
+        <div className="grid grid-cols-2 gap-x-16 gap-y-4 mt-4">
+  {[
+    {
+      Icon: FaInstagram,
+      href: "https://www.instagram.com/pvpitprogrammingclub?igsh=MWswZ2kxcHpiaXF2dA==",
+      label: "Instagram",
+    },
+    {
+      Icon: FaGithub,
+      href: "https://github.com/call-0f-code",
+      label: "GitHub",
+    },
+    {
+      Icon: FaLinkedin,
+      href: "https://www.linkedin.com/company/callofcode/",
+      label: "LinkedIn",
+    },
+    {
+      Icon: FaTwitter,
+      href: "https://x.com/call_0f_code?t=pBGojoV9Hw5LkDD7-1u0UA&s=09",
+      label: "Twitter",
+    },
+  ].map(({ Icon, href, label }, index) => (
+    <a
+      key={href}
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
+      className={`text-gray-600 hover:text-black dark:hover:text-gray-300 transition-all duration-300 hover:scale-110 text-3xl sm:text-4xl ${
+        index % 2 === 0 ? "justify-self-end" : "justify-self-start"
+      }`}
+    >
+      <Icon />
+    </a>
+  ))}
+</div>
+
+      ),
+    },
+  ];
+
   return (
-    <>
-      <Head>
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
-        />
-      </Head>
-      <footer className="w-full bg-white dark:bg-black text-gray-300 dark:text-white py-16">
-        <div className="container mx-auto px-6">
-          {/* Header Section with Animation */}
-          <div className="text-center mb-12 transition-all duration-700">
-            <h1
-              className="text-4xl md:text-6xl lg:text-7xl font-normal text-black dark:text-white pixel-shadow whitespace-nowrap"
-              style={{
-                fontFamily: "'Press Start 2P', cursive",
-                lineHeight: "1.5",
-              }}
-            >
-              &lt;CALL OF CODE&gt;
-            </h1>
-            <p className="text-xl text-gray-400 dark:text-gray-700 mt-8 transition-all duration-300 hover:text-black dark:hover:text-white">
-              A platform where coders unite to learn, build, and collaborate.
-            </p>
-          </div>
+    <footer
+      className={`${pressStart2P.className} w-full min-h-screen bg-white dark:bg-black text-black dark:text-white flex flex-col`}
+    >
+      <div className="max-w-6xl mx-auto px-4 sm:px-8 flex-grow flex flex-col justify-evenly py-12">
+        {/* Header */}
+        <div className="text-center">
+          <h1 className="whitespace-nowrap text-[1.25rem] sm:text-3xl md:text-5xl lg:text-6xl leading-relaxed">
+            &lt;CALL OF CODE&gt;
+          </h1>
+          <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-4 transition-all duration-300">
+            A platform where coders unite to learn, build, and collaborate.
+          </p>
+        </div>
 
-          {/* Footer Sections */}
-          <div className="space-y-16">
-            {/* About Us Section */}
-            <div className="transition-all duration-300 hover:transform hover:scale-105">
-              <h2
-                className="text-lg font-bold text-black dark:text-gray-400 mb-4 text-center"
-                style={{ fontFamily: "'Press Start 2P', cursive", fontSize: "1rem" }}
-              >
-                About Us
-              </h2>
-              <p 
-                className="text-sm text-gray-800 dark:text-gray-400 text-center"
-                style={{ fontFamily: "'Press Start 2P', cursive", fontSize: "0.5rem" }}
-              >
-                Call Of Code is your go-to platform for coding tutorials,
-                challenges, and resources. Join us to explore the world of
-                programming and technology.
-              </p>
-            </div>
-
-            {/* Quick Links Section */}
-            <div>
-              <h2
-                className="text-lg font-bold text-black dark:text-gray-400 mb-4 text-center"
-                style={{ fontFamily: "'Press Start 2P', cursive", fontSize: "1rem" }}
-              >
-                Quick Links
-              </h2>
-              <ul className="flex flex-wrap justify-center space-x-8 text-sm">
-                {[
-                  { href: "/about", text: "About Us" },
-                  { href: "/resources", text: "Projects" },
-                  { href: "/contact", text: "Contact" },
-                  { href: "/privacy", text: "Privacy Policy" },
-                ].map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="relative group text-black dark:text-white dark:hover:text-gray-400 transition-colors duration-300"
-                    >
-                      {link.text}
-                      <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-black dark:bg-gray-400 transition-all duration-300 group-hover:w-full"></span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Follow Us Section */}
-            <div>
-              <h2
-                className="text-lg font-bold text-black dark:text-gray-400 mb-4 text-center"
-                style={{ fontFamily: "'Press Start 2P', cursive", fontSize: "1rem" }}
-              >
-                Follow Us
-              </h2>
-              <div className="flex justify-center space-x-8">
-                {[
-                  { Icon: FaInstagram, href: "https://instagram.com", label: "Instagram" },
-                  { Icon: FaGithub, href: "https://github.com", label: "GitHub" },
-                  { Icon: FaLinkedin, href: "https://linkedin.com", label: "LinkedIn" },
-                  { Icon: FaTwitter, href: "https://twitter.com", label: "Twitter" },
-                ].map(({ Icon, href, label }) => (
-                  <a
-                    key={href}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    className="text-gray-900 dark:text-gray-400 transition-all duration-300 hover:text-black dark:hover:text-white hover:transform hover:scale-125"
-                  >
-                    <Icon className="text-3xl" />
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Footer Bottom Section */}
-          <div className="mt-16 text-center text-sm text-gray-600 dark:text-gray-500">
-            <p className="transition-opacity duration-300 hover:opacity-100 opacity-75">
-              © {new Date().getFullYear()} Call Of Code. All rights reserved.
-            </p>
-          </div>
+        {/* Cards */}
+        <div className="relative grid gap-8 sm:grid-cols-2 md:grid-cols-3 z-10">
+          {cards.map((card, idx) => (
+  <div
+    key={idx}
+    onMouseEnter={() => setHoveredIndex(idx)}
+    onMouseLeave={() => setHoveredIndex(null)}
+    className="relative group transition-all duration-300"
+  >
+    {/*glow behind card */}
+    <AnimatePresence>
+      {hoveredIndex === idx && (
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+                     w-[150%] h-[150%] pointer-events-none z-0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.4 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <div className="w-full h-full rounded-3xl bg-black/50 dark:bg-white/25 blur-[60px]" />
+        </motion.div>
+      )}
+    </AnimatePresence>
+    {/* Cards */}
+    <div className="relative z-10 h-full min-h-[180px] p-6 flex flex-col justify-start 
+                    border border-gray-300 dark:border-gray-600 rounded-2xl 
+                    bg-white dark:bg-[#111111] text-black dark:text-white 
+                    transition-all duration-300 shadow-lg hover:shadow-xl">
+      <h2 className="text-lg font-semibold mb-3">{card.title}</h2>
+      {card.content}
+    </div>
+  </div>
+))}
+                  </div>
+                  
+                  {/* Bottom */}
+                  <div className="opacity-90 flex items-center justify-center gap-2 text-sm">
+                    <span>Made with</span>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/heart.png" alt="heart" className="w-6 h-6" />
+                    <span>by Call of Code</span>
+                  </div>
         </div>
       </footer>
-    </>
   );
 };
 
