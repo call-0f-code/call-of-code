@@ -15,6 +15,7 @@ export default function MembersCard({
   linkedinLink,
 }: MembersCardProps) {
   return (
+
     <div className="group relative overflow-hidden rounded-2xl bg-white dark:bg-black shadow-md hover:shadow-[0_0_30px_5px_rgba(128,128,128,0.4)] transition-all duration-300 hover:-translate-y-1 border border-gray-200 dark:border-gray-800 w-full max-w-[320px] mx-auto">
       {/* Image */}
       <div className="aspect-square overflow-hidden">
