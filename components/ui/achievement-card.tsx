@@ -142,6 +142,9 @@ export default function AchievementCard({
                     <img
                       src={member.image}
                       alt={member.name}
+                      onError={(e) => {
+                       e.currentTarget.src = '/default-avatar.png';
+                     }}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover/member:scale-110"
                     />
                   </div>
