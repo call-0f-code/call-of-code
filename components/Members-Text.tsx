@@ -118,7 +118,7 @@ const MemberGrid = ({
   const isCompact = members.length < 4;
 
   return (
-    <div
+ <div
       className={cn(
         "relative rounded-2xl shadow-xl border border-gray-300 dark:border-gray-700 min-h-[820px] flex items-center justify-center",
         isFounder ? "p-0" : "p-6" // remove padding for founders
@@ -158,8 +158,9 @@ const MemberGrid = ({
         </div>
       )}
     </div>
-  );
+ );
 };
+
 
 
 

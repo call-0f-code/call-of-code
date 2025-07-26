@@ -97,6 +97,7 @@ export const FadeInDiv = ({
 }) => {
   return (
     <div className="relative w-full min-h-[400px] sm:min-h-[520px] md:min-h-[600px]">
+      
       {tabs.map((tab, idx) => {
         const isCurrent = tab.value === active.value;
         const showOnHover = hovering || isCurrent;
