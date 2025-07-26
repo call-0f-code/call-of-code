@@ -39,7 +39,7 @@ export const Tabs = ({
     <>
       <div
         className={cn(
-          "flex flex-wrap sm:flex-nowrap space-x-4 sm:space-x-8 border-b border-white/20 overflow-x-auto sm:overflow-visible no-visible-scrollbar w-full",
+          "flex flex-row whitespace-nowrap overflow-x-auto space-x-3 sm:space-x-8 scrollbar-hide",
           containerClassName
         )}
       >
@@ -87,6 +87,7 @@ export const Tabs = ({
 export const FadeInDiv = ({
   className,
   tabs,
+  active,
   hovering,
 }: {
   className?: string;
@@ -94,33 +95,37 @@ export const FadeInDiv = ({
   active: Tab;
   hovering?: boolean;
 }) => {
-  const isActive = (tab: Tab) => tab.value === tabs[0].value;
-
   return (
     <div className="relative w-full min-h-[400px] sm:min-h-[520px] md:min-h-[600px]">
-      {tabs.map((tab, idx) => (
-        <motion.div
-          key={tab.value}
-          layoutId={tab.value}
-          style={{
-            scale: 1 - idx * 0.1,
-            top: hovering ? idx * -50 : 0,
-            zIndex: -idx,
-            opacity: idx < 3 ? 1 - idx * 0.1 : 0,
-          }}
-          animate={{
-            y: isActive(tab) ? [0, 40, 0] : 0,
-          }}
-          transition={{ duration: 0.5 }}
-          className={cn(
-  "w-full h-full",
-  idx === 0 ? "relative z-10" : "absolute top-0 left-0",
-  className
-)}
-        >
-          {tab.content}
-        </motion.div>
-      ))}
+      
+      {tabs.map((tab, idx) => {
+        const isCurrent = tab.value === active.value;
+        const showOnHover = hovering || isCurrent;
+
+        return (
+          <motion.div
+            key={tab.value}
+            layoutId={tab.value}
+            style={{
+              scale: 1 - idx * 0.05,
+              top: hovering ? idx * -50 : 0,
+              zIndex: hovering ? 10 - idx : tabs.length - idx,
+opacity: showOnHover ? 1 - (idx * 0.1) : 0.5,
+pointerEvents: showOnHover ? "auto" : "none",
+            }}
+            animate={{
+              y: isCurrent ? [0, 20, 0] : 0,
+            }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+            className={cn(
+              "w-full min-h-[400px] sm:min-h-[520px] md:min-h-[600px] absolute left-0 rounded-3xl border-[6px] border-purple-500 dark:border-pink-600 bg-white dark:bg-black shadow-xl duration-300",
+              className
+            )}
+          >
+            {tab.content}
+          </motion.div>
+        );
+      })}
     </div>
   );
 };
