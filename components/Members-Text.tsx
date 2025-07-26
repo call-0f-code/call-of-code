@@ -159,8 +159,8 @@ const MemberGrid = ({
         </div>
       )}
     </div>
-  </div>
-);
+     </div>
+ );
 };
 
 
