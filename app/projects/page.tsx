@@ -5,7 +5,7 @@ import { BentoGrid, BentoGridItem } from "@/components/ui/BentoCard";
 import Particles from "@/components/ui/particles";
 import { useTheme } from "@/components/ui/theme-provider";
 import Image from "next/image";
-import { SkeletonLoader,MemberSkeleton } from "./skeletonLoader";
+import { SkeletonLoader } from "./skeletonLoader";
 
 // const Skeleton = ({ src, alt = "Preview" }: { src: string; alt?: string }) => {
 //   const [isLoading, setIsLoading] = useState(true);
