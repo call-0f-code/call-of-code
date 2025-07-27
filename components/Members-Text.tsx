@@ -109,77 +109,77 @@ export default function MembersPage() {
   useEffect(() => {
     const abortController = new AbortController();
 
-  const fetchMembers = async () => {
-    try {
-      const res = await fetch("/api/members", {
-        signal: abortController.signal
-      });
-      const result = await res.json();
+    const fetchMembers = async () => {
+      try {
+        const res = await fetch("/api/members", {
+          signal: abortController.signal
+        });
+        if (!res.ok) {
+          setError(`Error ${res.status}: ${res.statusText}`);
+          throw new Error("Network response was not ok");
+        }
+        const result = await res.json();
 
-      const rawData: Member[] = Array.isArray(result.data) ? result.data : [];
+        const rawData: Member[] = Array.isArray(result.data) ? result.data : [];
 
-      if (!result.success || !rawData) {
-        setError("Failed to load member data");
-        throw new Error("Invalid API response");
+        if (!result.success) {
+          setError("Failed to load member data");
+          throw new Error("Invalid API response");
+        }
+
+        if (rawData.length === 0) {
+          setFounders([]);
+          setSuperSeniors([]);
+          setPresentMembers([]);
+          return;
+        }
+
+        const currentYear = new Date().getFullYear();
+
+        const approved = rawData.filter((m) => m.isApproved);
+
+        const format = (m: Member): DisplayMember => ({
+          name: m.name,
+          imageSrc: m.profilePhoto ?? "/fallback.jpg",
+          githubLink: m.github ?? "#",
+          linkedinLink: m.linkedin ?? "#",
+        });
+
+        const foundersList = approved
+          .filter((m) => new Date(m.passoutYear).getFullYear() === 2024)
+          .map(format);
+
+        const superSeniorsList = approved
+          .filter((m) => new Date(m.passoutYear).getFullYear() === currentYear)
+          .map(format);
+
+        const presentList = approved
+          .filter((m) => new Date(m.passoutYear).getFullYear() > currentYear)
+          .map(format);
+
+        setFounders(foundersList);
+        setSuperSeniors(superSeniorsList);
+        setPresentMembers(presentList);
+      } catch (err) {
+        if (err instanceof Error && err.name === 'AbortError') {
+          return;
+        }
+        console.error("Failed to fetch members", err);
+        setError("Failed to load members. Please try again later.");
+      } finally {
+        setLoading(false);
       }
+    };
 
-      if (rawData.length === 0) {
-        setFounders([]);
-        setSuperSeniors([]);
-        setPresentMembers([]);
-        return;
-      }
+    fetchMembers();
 
-      const currentYear = new Date().getFullYear();
-
-      const approved = rawData.filter((m) => m.isApproved);
-
-      const format = (m: Member): DisplayMember => ({
-        name: m.name,
-        imageSrc: m.profilePhoto ?? "/fallback.jpg",
-        githubLink: m.github ?? "#",
-        linkedinLink: m.linkedin ?? "#",
-      });
-
-      const founders = approved
-        .filter((m) => new Date(m.passoutYear).getFullYear() === 2024)
-        .map(format);
-
-      const superSeniors = approved
-        .filter((m) => new Date(m.passoutYear).getFullYear() === currentYear)
-        .map(format);
-
-      const present = approved
-        .filter((m) => new Date(m.passoutYear).getFullYear() > currentYear)
-        .map(format);
-
-      console.log("Founders:", founders);
-      console.log("Super Seniors:", superSeniors);
-      console.log("Present:", present);
-
-      setFounders(founders);
-      setSuperSeniors(superSeniors);
-      setPresentMembers(present);
-    } catch (err) {
-      if(err instanceof Error && err.name === 'AbortError'){
-        return;
-      }
-      console.error("Failed to fetch members", err);
-      setError("Failed to load members. Please try again later.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchMembers();
-
-  return () => {
-    abortController.abort();
-  };
-}, []);
+    return () => {
+      abortController.abort();
+    };
+  }, []);
 
 
-
+  
   const tabs = [
     {
       title: "Present Members",
@@ -202,6 +202,14 @@ export default function MembersPage() {
     return (
       <div className="flex min-h-screen items-center justify-center text-lg text-center">
         Loading members...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex min-h-screen items-center justify-center text-lg text-center text-red-500 px-4">
+        {error}
       </div>
     );
   }

@@ -14,7 +14,6 @@ export const Tabs = ({
   tabs,
   containerClassName,
   tabClassName,
-  activeTabClassName,
   contentClassName,
   onTabChange,
 }: {
