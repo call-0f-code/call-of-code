@@ -43,8 +43,12 @@ export async function GET(
   try {
     const achievementId = params.id;
 
+    if (!process.env.API_BASE_URL) {
+        throw new Error('API_BASE_URL environment variable is not configured');
+    }
+
     // Fetch achievement details from your API
-    const response = await fetch(`${process.env.API_BASE_URL}/api/v1/achievements/${achievementId}`, {
+    const response = await fetch(`${process.env.API_BASE_URL}/achievements/${achievementId}`, {
       headers: {
         'Content-Type': 'application/json',
       },

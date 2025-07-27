@@ -37,6 +37,10 @@ interface ClientAchievement {
 
 async function fetchAchievements(): Promise<ClientAchievement[]> {
   try {
+    
+    if (!process.env.API_BASE_URL) {
+      throw new Error('API_BASE_URL environment variable is not configured');
+    }
     const response = await fetch(`${process.env.API_BASE_URL}/achievements/`, {
       headers: {
         'Content-Type': 'application/json',
