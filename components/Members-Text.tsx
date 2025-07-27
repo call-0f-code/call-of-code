@@ -104,22 +104,26 @@ export default function MembersPage() {
   const [superSeniors, setSuperSeniors] = useState<DisplayMember[]>([]);
   const [founders, setFounders] = useState<DisplayMember[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    const abortController = new AbortController();
+
   const fetchMembers = async () => {
     try {
-      const res = await fetch("/api/members");
+      const res = await fetch("/api/members", {
+        signal: abortController.signal
+      });
       const result = await res.json();
-      console.log("Fetched result", result);
 
       const rawData: Member[] = Array.isArray(result.data) ? result.data : [];
 
       if (!result.success || !rawData) {
+        setError("Failed to load member data");
         throw new Error("Invalid API response");
       }
 
       if (rawData.length === 0) {
-        console.warn("No members found");
         setFounders([]);
         setSuperSeniors([]);
         setPresentMembers([]);
@@ -157,13 +161,21 @@ export default function MembersPage() {
       setSuperSeniors(superSeniors);
       setPresentMembers(present);
     } catch (err) {
+      if(err instanceof Error && err.name === 'AbortError'){
+        return;
+      }
       console.error("Failed to fetch members", err);
+      setError("Failed to load members. Please try again later.");
     } finally {
       setLoading(false);
     }
   };
 
   fetchMembers();
+
+  return () => {
+    abortController.abort();
+  };
 }, []);
 
 

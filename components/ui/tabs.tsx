@@ -14,7 +14,9 @@ export const Tabs = ({
   tabs,
   containerClassName,
   tabClassName,
+  activeTabClassName,
   contentClassName,
+  onTabChange,
 }: {
   tabs: Tab[];
   containerClassName?: string;
@@ -27,6 +29,11 @@ export const Tabs = ({
   const [hovering, setHovering] = useState(false);
   const active = tabs[activeIndex];
 
+  const handleTabChange = (index: number) => {  
+    setActiveIndex(index);  
+    onTabChange?.(index);  
+  };
+  
   return (
     <>
       {/* Tab headers */}
@@ -41,8 +48,7 @@ export const Tabs = ({
         {tabs.map((tab, idx) => (
           <button
             key={tab.title}
-            onClick={() => setActiveIndex(idx)
-            }
+            onClick={() => handleTabChange(idx)}
             className={cn("relative pb-2 text-base sm:text-lg md:text-xl font-semibold", tabClassName)}
           >
             <span

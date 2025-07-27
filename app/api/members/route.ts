@@ -1,6 +1,8 @@
 // app/api/members/route.ts
 import { NextRequest, NextResponse } from "next/server";
 
+export const runtime = 'edge';
+
 export async function GET(req: NextRequest) {
   const apiUrl = process.env.API_BASE_URL;
 
@@ -12,12 +14,18 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const res = await fetch(`${apiUrl}/members`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      cache: "no-store",
-    });
+    const res = await fetch(`${apiUrl}/members`, {  
+      cache: "no-store",  
+      signal: AbortSignal.timeout(30000), // 30 second timeout  
+    });  
+
+    if (!res.ok) {  
+      console.error(`Upstream API returned status ${res.status}`);  
+      return NextResponse.json(  
+        { success: false, message: `Upstream API error: ${res.status}` },  
+        { status: 502 }  
+      );  
+    } 
 
     const text = await res.text();
     let data;
