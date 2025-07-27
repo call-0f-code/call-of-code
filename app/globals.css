@@ -70,3 +70,11 @@
     @apply scroll-smooth;
   }
 }
+
+/* app/globals.css */
+.no-visible-scrollbar {
+  scrollbar-width: none; /* Firefox */
+}
+.no-visible-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
