@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
-import { ChevronRight, X } from "lucide-react";
-
+import { ChevronRight, X, Loader2 } from "lucide-react";
 
 interface AchievementCardProps {
+  id: number;
   title: string;
   description: string;
   date: string;
@@ -13,6 +13,7 @@ interface AchievementCardProps {
   }[];
   isExpanded?: boolean;
   onExpand?: () => void;
+  isLoadingMembers?: boolean;
 }
 
 export default function AchievementCard({
@@ -23,6 +24,7 @@ export default function AchievementCard({
   teamMembers,
   isExpanded,
   onExpand,
+  isLoadingMembers = false,
 }: AchievementCardProps) {
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -44,15 +46,14 @@ export default function AchievementCard({
     return colors[colorIndex];
   };
 
-
   return (
     <div 
-  className={`transform-gpu transition-all duration-500 cursor-pointer ${
-    isExpanded 
-      ? "fixed inset-0 flex items-center justify-center z-[100] bg-black/50 backdrop-blur-sm" 
-      : "w-full h-full"
-  }`}
->
+      className={`transform-gpu transition-all duration-500 cursor-pointer ${
+        isExpanded 
+          ? "fixed inset-0 flex items-center justify-center z-[100] bg-black/50 backdrop-blur-sm" 
+          : "w-full h-full"
+      }`}
+    >
       <div 
         className={`transition-all duration-500 ${
           isExpanded 
@@ -69,7 +70,7 @@ export default function AchievementCard({
               <div className="w-full h-full bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border-2 border-gray-100 dark:border-gray-700 transition-all duration-300 group-hover:shadow-xl">
                 
                 {/* Image Section */}
-                <div className="relative h-50 overflow-hidden">
+                <div className="relative h-60 overflow-hidden">
                   <img 
                     src={imageSrc} 
                     alt={title} 
@@ -98,7 +99,6 @@ export default function AchievementCard({
                   <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-3 leading-relaxed">
                     {description}
                   </p>
-                  
                 </div>
               </div>
             </div>
@@ -106,83 +106,98 @@ export default function AchievementCard({
         )}
 
         {isExpanded && (
-  <div className="w-full h-full max-h-screen relative rounded-xl shadow-2xl overflow-hidden bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
-    <div className="flex flex-col sm:flex-row w-full h-full">
-      {/* Left Panel */}
-      <div className="w-full sm:w-1/2 h-1/2 sm:h-full border-b sm:border-b-0 sm:border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-        <div 
-          ref={contentRef} 
-          className="w-full h-full overflow-auto custom-scrollbar"
-        >
-          {/* Content Sections */}
-          <div className="p-6 bg-gradient-to-br from-gray-100 to-white dark:from-gray-800 dark:to-gray-900">
-            <div className="mb-4">
-              <span className="px-3 py-1.5 rounded-full text-sm font-medium bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 shadow-sm">
-                {date}
-              </span>
-            </div>
-            <h4 className="text-2xl font-bold bg-gradient-to-br from-gray-800 to-gray-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent mb-3">
-              {title}
-            </h4>
-            <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-              {description}
-            </p>
-          </div>
-
-          {/* Team Members */}
-          <div className="p-6">
-            <h5 className="text-base font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center">
-              <span className="w-6 h-0.5 bg-blue-300 dark:bg-blue-600 mr-3"></span>
-              Team Members
-            </h5>
-            <div className="grid grid-cols-2 gap-3">
-              {teamMembers.map((member, index) => (
-                <div key={index} className="group/member relative bg-gradient-to-br from-white to-slate-100 dark:from-gray-700 dark:to-gray-800 p-3 rounded-xl hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-600">
-                  <div className="relative w-12 h-12 mb-2 mx-auto rounded-full overflow-hidden ring-2 ring-blue-200 dark:ring-blue-700 ring-offset-2 ring-offset-white dark:ring-offset-gray-800">
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      onError={(e) => {
-                       e.currentTarget.src = '/default-avatar.png';
-                     }}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover/member:scale-110"
-                    />
+          <div className="w-full h-full max-h-screen relative rounded-xl shadow-2xl overflow-hidden bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700">
+            <div className="flex flex-col sm:flex-row w-full h-full">
+              {/* Left Panel */}
+              <div className="w-full sm:w-1/2 h-1/2 sm:h-full border-b sm:border-b-0 sm:border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+                <div 
+                  ref={contentRef} 
+                  className="w-full h-full overflow-auto custom-scrollbar"
+                >
+                  {/* Content Sections */}
+                  <div className="p-6 bg-gradient-to-br from-gray-100 to-white dark:from-gray-800 dark:to-gray-900">
+                    <div className="mb-4">
+                      <span className="px-3 py-1.5 rounded-full text-sm font-medium bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 shadow-sm">
+                        {date}
+                      </span>
+                    </div>
+                    <h4 className="text-2xl font-bold bg-gradient-to-br from-gray-800 to-gray-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent mb-3">
+                      {title}
+                    </h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                      {description}
+                    </p>
                   </div>
-                  <div className="text-center">
-                    <p className="text-xs font-semibold text-gray-800 dark:text-gray-100">{member.name}</p>
+
+                  {/* Team Members */}
+                  <div className="p-6">
+                    <h5 className="text-base font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center">
+                      <span className="w-6 h-0.5 bg-blue-300 dark:bg-blue-600 mr-3"></span>
+                      Team Members
+                      {isLoadingMembers && (
+                        <Loader2 className="ml-2 w-4 h-4 animate-spin text-blue-500" />
+                      )}
+                    </h5>
+                    
+                    {isLoadingMembers ? (
+                      <div className="flex items-center justify-center py-8">
+                        <div className="flex flex-col items-center space-y-2">
+                          <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+                          <p className="text-sm text-gray-500 dark:text-gray-400">Loading team members...</p>
+                        </div>
+                      </div>
+                    ) : teamMembers.length > 0 ? (
+                      <div className="grid grid-cols-2 gap-3">
+                        {teamMembers.map((member, index) => (
+                          <div key={index} className="group/member relative bg-gradient-to-br from-white to-slate-100 dark:from-gray-700 dark:to-gray-800 p-3 rounded-xl hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-600">
+                            <div className="relative w-12 h-12 mb-2 mx-auto rounded-full overflow-hidden ring-2 ring-blue-200 dark:ring-blue-700 ring-offset-2 ring-offset-white dark:ring-offset-gray-800">
+                              <img
+                                src={member.image}
+                                alt={member.name}
+                                onError={(e) => {
+                                  e.currentTarget.src = 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150';
+                                }}
+                                className="w-full h-full object-cover transition-transform duration-500 group-hover/member:scale-110"
+                              />
+                            </div>
+                            <div className="text-center">
+                              <p className="text-xs font-semibold text-gray-800 dark:text-gray-100">{member.name}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="text-center py-8">
+                        <p className="text-sm text-gray-500 dark:text-gray-400">No team members found for this achievement.</p>
+                      </div>
+                    )}
                   </div>
                 </div>
-              ))}
+              </div>
+
+              {/* Right Panel - Static Image */}
+              <div className="w-full sm:w-1/2 h-64 sm:h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-white dark:from-gray-800 dark:to-gray-900 p-4 sm:p-6">
+                <img 
+                  src={imageSrc} 
+                  alt={title} 
+                  className="w-full max-h-full object-contain rounded-xl shadow-md"
+                />
+              </div>
             </div>
+
+            {/* Close Button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onExpand?.();
+              }}
+              className="absolute top-4 right-4 p-2 bg-white dark:bg-gray-700 rounded-full hover:bg-gray-50 dark:hover:bg-gray-600 shadow-lg transition-all hover:scale-110 border border-gray-200 dark:border-gray-600"
+            >
+              <X className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+            </button>
           </div>
-
-        </div>
+        )}
       </div>
-
-      {/* Right Panel - Static Image */}
-<div className="w-full sm:w-1/2 h-64 sm:h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-white dark:from-gray-800 dark:to-gray-900 p-4 sm:p-6">
-  <img 
-    src={imageSrc} 
-    alt={title} 
-    className="w-full max-h-full object-contain rounded-xl shadow-md"
-  />
-      </div>
-    </div>
-
-    {/* Close Button */}
-    <button
-      onClick={(e) => {
-        e.stopPropagation();
-        onExpand?.();
-      }}
-      className="absolute top-4 right-4 p-2 bg-white dark:bg-gray-700 rounded-full hover:bg-gray-50 dark:hover:bg-gray-600 shadow-lg transition-all hover:scale-110 border border-gray-200 dark:border-gray-600"
-    >
-      <X className="w-5 h-5 text-gray-600 dark:text-gray-300" />
-    </button>
-  </div>
-)}
-</div>
-
 
       <style jsx>{`
         .custom-scrollbar::-webkit-scrollbar {
