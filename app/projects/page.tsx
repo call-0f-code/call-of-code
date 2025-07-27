@@ -34,13 +34,14 @@ import { SkeletonLoader } from "./skeletonLoader";
 //   );
 // };
 const Skeleton = ({ src, alt = "Preview" }: { src: string; alt?: string }) => {
-  return <>
+  const [isLoading, setIsLoading] = useState(true);
+  return ( 
+    <>
       <img
         src={src}
         alt={alt}
         className={`w-full h-full object-cover rounded-lg ${isLoading ? "hidden" : ""}`}
         onLoad={() => setIsLoading(false)}
-        onError={() => setHasError(true)}
       />
     </>
   );
