@@ -5,14 +5,19 @@ interface Project {
   id: string;
   name: string;
   // Add other fields based on your API response
-  [key: string]: any;
+  [key: string]: unknown;
+}
+
+interface Member {
+  // Define member fields if known, otherwise allow any properties
+  [key: string]: unknown;
 }
 
 interface MemberData {
-  members: any[]; // Replace `any` with your actual member type if known
+  members: Member[];
 }
 
-export async function GET(_req: NextRequest) {
+export async function GET(): Promise<NextResponse> {
   const apiUrl = process.env.API_BASE_URL;
 
   if (!apiUrl) {
@@ -33,7 +38,10 @@ export async function GET(_req: NextRequest) {
     const enrichedProjects = await Promise.all(
       projects.map(async (proj: Project) => {
         try {
-          const membersRes = await fetch(`${apiUrl}/projects/${proj.id}/members`, { cache: "no-store" });
+          const membersRes = await fetch(
+            `${apiUrl}/projects/${proj.id}/members`,
+            { cache: "no-store" }
+          );
           const membersData: MemberData = await membersRes.json();
           return { ...proj, members: membersData.members ?? [] };
         } catch {
@@ -45,6 +53,9 @@ export async function GET(_req: NextRequest) {
     return NextResponse.json({ success: true, data: enrichedProjects });
   } catch (err: unknown) {
     const errorMessage = err instanceof Error ? err.message : "Something went wrong";
-    return NextResponse.json({ success: false, message: errorMessage }, { status: 500 });
+    return NextResponse.json(
+      { success: false, message: errorMessage },
+      { status: 500 }
+    );
   }
 }
