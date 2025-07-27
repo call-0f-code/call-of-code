@@ -55,7 +55,7 @@ export async function GET(
       headers: {
         'Content-Type': 'application/json',
       },
-      cache: 'default'
+      next: { revalidate: 600 } // Cache for 10 minutes
     });
 
     if (!response.ok) {
