@@ -48,7 +48,8 @@ export const BentoGridItem = ({
   <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-[2px] rounded-xl h-full w-full">
     {/* Actual Card */}
     <div
-      className="rounded-xl p-4 h-full w-full bg-white dark:bg-black border border-transparent shadow-input dark:shadow-none flex flex-col space-y-4 overflow-hidden"
+      className="rounded-xl p-4 h-full w-full bg-white dark:bg-black border border-transparent shadow-input dark:shadow-none flex flex-col space-y-4 overflow-visible relative"
+
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -86,7 +87,7 @@ export const BentoGridItem = ({
           {title}
         </div>
         {tooltipItems && (
-          <div className="mt-2">
+          <div className="mt-2 overflow-visible">
             <AnimatedTooltip items={tooltipItems} />
           </div>
         )}
