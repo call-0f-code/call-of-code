@@ -4,8 +4,7 @@
 import { motion, useTransform, useScroll } from "framer-motion";
 import React, { useRef, useEffect, useState } from "react";
 import { Code2, Terminal, GitBranchIcon as Git, Database, Cloud, Brain } from 'lucide-react';
-import { useTheme } from "@/components/ui/theme-provider";
-import Particles from "./particles";
+
 
 const HorizontalScrollCarousel = () => {
   const targetRef = useRef<HTMLDivElement | null>(null);
@@ -91,19 +90,10 @@ const CodeBlock = ({ block, index }: { block: CodeBlockType; index: number }) =>
   };
 
   const IconComponent = block.icon || Code2;
-  const { theme } = useTheme();
-const particleColor = theme === "dark" ? "#ffffff" : "#000000";
 
   return (
     <div>
 
-        <div className="absolute inset-0 z-0 h-full w-full">
-      <Particles
-        quantity={200}
-        className="h-full w-full"
-        color={particleColor}
-      />
-    </div>
 
     
     <motion.div
