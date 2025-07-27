@@ -5,13 +5,8 @@ import { BentoGrid, BentoGridItem } from "@/components/ui/BentoCard";
 import Particles from "@/components/ui/particles";
 import { useTheme } from "@/components/ui/theme-provider";
 import Image from "next/image";
+import { Person } from "@/components/ui/animated-tooltip";
 
-interface Member {
-  id: string;
-  name: string;
-  imageUrl: string;
-  // other member fields
-}
 
 interface Project {
   id: string;
@@ -19,7 +14,7 @@ interface Project {
   imageUrl: string;
   githubUrl?: string;
   deployUrl?: string;
-  members?: Member[];
+  members?: Person[];
 }
 
 const Skeleton = ({ src, alt = "Preview" }: { src: string; alt?: string }) => {
@@ -108,7 +103,7 @@ const ProjectPage: React.FC = () => {
                   tooltipItems={project.members?.map((member) => ({
                     id: member.id,
                     name: member.name,
-                    image: member.imageUrl || "/default-avatar.png",
+                    image: member.image || "/default-avatar.png",
                   }))}
                   className={i === 3 || i === 6 ? "md:col-span-2" : ""}
                 />

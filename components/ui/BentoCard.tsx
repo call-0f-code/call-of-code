@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Github, ExternalLink } from "lucide-react";
 import { AnimatedTooltip } from "./animated-tooltip";
 import { MemberSkeleton } from "@/app/projects/skeletonLoader";
-
+import { Person } from "./animated-tooltip";
 export const BentoGrid = ({
   className,
   children,
@@ -33,11 +33,7 @@ export const BentoGridItem = ({
   header?: React.ReactNode;
   github?: string;
   live?: string;
-  tooltipItems?: Array<{
-    id: number | string;
-    name: string;
-    image: string;
-  }>;
+  tooltipItems?: Array<Person>;
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
