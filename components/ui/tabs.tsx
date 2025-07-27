@@ -46,7 +46,7 @@ export const Tabs = ({
         {tabs.map((tab, idx) => (
           <button
             key={tab.value}
-            onClick={() => moveSelectedTabToTop(idx)}
+            onClick={() => handleTabChange(idx)}
             onMouseEnter={() => setHovering(true)}
             onMouseLeave={() => setHovering(false)}
             className="relative pb-2 sm:text-sm md:text-md font-semibold text-white transition-colors"
