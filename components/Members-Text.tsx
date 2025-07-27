@@ -103,7 +103,6 @@ export default function MembersPage() {
   const [presentMembers, setPresentMembers] = useState<DisplayMember[]>([]);
   const [superSeniors, setSuperSeniors] = useState<DisplayMember[]>([]);
   const [founders, setFounders] = useState<DisplayMember[]>([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -166,8 +165,6 @@ export default function MembersPage() {
         }
         console.error("Failed to fetch members", err);
         setError("Failed to load members. Please try again later.");
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -198,13 +195,7 @@ export default function MembersPage() {
     },
   ];
 
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center text-lg text-center">
-        Loading members...
-      </div>
-    );
-  }
+
 
   if (error) {
     return (
