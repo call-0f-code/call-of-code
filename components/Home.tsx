@@ -160,7 +160,7 @@ export default function HeroSection() {
       <h2 className="mt-28 font-press bg-clip-text text-transparent text-center bg-gradient-to-r from-red-600 via-purple-600 to-blue-500 dark:from-red-600 dark:via-purple-600 dark:to-blue-500 text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl relative z-20 font-bold tracking-tight leading-tight mb-8 px-4">
         &lt;CALL OF CODE /&gt;
       </h2>
-      <p className="max-w-lg text-xs sm:text-xs md:text-sm lg:text-md xl:text-lg text-neutral-700 dark:text-neutral-400 text-center leading-relaxed mb-8 tracking-tight">
+      <p className="max-w-lg text-xs sm:text-xs md:text-sm lg:text-base xl:text-lg text-neutral-700 dark:text-neutral-400 text-center leading-relaxed mb-8 tracking-tight">
         Welcome to Call of Code! Join us to explore, innovate, and collaborate on exciting projects while enhancing your coding skills through workshops, hackathons, and peer learning.
       </p>
       <div className="hidden md:block">

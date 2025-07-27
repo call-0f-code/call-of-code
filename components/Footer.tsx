@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const pressStart2P = localFont({
   src: "../app/fonts/PressStart2P-Regular.ttf",
   display: "swap",
-  variable: "--font-pressstart",
+  variable: "--font-press-start",
 });
 
 const Footer = () => {
