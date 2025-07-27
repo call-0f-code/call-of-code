@@ -13,13 +13,11 @@ type Tab = {
 export const Tabs = ({
   tabs,
   containerClassName,
-  tabClassName,
   contentClassName,
   onTabChange,
 }: {
   tabs: Tab[];
   containerClassName?: string;
-  tabClassName?: string;
   contentClassName?: string;
   onTabChange?: (index: number) => void;
 }) => {
