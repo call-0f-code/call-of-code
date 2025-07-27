@@ -233,19 +233,22 @@ export default function MembersPage() {
 
           <main className="container mx-auto px-6 py-10 space-y-12">
             <div className="relative w-full aspect-[3/1] sm:aspect-[16/5] md:aspect-[16/4] lg:aspect-[16/3] xl:aspect-[16/3] overflow-hidden rounded-2xl">
-              <Image
-                src="/coc.jpg"
-                alt="Members group photo"
-                fill
-                priority
-                className="object-cover brightness-75"
-              />
-              <div className="absolute inset-0 flex items-center justify-center bg-black/20 px-4 text-center">
-                <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-wide text-white drop-shadow-lg mt-36">
-                  MEMBERS
-                </h1>
-              </div>
-            </div>
+
+  <Image
+    src="/coc.jpg"
+    alt="Members group photo"
+    fill
+    priority
+    className="object-cover brightness-75"
+  />
+  <div className="absolute inset-0 flex items-center justify-center bg-black/20 px-4 text-center">
+    <h2 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-wide text-white drop-shadow-lg mt-36">
+      MEMBERS
+    </h2>
+  </div>
+</div>
+
+            {/* Progress Bar */}
 
             <TabProgressBar index={activeTabIndex} total={tabs.length} />
 

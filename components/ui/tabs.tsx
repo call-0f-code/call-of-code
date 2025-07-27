@@ -13,13 +13,11 @@ type Tab = {
 export const Tabs = ({
   tabs,
   containerClassName,
-  tabClassName,
   contentClassName,
   onTabChange,
 }: {
   tabs: Tab[];
   containerClassName?: string;
-  tabClassName?: string;
   contentClassName?: string;
   onTabChange?: (index: number) => void;
 }) => {
@@ -45,9 +43,12 @@ export const Tabs = ({
       >
         {tabs.map((tab, idx) => (
           <button
-            key={tab.title}
+            key={tab.value}
             onClick={() => handleTabChange(idx)}
-            className={cn("relative pb-2 text-base sm:text-lg md:text-xl font-semibold", tabClassName)}
+            onMouseEnter={() => setHovering(true)}
+            onMouseLeave={() => setHovering(false)}
+            className="relative pb-2 sm:text-sm md:text-md font-semibold text-white transition-colors"
+
           >
             <span
               className={cn(

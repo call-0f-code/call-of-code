@@ -60,7 +60,7 @@ export default function AboutUs() {
     <>
   
       
-      <section className="max-w-6xl mx-auto px-4 pb-20 mt-20">
+      <section className="max-w-7xl  mx-auto px-4 pb-20 mt-20">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-8">
           <div>
             <h2 className="text-4xl font-bold mb-2">About Us</h2>
@@ -95,22 +95,22 @@ export default function AboutUs() {
             whileHover={{ scale: 1.04 }}
             viewport={{ once: true }}
           >
-            <div className="text-3xl font-bold mb-2">Open Source</div>
-            <div className="text-lg mb-4">Encouraging contributions to open-source projects and building impactful software for the community.</div>
+            <div className="text-2xl font-bold mb-3">Open Source</div>
+            <div className="text-sm mb-4">Encouraging contributions to open-source projects and building impactful software for the community.</div>
             <div className="absolute bottom-6 right-6 opacity-80">
               {whyChooseUs[1].icon}
             </div>
           </motion.div>
           <motion.div
-            className="rounded-2xl dark:bg-gradient-to-br dark:from-[#23234a] dark:to-[#181829] dark:text-white  p-8 border-2 border-purple-700 flex flex-col justify-between min-h-[180px] shadow-lg relative overflow-hidden"
+            className="rounded-2xl dark:bg-gradient-to-br w-auto dark:from-[#23234a] dark:to-[#181829] dark:text-white  p-8 border-2 border-purple-700 flex flex-col justify-between min-h-[180px] shadow-lg relative overflow-hidden"
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, type: "spring" }}
             whileHover={{ scale: 1.04 }}
             viewport={{ once: true }}
           >
-            <div className="text-3xl font-bold mb-2">Learning Opportunities</div>
-            <div className="text-lg mb-4"> Peer-to-peer sessions to upskill and stay ahead in the tech world.</div>
+            <div className="text-lg font-bold mb-2 ">Learning Opportunities</div>
+            <div className="text-sm mb-4"> Peer-to-peer sessions to upskill and stay ahead in the tech world.</div>
             <div className="absolute bottom-6 right-6 opacity-80">
               {whyChooseUs[2].icon}
             </div>
@@ -123,8 +123,8 @@ export default function AboutUs() {
             whileHover={{ scale: 1.04 }}
             viewport={{ once: true }}
           >
-            <div className="text-3xl font-bold mb-2">Hackathons</div>
-            <div className="text-lg mb-4">Organizing and participating in hackathons to solve real-world problems and innovate as a team.</div>
+            <div className="text-2xl font-bold mb-2">Hackathons</div>
+            <div className="text-base mb-4">Organizing and participating in hackathons to solve real-world problems and innovate as a team.</div>
             <div className="absolute bottom-6 right-6 opacity-80">
               {whyChooseUs[3].icon}
             </div>
@@ -138,8 +138,8 @@ export default function AboutUs() {
             whileHover={{ scale: 1.04 }}
             viewport={{ once: true }}
           >
-            <div className="text-3xl font-bold mb-2">Our Vision</div>
-            <div className="text-lg mb-4">To develop a healthy and competitive coding culture where members learn and take inspiration frome each other.</div>
+            <div className="text-2xl font-bold mb-3">Our Vision</div>
+            <div className="text-base mb-4">To develop a healthy and competitive coding culture where members learn and take inspiration frome each other.</div>
             <div className="absolute bottom-6 right-6 opacity-80">
               {whyChooseUs[4].icon}
             </div>
@@ -152,8 +152,8 @@ export default function AboutUs() {
             whileHover={{ scale: 1.04 }}
             viewport={{ once: true }}
           >
-            <div className="text-3xl font-bold mb-2">Community & Collaboration</div>
-            <div className="text-lg mb-4">Building a supportive network where members help each other grow and succeed together.</div>
+            <div className="text-2xl font-bold mb-2">Community & Collaboration</div>
+            <div className="text-base mb-4">Building a supportive network where members help each other grow and succeed together.</div>
             <div className="absolute bottom-6 right-6 opacity-80">
               {whyChooseUs[5].icon}
             </div>
