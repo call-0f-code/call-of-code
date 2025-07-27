@@ -1,41 +1,67 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import { BentoGrid, BentoGridItem } from "@/components/ui/BentoCard";
 import Particles from "@/components/ui/particles";
 import { useTheme } from "@/components/ui/theme-provider";
 import Image from "next/image";
+import { SkeletonLoader,MemberSkeleton } from "./skeletonLoader";
 
+// const Skeleton = ({ src, alt = "Preview" }: { src: string; alt?: string }) => {
+//   const [isLoading, setIsLoading] = useState(true);
+//   const [isMemberLoading, setIsMemberLoading] = useState(true);
+//   const [hasError, setHasError] = useState(false);
+
+//   if (hasError) {
+//     return (
+//       <div className="w-full h-full bg-gray-200 dark:bg-gray-800 rounded-lg flex items-center justify-center">
+//         <span className="text-gray-500">Failed to load image</span>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <>
+//       {isLoading && (
+//         <div className="w-full h-full bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse" />
+//       )}
+//       <img
+    //      src={src}
+    //      alt={alt}
+    //      className="w-full h-full object-cover rounded-lg"
+    //  />
+//     </>
+//   );
+// };
 const Skeleton = ({ src, alt = "Preview" }: { src: string; alt?: string }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
-
-  if (hasError) {
-    return (
-      <div className="w-full h-full bg-gray-200 dark:bg-gray-800 rounded-lg flex items-center justify-center">
-        <span className="text-gray-500">Failed to load image</span>
-      </div>
-    );
-  }
-
-  return (
-    <>
-      {isLoading && (
-        <div className="w-full h-full bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse" />
-      )}
+  return <>
       <img
-        src={src}
-        alt={alt}
-        className={`w-full h-full object-cover rounded-lg ${isLoading ? 'hidden' : ''}`}
-        onLoad={() => setIsLoading(false)}
-        onError={() => setHasError(true)}
-      />
-    </>
-  );
-};
+         src={src}
+         alt={alt}
+         className="w-full h-full object-cover rounded-lg"
+     />
+  </>
+}
 
 const ProjectPage = () => {
   const { theme } = useTheme();
+  const [loading, setLoading] = useState(true);
+  const [memberLoading, setMemberLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
+    const memberTimer = setTimeout(() => {
+      setMemberLoading(false);
+    }, 5000);
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(memberTimer);
+    }
+  }, []);
 
   return (
     <div className={`relative min-h-screen w-full ${theme === "dark" ? "bg-black" : "bg-white"}`}>
@@ -76,16 +102,21 @@ const ProjectPage = () => {
 
           {/* Bento Grid */}
           <BentoGrid>
-            {items.map((item, i) => (
+            {loading ?  (
+              Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className={i === 3 || i === 6 ? "md:col-span-2" : ""}>
+                  <SkeletonLoader/>
+                </div>
+              ))
+            ) : items.map((item, i) => (
               <BentoGridItem
                 key={i}
                 title={item.title}
                 header={item.header}
                 github={item.github}
                 live={item.live}
-                tooltipItems={item.tooltipItems}
-                className={i === 3 || i === 6 ? "md:col-span-2" : ""}
-              />
+                tooltipItems={memberLoading ? undefined : item.tooltipItems}
+                className={i === 3 || i === 6 ? "md:col-span-2" : ""}/>
             ))}
           </BentoGrid>
         </main>
