@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { motion } from "framer-motion";
 import Particles from './ui/particles';
 import { useTheme } from "@/components/ui/theme-provider";
+import { cn } from '@/lib/utils';
 
 const TabProgressBar = ({ index, total }: { index: number; total: number }) => {
   const barWidth = 100 / total;
@@ -107,15 +108,32 @@ const presentMembersData = [
   },
 ];
 
-const MemberGrid = ({ members }: { members: typeof foundersData }) => {
+const MemberGrid = ({
+  members,
+  isFounder = false,
+}: {
+  members: typeof foundersData;
+  isFounder?: boolean;
+}) => {
   const isCompact = members.length < 4;
 
   return (
-    <div className="relative bg-gradient-to-r from-[rgba(139,92,246,1)] to-[rgba(233,30,99,1)] rounded-2xl shadow-xl p-6 border border-gray-300 dark:border-gray-700 min-h-[820px]">
+ <div
+      className={cn(
+        "relative rounded-2xl shadow-xl border border-gray-300 dark:border-gray-700 min-h-[820px] flex items-center justify-center",
+        isFounder ? "p-0" : "p-6" // remove padding for founders
+      )}
+    >
       {isCompact ? (
-        <div className="flex justify-center gap-6 flex-wrap">
+        <div className="flex flex-wrap justify-center items-center gap-10">
           {members.map((member, index) => (
-            <div key={index} className="w-full sm:w-[300px]">
+            <div
+              key={index}
+              className={cn(
+                "w-full",
+                isFounder ? "sm:w-[440px]" : "sm:w-[320px]"
+              )}
+            >
               <MembersCard
                 name={member.name}
                 imageSrc={member.imageSrc}
@@ -126,7 +144,7 @@ const MemberGrid = ({ members }: { members: typeof foundersData }) => {
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
           {members.map((member, index) => (
             <div key={index} className="w-full sm:w-[300px]">
               <MembersCard
@@ -140,8 +158,11 @@ const MemberGrid = ({ members }: { members: typeof foundersData }) => {
         </div>
       )}
     </div>
-  );
+ );
 };
+
+
+
 
 export default function MembersPage() {
 
@@ -162,7 +183,7 @@ export default function MembersPage() {
     {
       title: "Founders",
       value: "founders",
-      content: <MemberGrid members={foundersData} />,
+      content: <MemberGrid members={foundersData} isFounder={true}/>,
     },
   ];
 
@@ -170,11 +191,11 @@ export default function MembersPage() {
 
   return (
     <div>
-      <div className={`relative min-h-screen w-full ${theme === "dark" ? "bg-black" : "bg-white"}`}>
+      <div className={`relative min-h-screen w-full h-full ${theme === "dark" ? "bg-black" : "bg-white"}`}>
   <Particles
     quantity={500}
     color={theme === "dark" ? "#ffffff" : "#000000"}
-    className="absolute inset-0 z-0"
+    className="absolute inset-0 z-0 h-full w-full"
     size={1.5}
     staticity={50}
     ease={40}
@@ -195,27 +216,26 @@ export default function MembersPage() {
           {/* Main Section */}
           <main className="container mx-auto px-6 py-10 space-y-12">
             {/* Hero Section */}
-            <div className="relative overflow-hidden rounded-2xl">
+            <div className="relative w-full aspect-[3/1] sm:aspect-[16/5] md:aspect-[16/4] lg:aspect-[16/3] xl:aspect-[16/3] overflow-hidden rounded-2xl">
   <Image
     src="/coc.jpg"
-    width={800}
-    height={400}
     alt="Members group photo"
-    className="w-full h-64 sm:h-80 object-cover brightness-75"
+    fill
+    priority
+    className="object-cover brightness-75"
   />
-  <div className="absolute inset-0 flex bg-black/10 items-center justify-center">
-    <h1 className="text-4xl sm:text-6xl font-extrabold tracking-wider text-white drop-shadow-lg mt-24 sm:mt-32">
+  <div className="absolute inset-0 flex items-center justify-center bg-black/20 px-4 text-center">
+    <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-wide text-white drop-shadow-lg mt-36">
       MEMBERS
     </h1>
   </div>
 </div>
 
-
             {/* Progress Bar */}
             <TabProgressBar index={activeTabIndex} total={tabs.length} />
 
             {/* Tabs Section */}
-            <div className="relative z-10 min-h-[700px] overflow-visible px-4 sm:px-6">
+            <div className="relative z-10 min-h-[700px] overflow-visible px-4 sm:px-6 mt-10">
   <Tabs
     tabs={tabs}
     containerClassName="mb-8"
