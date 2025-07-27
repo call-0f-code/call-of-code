@@ -34,7 +34,7 @@ export const BentoGridItem = ({
   github?: string;
   live?: string;
   tooltipItems?: Array<{
-    id: number;
+    id: number | string;
     name: string;
     image: string;
   }>;

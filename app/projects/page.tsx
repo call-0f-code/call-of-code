@@ -5,37 +5,26 @@ import { BentoGrid, BentoGridItem } from "@/components/ui/BentoCard";
 import Particles from "@/components/ui/particles";
 import { useTheme } from "@/components/ui/theme-provider";
 import Image from "next/image";
-import { SkeletonLoader } from "./skeletonLoader";
 
-// const Skeleton = ({ src, alt = "Preview" }: { src: string; alt?: string }) => {
-//   const [isLoading, setIsLoading] = useState(true);
-//   const [isMemberLoading, setIsMemberLoading] = useState(true);
-//   const [hasError, setHasError] = useState(false);
+interface Member {
+  id: string;
+  name: string;
+  imageUrl: string;
+  // other member fields
+}
 
-//   if (hasError) {
-//     return (
-//       <div className="w-full h-full bg-gray-200 dark:bg-gray-800 rounded-lg flex items-center justify-center">
-//         <span className="text-gray-500">Failed to load image</span>
-//       </div>
-//     );
-//   }
+interface Project {
+  id: string;
+  name: string;
+  imageUrl: string;
+  githubUrl?: string;
+  deployUrl?: string;
+  members?: Member[];
+}
 
-//   return (
-//     <>
-//       {isLoading && (
-//         <div className="w-full h-full bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse" />
-//       )}
-//       <img
-    //      src={src}
-    //      alt={alt}
-    //      className="w-full h-full object-cover rounded-lg"
-    //  />
-//     </>
-//   );
-// };
 const Skeleton = ({ src, alt = "Preview" }: { src: string; alt?: string }) => {
   const [isLoading, setIsLoading] = useState(true);
-  return ( 
+  return (
     <>
       <img
         src={src}
@@ -47,9 +36,9 @@ const Skeleton = ({ src, alt = "Preview" }: { src: string; alt?: string }) => {
   );
 };
 
-const ProjectPage = () => {
+const ProjectPage: React.FC = () => {
   const { theme } = useTheme();
-  const [projects, setProjects] = useState<any[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -58,7 +47,7 @@ const ProjectPage = () => {
         const res = await fetch("/api/projects-with-members");
         const data = await res.json();
         if (data.success) {
-          setProjects(data.data);
+          setProjects(data.data as Project[]);
         } else {
           console.error("Error loading project data");
         }
@@ -70,7 +59,6 @@ const ProjectPage = () => {
     };
 
     fetchProjects();
-
   }, []);
 
   return (
@@ -114,15 +102,10 @@ const ProjectPage = () => {
                 <BentoGridItem
                   key={project.id}
                   title={project.name}
-                  header={
-                    <Skeleton
-                      src={project.imageUrl}
-                      alt={project.name}
-                    />
-                  }
+                  header={<Skeleton src={project.imageUrl} alt={project.name} />}
                   github={project.githubUrl}
                   live={project.deployUrl}
-                  tooltipItems={project.members?.map((member: any) => ({
+                  tooltipItems={project.members?.map((member) => ({
                     id: member.id,
                     name: member.name,
                     image: member.imageUrl || "/default-avatar.png",
@@ -132,7 +115,6 @@ const ProjectPage = () => {
               ))}
             </BentoGrid>
           )}
-
         </main>
       </div>
     </div>
