@@ -1,5 +1,6 @@
 // app/api/projects-with-members/route.ts
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+export const runtime = 'edge';
 
 interface Project {
   id: string;
