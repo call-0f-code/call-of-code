@@ -5,6 +5,9 @@ import { FaTwitter, FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 import Link from "next/link";
 import localFont from "next/font/local";
 import { motion, AnimatePresence } from "framer-motion";
+import Particles from "./ui/particles";
+import { useTheme } from "@/components/ui/theme-provider";
+
 
 const pressStart2P = localFont({
   src: "../app/fonts/PressStart2P-Regular.ttf",
@@ -13,6 +16,9 @@ const pressStart2P = localFont({
 });
 
 const Footer = () => {
+  const { theme } = useTheme();
+const particleColor = theme === "dark" ? "#ffffff" : "#000000";
+
 
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const cards = [
@@ -89,15 +95,21 @@ const Footer = () => {
   ))}
 </div>
 
+
       ),
     },
   ];
 
   return (
     <footer
-      className={`${pressStart2P.className} w-full min-h-screen bg-white dark:bg-black text-black dark:text-white flex flex-col`}
-    >
-      <div className="max-w-6xl mx-auto px-4 sm:px-8 flex-grow flex flex-col justify-evenly py-12">
+  className={`${pressStart2P.className} relative w-full min-h-screen bg-white dark:bg-black text-black dark:text-white flex flex-col overflow-hidden`}
+>
+
+      <div className="absolute inset-0 z-0 pointer-events-none">
+    <Particles quantity={400} color={particleColor} />
+  </div>
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-8 flex-grow flex flex-col justify-evenly py-12">
+
         {/* Header */}
         <div className="text-center">
           <h1 className="whitespace-nowrap text-[1.25rem] sm:text-3xl md:text-5xl lg:text-6xl leading-relaxed">
