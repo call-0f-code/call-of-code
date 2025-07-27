@@ -19,7 +19,6 @@ export const Tabs = ({
 }: {
   tabs: Tab[];
   containerClassName?: string;
-  activeTabClassName?: string;
   tabClassName?: string;
   contentClassName?: string;
   onTabChange?: (index: number) => void;
