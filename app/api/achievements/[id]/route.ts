@@ -1,6 +1,9 @@
 // app/api/achievements/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 
+
+export const runtime = 'edge';
+
 interface Member {
   member: {
     id: string;
@@ -52,7 +55,7 @@ export async function GET(
       headers: {
         'Content-Type': 'application/json',
       },
-      next: { revalidate: 600 } // Cache for 10 minutes
+      cache: 'default'
     });
 
     if (!response.ok) {
