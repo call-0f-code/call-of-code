@@ -56,6 +56,19 @@ export default function HeroSection() {
     },
   };
 
+  const buttonStyles = `
+  ${pressStart2P.className} 
+  relative bg-gradient-to-r from-red-600 via-purple-600 to-blue-500 
+  dark:from-red-600 dark:via-purple-600 dark:to-blue-500 
+  text-black dark:text-white font-extrabold 
+  border-2 border-black dark:border-white
+  px-6 py-3 rounded-none
+  shadow-[6px_6px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_rgba(255,255,255,1)]
+  hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] dark:hover:shadow-[8px_8px_0px_rgba(255,255,255,1)]
+  active:translate-x-0.5 active:translate-y-0.5
+  transition-all duration-200 mb-32
+`.replace(/\s+/g, ' ').trim();
+
   return (
     <div className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-background">
       <motion.svg
@@ -166,16 +179,15 @@ export default function HeroSection() {
       </motion.svg>
       
      <Button
-      onClick={() => console.log('Clicked!')}
-      className={`${pressStart2P.className} relative bg-gradient-to-r from-red-600 via-purple-600 to-blue-500 dark:from-red-600 dark:via-purple-600 dark:to-blue-500 dark:bg-black text-black dark:text-white font-extrabold border-2 border-black dark:border-white
-  px-6 py-3 rounded-none
-  shadow-[6px_6px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_rgba(255,255,255,1)]
-  hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] dark:hover:shadow-[8px_8px_0px_rgba(255,255,255,1)]
-  active:translate-x-0.5 active:translate-y-0.5
-  transition-all duration-200 mb-32`}
-    >
-      Register Now!
-    </Button>
+  onClick={() => {
+    window.open("https://forms.gle/qME3Qh1Skj7JvsBr9", "_blank");
+  }}
+  className={buttonStyles}
+  aria-label="Register for Call of Code event"
+>
+  Register Now!
+</Button>
+
 
 
 
