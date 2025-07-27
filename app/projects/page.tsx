@@ -5,24 +5,36 @@ import { BentoGrid, BentoGridItem } from "@/components/ui/BentoCard";
 import Particles from "@/components/ui/particles";
 import { useTheme } from "@/components/ui/theme-provider";
 import Image from "next/image";
+import { SkeletonLoader } from "./skeletonLoader";
 
+// const Skeleton = ({ src, alt = "Preview" }: { src: string; alt?: string }) => {
+//   const [isLoading, setIsLoading] = useState(true);
+//   const [isMemberLoading, setIsMemberLoading] = useState(true);
+//   const [hasError, setHasError] = useState(false);
+
+//   if (hasError) {
+//     return (
+//       <div className="w-full h-full bg-gray-200 dark:bg-gray-800 rounded-lg flex items-center justify-center">
+//         <span className="text-gray-500">Failed to load image</span>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <>
+//       {isLoading && (
+//         <div className="w-full h-full bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse" />
+//       )}
+//       <img
+    //      src={src}
+    //      alt={alt}
+    //      className="w-full h-full object-cover rounded-lg"
+    //  />
+//     </>
+//   );
+// };
 const Skeleton = ({ src, alt = "Preview" }: { src: string; alt?: string }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
-
-  if (hasError) {
-    return (
-      <div className="w-full h-full bg-gray-200 dark:bg-gray-800 rounded-lg flex items-center justify-center">
-        <span className="text-gray-500">Failed to load image</span>
-      </div>
-    );
-  }
-
-  return (
-    <>
-      {isLoading && (
-        <div className="w-full h-full bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse" />
-      )}
+  return <>
       <img
         src={src}
         alt={alt}
@@ -57,6 +69,7 @@ const ProjectPage = () => {
     };
 
     fetchProjects();
+
   }, []);
 
   return (
@@ -118,6 +131,7 @@ const ProjectPage = () => {
               ))}
             </BentoGrid>
           )}
+
         </main>
       </div>
     </div>

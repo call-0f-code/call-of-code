@@ -1,13 +1,29 @@
 "use client";
 
-import { useState } from 'react';
-import { Tabs } from './ui/tabs';
-import MembersCard from './ui/members-card';
-import Image from 'next/image';
+import { useState, useEffect } from "react";
+import { Tabs } from "./ui/tabs";
+import MembersCard from "./ui/members-card";
+import Image from "next/image";
 import { motion } from "framer-motion";
-import Particles from './ui/particles';
+import Particles from "./ui/particles";
 import { useTheme } from "@/components/ui/theme-provider";
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
+
+type Member = {
+  name: string;
+  profilePhoto?: string;
+  github: string;
+  linkedin: string;
+  passoutYear: number;
+  isApproved: boolean;
+};
+
+type DisplayMember = {
+  name: string;
+  imageSrc: string;
+  githubLink: string;
+  linkedinLink: string;
+};
 
 const TabProgressBar = ({ index, total }: { index: number; total: number }) => {
   const barWidth = 100 / total;
@@ -18,110 +34,29 @@ const TabProgressBar = ({ index, total }: { index: number; total: number }) => {
         <motion.div
           className="absolute h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
           initial={false}
-          animate={{
-            left: `${(index * barWidth)}%`,
-          }}
+          animate={{ left: `${index * barWidth}%` }}
           transition={{ type: "spring", stiffness: 300, damping: 25 }}
-          style={{
-            width: `${barWidth}%`,
-          }}
+          style={{ width: `${barWidth}%` }}
         />
       </div>
     </div>
   );
 };
 
-
-// Sample member data organized by categories
-const foundersData = [
-  {
-    name: "John Doe (Founder)",
-    imageSrc: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400",
-    githubLink: "https://github.com/johndoe",
-    linkedinLink: "https://www.linkedin.com/in/johndoe/",
-  },
-  {
-    name: "Jane Smith (Co-Founder)",
-    imageSrc: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=400",
-    githubLink: "https://github.com/janesmith",
-    linkedinLink: "https://www.linkedin.com/in/janesmith/",
-  },
-];
-
-const superSeniorsData = [
-  {
-    name: "Alex Johnson(Ex-President)",
-    imageSrc: "https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=400",
-    githubLink: "https://github.com/alexjohnson",
-    linkedinLink: "https://www.linkedin.com/in/alexjohnson/",
-  },
-  {
-    name: "Sarah Wilson (Ex-VP)",
-    imageSrc: "https://images.pexels.com/photos/1181519/pexels-photo-1181519.jpeg?auto=compress&cs=tinysrgb&w=400",
-    githubLink: "https://github.com/sarahwilson",
-    linkedinLink: "https://www.linkedin.com/in/sarahwilson/",
-  },
-  {
-    name: "Mike Brown (Ex-Secretary)",
-    imageSrc: "https://images.pexels.com/photos/1043471/pexels-photo-1043471.jpeg?auto=compress&cs=tinysrgb&w=400",
-    githubLink: "https://github.com/mikebrown",
-    linkedinLink: "https://www.linkedin.com/in/mikebrown/",
-  },
-];
-
-const presentMembersData = [
-  {
-    name: "Sarvesh Shahane (President)",
-    imageSrc: "/sarvesh.jpg",
-    githubLink: "https://github.com/This-Is-My-GitHub-Account",
-    linkedinLink: "https://www.linkedin.com/in/sarveshshahane/?originalSubdomain=in",
-  },
-  {
-    name: "Vansh Waldeo (Vice President)",
-    imageSrc: "/vansh.jpg",
-    githubLink: "https://github.com/VanshKing30",
-    linkedinLink: "https://www.linkedin.com/in/vansh-waldeo-81ab31285/",
-  },
-  {
-    name: "Shivaji Raut (CP Head)",
-    imageSrc: "/shivaji.jpg",
-    githubLink: "https://github.com/shivaji43",
-    linkedinLink: "https://www.linkedin.com/in/shivajiraut/",
-  },
-  {
-    name: "Aditya Modak (Secretary)",
-    imageSrc: "/modak.jpg",
-    githubLink: "https://github.com/shivaji43",
-    linkedinLink: "https://www.linkedin.com/in/aditya-modak-42a684250/",
-  },
-  {
-    name: "Sanica Chorey (Secretary)",
-    imageSrc: "/sanica.jpg",
-    githubLink: "https://github.com/shivaji43",
-    linkedinLink: "https://www.linkedin.com/in/swaraj-pawar-webdev/",
-  },
-  {
-    name: "Swaraj Pawar",
-    imageSrc: "/swaraj.jpg",
-    githubLink: "https://github.com/Swaraj-23",
-    linkedinLink: "https://www.linkedin.com/in/swaraj-pawar-webdev/",
-  },
-];
-
 const MemberGrid = ({
   members,
   isFounder = false,
 }: {
-  members: typeof foundersData;
+  members: DisplayMember[];
   isFounder?: boolean;
 }) => {
   const isCompact = members.length < 4;
 
   return (
- <div
+    <div
       className={cn(
         "relative rounded-2xl shadow-xl border border-gray-300 dark:border-gray-700 min-h-[820px] flex items-center justify-center",
-        isFounder ? "p-0" : "p-6" // remove padding for founders
+        isFounder ? "p-0" : "p-6"
       )}
     >
       {isCompact ? (
@@ -158,91 +93,170 @@ const MemberGrid = ({
         </div>
       )}
     </div>
- );
+  );
 };
 
-
-
-
 export default function MembersPage() {
-
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const { theme } = useTheme();
 
+  const [presentMembers, setPresentMembers] = useState<DisplayMember[]>([]);
+  const [superSeniors, setSuperSeniors] = useState<DisplayMember[]>([]);
+  const [founders, setFounders] = useState<DisplayMember[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const abortController = new AbortController();
+
+    const fetchMembers = async () => {
+      try {
+        const res = await fetch("/api/members", {
+          signal: abortController.signal
+        });
+        if (!res.ok) {
+          setError(`Error ${res.status}: ${res.statusText}`);
+          throw new Error("Network response was not ok");
+        }
+        const result = await res.json();
+
+        const rawData: Member[] = Array.isArray(result.data) ? result.data : [];
+
+        if (!result.success) {
+          setError("Failed to load member data");
+          throw new Error("Invalid API response");
+        }
+
+        if (rawData.length === 0) {
+          setFounders([]);
+          setSuperSeniors([]);
+          setPresentMembers([]);
+          return;
+        }
+
+        const currentYear = new Date().getFullYear();
+
+        const approved = rawData.filter((m) => m.isApproved);
+
+        const format = (m: Member): DisplayMember => ({
+          name: m.name,
+          imageSrc: m.profilePhoto ?? "/fallback.jpg",
+          githubLink: m.github ?? "#",
+          linkedinLink: m.linkedin ?? "#",
+        });
+
+        const foundersList = approved
+          .filter((m) => new Date(m.passoutYear).getFullYear() === 2024)
+          .map(format);
+
+        const superSeniorsList = approved
+          .filter((m) => new Date(m.passoutYear).getFullYear() === currentYear)
+          .map(format);
+
+        const presentList = approved
+          .filter((m) => new Date(m.passoutYear).getFullYear() > currentYear)
+          .map(format);
+
+        setFounders(foundersList);
+        setSuperSeniors(superSeniorsList);
+        setPresentMembers(presentList);
+      } catch (err) {
+        if (err instanceof Error && err.name === 'AbortError') {
+          return;
+        }
+        console.error("Failed to fetch members", err);
+        setError("Failed to load members. Please try again later.");
+      }
+    };
+
+    fetchMembers();
+
+    return () => {
+      abortController.abort();
+    };
+  }, []);
+
+
+  
   const tabs = [
     {
       title: "Present Members",
       value: "present",
-      content: <MemberGrid members={presentMembersData} />,
+      content: <MemberGrid members={presentMembers} />,
     },
     {
       title: "Super Seniors",
       value: "seniors",
-      content: <MemberGrid members={superSeniorsData} />,
+      content: <MemberGrid members={superSeniors} />,
     },
     {
       title: "Founders",
       value: "founders",
-      content: <MemberGrid members={foundersData} isFounder={true}/>,
+      content: <MemberGrid members={founders} isFounder={true} />,
     },
   ];
 
-  
+
+
+  if (error) {
+    return (
+      <div className="flex min-h-screen items-center justify-center text-lg text-center text-red-500 px-4">
+        {error}
+      </div>
+    );
+  }
 
   return (
     <div>
-      <div className={`relative min-h-screen w-full h-full ${theme === "dark" ? "bg-black" : "bg-white"}`}>
-  <Particles
-    quantity={500}
-    color={theme === "dark" ? "#ffffff" : "#000000"}
-    className="absolute inset-0 z-0 h-full w-full"
-    size={1.5}
-    staticity={50}
-    ease={40}
-  />  
-        {/* Content */}
+      <div
+        className={`relative min-h-screen w-full h-full ${
+          theme === "dark" ? "bg-black" : "bg-white"
+        }`}
+      >
+        <Particles
+          quantity={500}
+          color={theme === "dark" ? "#ffffff" : "#000000"}
+          className="absolute inset-0 z-0 h-full w-full"
+          size={1.5}
+          staticity={50}
+          ease={40}
+        />
         <div className="min-h-screen">
-          {/* Header */}
           <header className="flex justify-center p-6">
-  <Image
-    src="/coc-logo.jpg"
-    alt="COC Logo"
-    width={80}
-    height={80}
-    className="rounded-md object-contain invert dark:invert-0"
-  />
-</header>
+            <Image
+              src="/coc-logo.jpg"
+              alt="COC Logo"
+              width={80}
+              height={80}
+              className="rounded-md object-contain invert dark:invert-0"
+            />
+          </header>
 
-          {/* Main Section */}
           <main className="container mx-auto px-6 py-10 space-y-12">
-            {/* Hero Section */}
             <div className="relative w-full aspect-[3/1] sm:aspect-[16/5] md:aspect-[16/4] lg:aspect-[16/3] xl:aspect-[16/3] overflow-hidden rounded-2xl">
-  <Image
-    src="/coc.jpg"
-    alt="Members group photo"
-    fill
-    priority
-    className="object-cover brightness-75"
-  />
-  <div className="absolute inset-0 flex items-center justify-center bg-black/20 px-4 text-center">
-    <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-wide text-white drop-shadow-lg mt-36">
-      MEMBERS
-    </h1>
-  </div>
-</div>
+              <Image
+                src="/coc.jpg"
+                alt="Members group photo"
+                fill
+                priority
+                className="object-cover brightness-75"
+              />
+              <div className="absolute inset-0 flex items-center justify-center bg-black/20 px-4 text-center">
+                <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-wide text-white drop-shadow-lg mt-36">
+                  MEMBERS
+                </h1>
+              </div>
+            </div>
 
-            {/* Progress Bar */}
             <TabProgressBar index={activeTabIndex} total={tabs.length} />
 
-            {/* Tabs Section */}
             <div className="relative z-10 min-h-[700px] overflow-visible px-4 sm:px-6 mt-10">
-  <Tabs
-    tabs={tabs}
-    containerClassName="mb-8"
-    contentClassName="mt-16"
-    onTabChange={(idx) => setActiveTabIndex(idx)}
-  />
-</div>
+              <Tabs
+                tabs={tabs}
+                containerClassName="mb-8"
+                contentClassName="mt-16"
+                onTabChange={(idx) => setActiveTabIndex(idx)}
+              />
+            </div>
           </main>
         </div>
       </div>

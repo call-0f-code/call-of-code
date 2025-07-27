@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Github, ExternalLink } from "lucide-react";
 import { AnimatedTooltip } from "./animated-tooltip";
+import { MemberSkeleton } from "@/app/projects/skeletonLoader";
 
 export const BentoGrid = ({
   className,
@@ -88,9 +89,12 @@ export const BentoGridItem = ({
         </div>
         {tooltipItems && (
           <div className="mt-2 overflow-visible">
+
             <AnimatedTooltip items={tooltipItems} />
-          </div>
-        )}
+          ) : (
+            <MemberSkeleton />
+          )}
+        </div>
       </div>
     </div>
   </div>

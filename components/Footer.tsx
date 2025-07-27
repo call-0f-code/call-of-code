@@ -13,8 +13,8 @@ const pressStart2P = localFont({
 });
 
 const Footer = () => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const cards = [
     {
       title: "About Us",
