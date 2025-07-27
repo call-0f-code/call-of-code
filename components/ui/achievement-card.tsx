@@ -70,7 +70,7 @@ export default function AchievementCard({
               <div className="w-full h-full bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border-2 border-gray-100 dark:border-gray-700 transition-all duration-300 group-hover:shadow-xl">
                 
                 {/* Image Section */}
-                <div className="relative h-50 overflow-hidden">
+                <div className="relative h-60 overflow-hidden">
                   <img 
                     src={imageSrc} 
                     alt={title} 
