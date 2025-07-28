@@ -4,7 +4,8 @@
 import { motion, useTransform, useScroll } from "framer-motion";
 import React, { useRef, useEffect, useState } from "react";
 import { Code2, Terminal, GitBranchIcon as Git, Database, Cloud, Brain } from 'lucide-react';
-
+import { useTheme } from "@/components/ui/theme-provider";
+import Particles from "./particles";
 
 const HorizontalScrollCarousel = () => {
   const targetRef = useRef<HTMLDivElement | null>(null);
@@ -14,16 +15,33 @@ const HorizontalScrollCarousel = () => {
     target: targetRef,
   });
 
-
-
   useEffect(() => {
     const calculateScrollRange = () => {
-      const cardWidth = 450;
-      const gap = 16;
-      const totalCards = codeBlocks.length;
       const viewportWidth = window.innerWidth;
+      let cardWidth, gap, padding;
+      
+      // Responsive card dimensions
+      if (viewportWidth < 640) { // sm
+        cardWidth = Math.min(350, viewportWidth - 32);
+        gap = 12;
+        padding = 16;
+      } else if (viewportWidth < 768) { // md
+        cardWidth = 380;
+        gap = 16;
+        padding = 24;
+      } else if (viewportWidth < 1024) { // lg
+        cardWidth = 420;
+        gap = 16;
+        padding = 32;
+      } else { // xl and above
+        cardWidth = 450;
+        gap = 16;
+        padding = 48;
+      }
+      
+      const totalCards = codeBlocks.length;
       const totalScrollWidth = totalCards * (cardWidth + gap) - gap;
-      const finalScrollRange = totalScrollWidth - viewportWidth + 48;
+      const finalScrollRange = totalScrollWidth - viewportWidth + padding;
       setScrollRange(Math.max(finalScrollRange, 0));
     };
 
@@ -40,26 +58,40 @@ const HorizontalScrollCarousel = () => {
     visible: { opacity: 1, transition: { duration: 0.8 } }
   };
 
+  const { theme } = useTheme();
+  const particleColor = theme === "dark" ? "#ffffff" : "#000000";
+
   return (
     <>
-    <motion.section
-      ref={targetRef}
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
-      className="relative h-[300vh] bg-transparent w-full transition-colors duration-300"
-    >
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-        <motion.div 
-          style={{ x }} 
-          className="flex gap-4 pl-6"
-        >
-          {codeBlocks.map((block, index) => (
-            <CodeBlock block={block} key={block.id} index={index} />
-          ))}
-        </motion.div>
-      </div>
-    </motion.section>
+      <motion.section
+        ref={targetRef}
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+        className="relative h-[200vh] sm:h-[250vh] md:h-[300vh] bg-transparent w-full transition-colors duration-300"
+      >
+        {/* Background particles that cover the entire viewport */}
+        <div className="fixed inset-0 z-0 pointer-events-none">
+          <Particles
+            quantity={window.innerWidth < 640 ? 150 : window.innerWidth < 1024 ? 200 : 300}
+            className="h-full w-full"
+            color={particleColor}
+            staticity={30}
+            ease={20}
+          />
+        </div>
+
+        <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+          <motion.div 
+            style={{ x }} 
+            className="flex gap-3 sm:gap-4 pl-4 sm:pl-6 md:pl-8 relative z-10"
+          >
+            {codeBlocks.map((block, index) => (
+              <CodeBlock block={block} key={block.id} index={index} />
+            ))}
+          </motion.div>
+        </div>
+      </motion.section>
     </>
   );
 };
@@ -92,48 +124,46 @@ const CodeBlock = ({ block, index }: { block: CodeBlockType; index: number }) =>
   const IconComponent = block.icon || Code2;
 
   return (
-    <div>
-
-
-    
     <motion.div
       variants={blockVariants}
       initial="hidden"
       animate="visible"
       whileHover="hover"
-      className="group relative h-[450px] w-[450px] overflow-hidden rounded-3xl
-  bg-gradient-to-br from-white to-slate-100
-  dark:bg-gradient-to-br dark:from-[#23234a] dark:to-[#181829]
-  p-6 border-2 border-purple-700
-  shadow-xl dark:shadow-2xl dark:shadow-slate-900/50
-  backdrop-blur-sm transition-all duration-300"
-
+      className="group relative 
+        h-[350px] w-[350px] 
+        sm:h-[380px] sm:w-[380px] 
+        md:h-[420px] md:w-[420px] 
+        lg:h-[450px] lg:w-[450px] 
+        overflow-hidden rounded-2xl sm:rounded-3xl
+        bg-gradient-to-br from-white/90 to-slate-100/90
+        dark:bg-gradient-to-br dark:from-[#23234a]/90 dark:to-[#181829]/90
+        p-4 sm:p-6 border-2 border-purple-700
+        shadow-xl dark:shadow-2xl dark:shadow-slate-900/50
+        backdrop-blur-md transition-all duration-300"
     >
       {/* Terminal dots */}
-      <div className="absolute top-4 left-4 flex space-x-2">
-        <div className="h-3 w-3 rounded-full bg-red-500/80 dark:bg-red-500"></div>
-        <div className="h-3 w-3 rounded-full bg-yellow-500/80 dark:bg-yellow-500"></div>
-        <div className="h-3 w-3 rounded-full bg-green-500/80 dark:bg-green-500"></div>
+      <div className="absolute top-3 left-3 sm:top-4 sm:left-4 flex space-x-2">
+        <div className="h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-red-500/80 dark:bg-red-500"></div>
+        <div className="h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-yellow-500/80 dark:bg-yellow-500"></div>
+        <div className="h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-green-500/80 dark:bg-green-500"></div>
       </div>
 
-      <div className="mt-8 flex flex-col items-center space-y-6">
-        <IconComponent className="h-16 w-16 text-blue-500 dark:text-blue-400 transition-colors duration-300" />
+      <div className="mt-6 sm:mt-8 flex flex-col items-center space-y-4 sm:space-y-6">
+        <IconComponent className="h-12 w-12 sm:h-14 sm:w-14 md:h-16 md:w-16 text-blue-500 dark:text-blue-400 transition-colors duration-300" />
 
-        <h3 className="text-2xl font-bold text-slate-900 dark:text-white transition-colors duration-300">
+        <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 dark:text-white transition-colors duration-300 text-center px-2">
           {block.title}
         </h3>
 
-        <div className="h-48 w-full overflow-hidden rounded-lg bg-indigo-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-colors duration-300">
-          <pre className="text-sm p-4">
-            <code className="text-slate-800 dark:text-blue-300 transition-colors duration-300">
+        <div className="h-36 sm:h-40 md:h-48 w-full overflow-hidden rounded-lg bg-indigo-100/80 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 transition-colors duration-300 backdrop-blur-sm">
+          <pre className="text-xs sm:text-sm p-3 sm:p-4 overflow-auto h-full">
+            <code className="text-slate-800 dark:text-blue-300 transition-colors duration-300 leading-relaxed">
               {block.codeSnippet}
             </code>
           </pre>
         </div>
-
       </div>
     </motion.div>
-    </div>
   );
 };
 
