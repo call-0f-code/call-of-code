@@ -32,7 +32,7 @@ export default function Main() {
       <div className="relative z-10">
         <HeroSection />
         <AboutUs />
-        <footer className="bg-white dark:bg-black text-gray-900 dark:text-gray-100 py-4 border-t border-gray-300 dark:border-gray-700">
+        <footer className="bg-white dark:bg-black text-gray-900 dark:text-gray-100 py-4 border-gray-300 dark:border-gray-700">
           <div className="container mx-auto">
             <Footer />
           </div>
