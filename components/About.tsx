@@ -56,7 +56,7 @@ const whyChooseUs = [
 export default function AboutUs() {
   return (
     <>
-      <section id="about" className="max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 md:px-8 pb-12 sm:pb-16 md:pb-20 mt-12 sm:mt-16 md:mt-20">
+      <section id="about" className="max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 md:px-8 pb-12 sm:pb-16 md:pb-20 mt-12 sm:mt-16 md:mt-20 mb-6">
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between mb-6 sm:mb-8">
           <div>
             <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold mb-2">About Us</h2>

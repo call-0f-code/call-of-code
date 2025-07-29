@@ -1,9 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client';
+"use client";
 
 import { motion, useTransform, useScroll } from "framer-motion";
 import React, { useRef, useEffect, useState } from "react";
-import { Code2, Terminal, GitBranchIcon as Git, Database, Cloud, Brain } from 'lucide-react';
+import {
+  Code2,
+  Terminal,
+  GitBranchIcon as Git,
+  Database,
+  Cloud,
+  Brain,
+} from "lucide-react";
 import { useTheme } from "@/components/ui/theme-provider";
 import Particles from "./particles";
 
@@ -19,26 +26,30 @@ const HorizontalScrollCarousel = () => {
     const calculateScrollRange = () => {
       const viewportWidth = window.innerWidth;
       let cardWidth, gap, padding;
-      
+
       // Responsive card dimensions
-      if (viewportWidth < 640) { // sm
+      if (viewportWidth < 640) {
+        // sm
         cardWidth = Math.min(350, viewportWidth - 32);
         gap = 12;
         padding = 16;
-      } else if (viewportWidth < 768) { // md
+      } else if (viewportWidth < 768) {
+        // md
         cardWidth = 380;
         gap = 16;
         padding = 24;
-      } else if (viewportWidth < 1024) { // lg
+      } else if (viewportWidth < 1024) {
+        // lg
         cardWidth = 420;
         gap = 16;
         padding = 32;
-      } else { // xl and above
+      } else {
+        // xl and above
         cardWidth = 450;
         gap = 16;
         padding = 48;
       }
-      
+
       const totalCards = codeBlocks.length;
       const totalScrollWidth = totalCards * (cardWidth + gap) - gap;
       const finalScrollRange = totalScrollWidth - viewportWidth + padding;
@@ -55,7 +66,7 @@ const HorizontalScrollCarousel = () => {
 
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { duration: 0.8 } }
+    visible: { opacity: 1, transition: { duration: 0.8 } },
   };
 
   const { theme } = useTheme();
@@ -73,7 +84,13 @@ const HorizontalScrollCarousel = () => {
         {/* Background particles that cover the entire viewport */}
         <div className="fixed inset-0 z-0 pointer-events-none">
           <Particles
-            quantity={window.innerWidth < 640 ? 150 : window.innerWidth < 1024 ? 200 : 300}
+            quantity={
+              window.innerWidth < 640
+                ? 150
+                : window.innerWidth < 1024
+                ? 200
+                : 300
+            }
             className="h-full w-full"
             color={particleColor}
             staticity={30}
@@ -81,9 +98,15 @@ const HorizontalScrollCarousel = () => {
           />
         </div>
 
-        <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-          <motion.div 
-            style={{ x }} 
+        <div className="sticky top-0 flex flex-col  h-screen items-center overflow-hidden">
+          <div className="mb-8 xs:mb-10 sm:mb-12 md:mb-14">
+            <h2 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold mb-2">
+              Join Us To Learn About
+            </h2>
+          </div>
+
+          <motion.div
+            style={{ x }}
             className="flex gap-3 sm:gap-4 pl-4 sm:pl-6 md:pl-8 relative z-10"
           >
             {codeBlocks.map((block, index) => (
@@ -96,7 +119,13 @@ const HorizontalScrollCarousel = () => {
   );
 };
 
-const CodeBlock = ({ block, index }: { block: CodeBlockType; index: number }) => {
+const CodeBlock = ({
+  block,
+  index,
+}: {
+  block: CodeBlockType;
+  index: number;
+}) => {
   const blockVariants = {
     hidden: {
       opacity: 0,
