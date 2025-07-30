@@ -82,6 +82,9 @@ const HorizontalScrollCarousel = () => {
         </div>
 
         <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+          
+          <h2 className="absolute top-6 w-full text-center text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold z-20 text-black dark:text-white mt-4">Join Us And Learn</h2>
+
           <motion.div 
             style={{ x }} 
             className="flex gap-3 sm:gap-4 pl-4 sm:pl-6 md:pl-8 relative z-10"
@@ -124,6 +127,7 @@ const CodeBlock = ({ block, index }: { block: CodeBlockType; index: number }) =>
   const IconComponent = block.icon || Code2;
 
   return (
+    
     <motion.div
       variants={blockVariants}
       initial="hidden"
