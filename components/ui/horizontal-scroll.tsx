@@ -83,7 +83,7 @@ const HorizontalScrollCarousel = () => {
 
         <div className="sticky top-0 flex h-screen items-center overflow-hidden">
           
-          <h2 className="absolute top-6 w-full text-center text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold z-20 text-black dark:text-white mt-4">Join Us And Learn</h2>
+          <h2 className="absolute top-4 sm:top-6 md:top-8 w-full text-center text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold z-20 text-black dark:text-white">Join Us And Learn</h2>
 
           <motion.div 
             style={{ x }} 
