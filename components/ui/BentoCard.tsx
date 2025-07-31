@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import { Github, ExternalLink } from "lucide-react";
-import { AnimatedTooltip } from "./animated-tooltip";
+import { AnimatedTooltip, Person } from "./animated-tooltip";
 import { MemberSkeleton } from "@/app/projects/skeletonLoader";
-import { Person } from "./animated-tooltip";
+
 export const BentoGrid = ({
   className,
   children,
@@ -39,7 +39,9 @@ export const BentoGridItem = ({
 
   return (
     <div
-      className={`relative transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl ${className || ""}`}
+      className={`relative transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl ${
+        isHovered ? "z-50" : "z-0"
+      } ${className || ""}`}
     >
       {/* Gradient Border */}
       <div className="bg-gradient-to-r from-purple-500 to-pink-500 p-[2px] rounded-xl h-full w-full">
@@ -55,7 +57,7 @@ export const BentoGridItem = ({
             {/* Overlay Buttons */}
             <div
               className={`absolute inset-0 bg-black/50 flex items-center justify-center gap-4 transition-opacity duration-300 ${
-                isHovered ? 'opacity-100' : 'opacity-0'
+                isHovered ? "opacity-100" : "opacity-0"
               }`}
             >
               {github && (
@@ -82,12 +84,12 @@ export const BentoGridItem = ({
           </div>
 
           {/* Title & Tooltip */}
-          <div className="transition duration-200 relative">
-            <div className="font-sans font-bold text-neutral-600 dark:text-neutral-200 mb-2 mt-2">
+          <div className="transition duration-200 relative overflow-visible">
+            <div className="font-sans font-bold text-neutral-600 dark:text-neutral-200 mb-2 mt-2 text-xl">
               {title}
             </div>
-            {tooltipItems ? (
-              <div className="mt-2 overflow-visible">
+            {tooltipItems && tooltipItems.length > 0 ? (
+              <div className="mt-2 flex justify-end overflow-visible ">
                 <AnimatedTooltip items={tooltipItems} />
               </div>
             ) : (
