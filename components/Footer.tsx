@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { FaTwitter, FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 import Link from "next/link";
+import Image from "next/image";
 import localFont from "next/font/local";
 import { motion, AnimatePresence } from "framer-motion";
 import Particles from "./ui/particles";
@@ -262,7 +263,7 @@ const Footer = () => {
         <div className="opacity-90 flex items-center justify-center gap-2 text-[10px] xs:text-xs sm:text-sm md:text-base px-4">
           <span>Made with</span>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img 
+          <Image 
             src="/heart.png" 
             alt="heart" 
             className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6" 

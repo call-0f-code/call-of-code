@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Image from "next/image";
 
 export interface Person {
   id: number;
@@ -28,7 +29,7 @@ export const AnimatedTooltip: React.FC<AnimatedTooltipProps> = ({ items }) => {
               idx !== 0 ? "-ml-4" : ""
             }`}
           >
-            <img
+            <Image
               src={item.image}
               alt={item.name}
               className="object-cover !m-0 !p-0 object-top rounded-full h-full w-full"
