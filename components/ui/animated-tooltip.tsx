@@ -15,37 +15,51 @@ export const AnimatedTooltip: React.FC<AnimatedTooltipProps> = ({ items }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <div className="flex flex-row items-center justify-start mb-4 w-full">
-      {items.map((item, idx) => (
-        <div
-          className="relative group"
-          key={item.id}
-          onMouseEnter={() => setHoveredIndex(item.id)}
-          onMouseLeave={() => setHoveredIndex(null)}
-        >
+    <>
+      <div className="flex items-center justify-start w-full overflow-visible">
+        {items.map((item, idx) => (
           <div
-            className={`object-cover !m-0 !p-0 object-top rounded-full h-14 w-14 border-2 group-hover:scale-105 group-hover:z-30 border-white relative transition duration-500 ${
+            key={item.id}
+            className={`relative group transition-transform duration-300 ${
               idx !== 0 ? "-ml-4" : ""
             }`}
+            onMouseEnter={() => setHoveredIndex(item.id)}
+            onMouseLeave={() => setHoveredIndex(null)}
           >
-            <img
-              src={item.image}
-              alt={item.name}
-              className="object-cover !m-0 !p-0 object-top rounded-full h-full w-full"
-            />
-          </div>
-          
-          {hoveredIndex === item.id && (
-            <div className="absolute -top-16 -left-1/2 translate-x-1/2 flex text-xs flex-col items-center justify-center rounded-md bg-gray-600 z-50 shadow-xl px-4 py-2">
-              <div className="absolute inset-x-10 z-30 w-[20%] -bottom-px bg-gradient-to-r from-transparent via-emerald-500 to-transparent h-px" />
-              <div className="absolute left-10 w-[40%] z-30 -bottom-px bg-gradient-to-r from-transparent via-sky-500 to-transparent h-px" />
-              <div className="font-bold text-white relative z-30 text-base">
+            {/* Avatar */}
+            <div className="h-14 w-14 rounded-full border-2 border-white dark:border-black overflow-hidden transition-all duration-300 transform group-hover:scale-110 group-hover:z-30 bg-gray-100">
+              <img
+                src={item.image}
+                alt={item.name}
+                className="object-cover w-full h-full"
+              />
+            </div>
+
+            {/* Tooltip */}
+            {hoveredIndex === item.id && (
+              <div className="absolute -top-10 transform -translate-x-1/2 bg-black text-white dark:bg-white dark:text-black text-base font-medium px-3 py-1 rounded-md shadow-md z-50 fade-in-tooltip pointer-events-none whitespace-nowrap">
                 {item.name}
               </div>
-            </div>
-          )}
-        </div>
-      ))}
-    </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <style jsx>{`
+        @keyframes fadeInTooltip {
+          from {
+            opacity: 0;
+            transform: translateY(4px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .fade-in-tooltip {
+          animation: fadeInTooltip 0.2s ease-in-out;
+        }
+      `}</style>
+    </>
   );
 };

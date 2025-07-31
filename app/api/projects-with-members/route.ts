@@ -1,61 +1,78 @@
-// app/api/projects-with-members/route.ts
 import { NextResponse } from "next/server";
-export const runtime = 'edge';
+
+export const runtime = "edge";
+
+interface MemberWrapper {
+  member: {
+    id: string;
+    name: string;
+    email: string;
+    profilePhoto: string;
+  };
+}
 
 interface Project {
-  id: string;
+  id: number;
   name: string;
-  // Add other fields based on your API response
-  [key: string]: unknown;
+  imageUrl: string;
+  githubUrl: string | null;
+  deployUrl: string | null;
+  members: MemberWrapper[];
 }
 
-interface Member {
-  // Define member fields if known, otherwise allow any properties
-  [key: string]: unknown;
-}
-
-interface MemberData {
-  members: Member[];
-}
-
-export async function GET(): Promise<NextResponse> {
+export async function GET() {
   const apiUrl = process.env.API_BASE_URL;
 
   if (!apiUrl) {
     return NextResponse.json(
-      { success: false, message: "API_BASE_URL not set" },
+      { success: false, message: "API_BASE_URL not set", data: [] },
       { status: 500 }
     );
   }
 
   try {
-    const projectsRes = await fetch(`${apiUrl}/projects`, { cache: "no-store" });
-    const projects: Project[] = await projectsRes.json();
+    const res = await fetch(`${apiUrl}/projects`, {
+      cache: "no-store",
+      headers: { "Content-Type": "application/json" }
+    });
 
-    if (!Array.isArray(projects)) {
-      throw new Error("Projects API did not return an array");
+    if (!res.ok) {
+      console.error("❌ Backend fetch failed:", res.status);
+      return NextResponse.json(
+        { success: false, message: `Failed to fetch projects`, data: [] },
+        { status: 500 }
+      );
     }
 
-    const enrichedProjects = await Promise.all(
-      projects.map(async (proj: Project) => {
-        try {
-          const membersRes = await fetch(
-            `${apiUrl}/projects/${proj.id}/members`,
-            { cache: "no-store" }
-          );
-          const membersData: MemberData = await membersRes.json();
-          return { ...proj, members: membersData.members ?? [] };
-        } catch {
-          return { ...proj, members: [] };
-        }
-      })
-    );
+    const projects: Project[] = await res.json();
 
-    return NextResponse.json({ success: true, data: enrichedProjects });
-  } catch (err: unknown) {
-    const errorMessage = err instanceof Error ? err.message : "Something went wrong";
+    if (!Array.isArray(projects)) {
+      console.error("❌ Expected an array but got:", typeof projects);
+      return NextResponse.json(
+        { success: false, message: "Invalid response format", data: [] },
+        { status: 500 }
+      );
+    }
+
+    const enriched = projects.map((proj) => ({
+      id: proj.id,
+      name: proj.name,
+      imageUrl: proj.imageUrl,
+      githubUrl: proj.githubUrl,
+      deployUrl: proj.deployUrl,
+      members: (proj.members || []).map((m, idx) => ({
+  id: `${proj.id}-${m.member.id || idx}`,  // always unique
+  name: m.member.name,
+  image: m.member.profilePhoto || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(m.member.name)}`
+}))
+
+    }));
+
+    return NextResponse.json({ success: true, data: enriched });
+  } catch (err) {
+    console.error("❌ Unexpected error:", err);
     return NextResponse.json(
-      { success: false, message: errorMessage },
+      { success: false, message: "Unexpected error", data: [] },
       { status: 500 }
     );
   }
