@@ -36,10 +36,11 @@ const Footer = () => {
       content: (
         <ul className="space-y-2 sm:space-y-3 text-[9px] xs:text-[10px] sm:text-xs md:text-sm text-center">
           {[
-            { href: "/about", text: "About Us" },
-            { href: "/resources", text: "Projects" },
+            { href: "#about", text: "About Us" },
+            { href: "/projects", text: "Projects" },
             { href: "https://mail.google.com/mail/?view=cm&fs=1&to=callofcode07@gmail.com", text: "Contact" },
-            { href: "/privacy", text: "Privacy Policy" },
+            // TODO: add `/privacy` route to display Privacy Policy
+            // { href: "/privacy", text: "Privacy Policy" },  
           ].map((link) => (
             <li key={link.href}>
               <Link
