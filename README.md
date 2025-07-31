@@ -68,7 +68,7 @@ We welcome contributions from the community. To ensure a smooth process, please 
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the GNU GENERAL PUBLIC LICENSE v3.
 
 ## Contact
 
