@@ -1,5 +1,6 @@
 import React from 'react';
 import { Github, Linkedin } from 'lucide-react';
+import Image from "next/image";
 
 interface MembersCardProps {
   name: string;
@@ -20,7 +21,7 @@ export default function MembersCard({
       <div className="hidden sm:block group relative overflow-hidden rounded-2xl bg-white dark:bg-black shadow-md hover:shadow-[0_0_30px_5px_rgba(128,128,128,0.4)] transition-all duration-300 hover:-translate-y-1 border border-pink-500 dark:border-purple-500">
         {/* Image */}
         <div className="aspect-square overflow-hidden">
-          <img
+          <Image
             src={imageSrc}
             alt={`Profile picture of ${name}`}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
@@ -58,7 +59,7 @@ export default function MembersCard({
 
       {/* Mobile Version */}
       <div className="block sm:hidden flex flex-col items-center gap-3 py-4">
-        <img
+        <Image
           src={imageSrc}
           alt={`Profile picture of ${name}`}
           className="w-28 h-28 rounded-full object-cover shadow-md border-4 border-pink-500 dark:border-purple-500"

@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { FaTwitter, FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 import Link from "next/link";
+import Image from "next/image";
 import localFont from "next/font/local";
 import { motion, AnimatePresence } from "framer-motion";
 import Particles from "./ui/particles";
@@ -40,10 +41,11 @@ const Footer = () => {
       content: (
         <ul className="space-y-2 sm:space-y-3 text-[9px] xs:text-[10px] sm:text-xs md:text-sm text-left">
           {[
-            { href: "/about", text: "About Us" },
-            { href: "/resources", text: "Projects" },
+            { href: "#about", text: "About Us" },
+            { href: "/projects", text: "Projects" },
             { href: "https://mail.google.com/mail/?view=cm&fs=1&to=callofcode07@gmail.com", text: "Contact" },
-            { href: "/privacy", text: "Privacy Policy" },
+            // TODO: add `/privacy` route to display Privacy Policy
+            // { href: "/privacy", text: "Privacy Policy" },  
           ].map((link) => (
             <li key={link.href}>
               <Link
@@ -261,7 +263,7 @@ const Footer = () => {
         <div className="opacity-90 flex items-center justify-center gap-2 text-[10px] xs:text-xs sm:text-sm md:text-base px-4">
           <span>Made with</span>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img 
+          <Image 
             src="/heart.png" 
             alt="heart" 
             className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6" 

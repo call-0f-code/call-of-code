@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { ChevronRight, X, Loader2 } from "lucide-react";
+import Image from "next/image";
 
 interface AchievementCardProps {
   id: number;
@@ -71,7 +72,7 @@ export default function AchievementCard({
                 
                 {/* Image Section */}
                 <div className="relative h-60 overflow-hidden">
-                  <img 
+                  <Image 
                     src={imageSrc} 
                     alt={title} 
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
@@ -151,7 +152,7 @@ export default function AchievementCard({
                         {teamMembers.map((member, index) => (
                           <div key={index} className="group/member relative bg-gradient-to-br from-white to-slate-100 dark:from-gray-700 dark:to-gray-800 p-3 rounded-xl hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-600">
                             <div className="relative w-12 h-12 mb-2 mx-auto rounded-full overflow-hidden ring-2 ring-blue-200 dark:ring-blue-700 ring-offset-2 ring-offset-white dark:ring-offset-gray-800">
-                              <img
+                              <Image
                                 src={member.image}
                                 alt={member.name}
                                 onError={(e) => {
@@ -177,7 +178,7 @@ export default function AchievementCard({
 
               {/* Right Panel - Static Image */}
               <div className="w-full sm:w-1/2 h-64 sm:h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-white dark:from-gray-800 dark:to-gray-900 p-4 sm:p-6">
-                <img 
+                <Image 
                   src={imageSrc} 
                   alt={title} 
                   className="w-full max-h-full object-contain rounded-xl shadow-md"
