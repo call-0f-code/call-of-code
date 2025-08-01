@@ -15,6 +15,19 @@ export default function Main() {
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash) {
+      const scrollToHash = () => {
+        const el = document.querySelector(hash);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        }
+      };
+      setTimeout(scrollToHash, 100); //100ms 
+    }
+  }, []);
+
   if (!mounted) return null;
 
   const particleColor = theme === "dark" ? "#ffffff" : "#000000";
