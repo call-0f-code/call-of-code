@@ -19,12 +19,16 @@ export default function Main() {
     const hash = window.location.hash;
     if (hash) {
       const scrollToHash = () => {
-        const el = document.querySelector(hash);
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth" });
-        }
+         try {
+         const el = document.querySelector(hash);
+         if (el) {
+           el.scrollIntoView({ behavior: "smooth" });
+         }
+       } catch (error) {
+         console.warn(`Failed to scroll to element with hash: ${hash}`, error);
+       }
       };
-      setTimeout(scrollToHash, 100); //100ms 
+      setTimeout(scrollToHash, 100); // 100ms should be enough
     }
   }, []);
 
