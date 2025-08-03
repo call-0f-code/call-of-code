@@ -31,7 +31,7 @@ export async function GET() {
   }
 
   try {
-    const res = await fetch(`${apiUrl}/projects`, {
+    const res = await fetch(`${apiUrl}/api/v1/projects`, {
       cache: "no-store",
       headers: { "Content-Type": "application/json" }
     });
