@@ -51,7 +51,7 @@ export async function GET(
     }
 
     // Fetch achievement details from your API
-    const response = await fetch(`${process.env.API_BASE_URL}/achievements/${achievementId}`, {
+    const response = await fetch(`${process.env.API_BASE_URL}/api/v1/achievements/${achievementId}`, {
       headers: {
         'Content-Type': 'application/json',
       },
