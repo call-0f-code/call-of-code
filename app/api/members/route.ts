@@ -14,7 +14,7 @@ export async function GET() {
   }
 
   try {
-    const res = await fetch(`${apiUrl}/members`, {  
+    const res = await fetch(`${apiUrl}/api/v1/members`, {  
       cache: "no-store",  
       signal: AbortSignal.timeout(30000), // 30 second timeout  
     });  
