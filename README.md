@@ -5,7 +5,7 @@ Official Programming Club of **Padmabhooshan Vasantdada Patil Institute of Techn
 
 # Why CALL OF CODE 
 
-Call of Code is more than just a coding club—it's a vibrant community of passionate learners driven by self-learning and collaboration. We believe coding should be inspiring, enjoyable, and transformative. Through hackathons, competitions, and shared experiences, we empower individuals to internalize concepts deeply, fostering both personal and professional growth. Join us in making learning a journey, not just a goal! 
+Call of Code is more than just a coding club—it's a vibrant community of passionate learners driven by self-learning and collaboration. We believe coding should be inspiring, enjoyable, and transformative. Through hackathons, competitions, and shared experiences, we empower individuals to internalize concepts deeply, fostering both personal and professional growth. Join us in making learning a journey, not just a goal! 🚀
 
 
 
