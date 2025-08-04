@@ -21,7 +21,7 @@ const Skeleton = ({ src, alt = "Preview" }: { src: string; alt?: string }) => {
   const [isLoading, setIsLoading] = useState(true);
   return (
     <>
-      <img
+      <Image
         src={src}
         alt={alt}
         className={`w-full h-full object-cover rounded-lg ${isLoading ? "hidden" : ""}`}
