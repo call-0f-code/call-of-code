@@ -6,8 +6,6 @@ import Link from "next/link";
 import Image from "next/image";
 import localFont from "next/font/local";
 import { motion, AnimatePresence } from "framer-motion";
-import Particles from "./ui/particles";
-import { useTheme } from "@/components/ui/theme-provider";
 
 const pressStart2P = localFont({
   src: "../app/fonts/PressStart2P-Regular.ttf",
@@ -16,8 +14,6 @@ const pressStart2P = localFont({
 });
 
 const Footer = () => {
-  const { theme } = useTheme();
-  const particleColor = theme === "dark" ? "#ffffff" : "#000000";
 
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   
@@ -39,7 +35,7 @@ const Footer = () => {
     {
       title: "Quick Links",
       content: (
-        <ul className="space-y-2 sm:space-y-3 text-[9px] xs:text-[10px] sm:text-xs md:text-sm text-left">
+        <ul className="space-y-2 sm:space-y-3 text-[9px] xs:text-[10px] sm:text-xs md:text-sm text-center">
           {[
             { href: "#about", text: "About Us" },
             { href: "/projects", text: "Projects" },
@@ -145,32 +141,12 @@ const Footer = () => {
     },
   ];
 
-  // Responsive particle quantity based on screen size
-  const getParticleQuantity = () => {
-    if (typeof window !== 'undefined') {
-      const width = window.innerWidth;
-      if (width < 640) return 200; // Mobile
-      if (width < 1024) return 300; // Tablet
-      return 400; // Desktop
-    }
-    return 300; // Default fallback
-  };
-
   return (
     <footer
       className={`${pressStart2P.className} relative w-full min-h-screen bg-white dark:bg-black text-black dark:text-white flex flex-col overflow-hidden`}
     >
-      {/* Background particles */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <Particles 
-          quantity={getParticleQuantity()} 
-          color={particleColor}
-          staticity={40}
-          ease={25}
-        />
-      </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-3 xs:px-4 sm:px-6 md:px-8 flex-grow flex flex-col justify-evenly py-8 sm:py-12">
+      <div className="relative z-10 w-full px-0 xs:px-4 sm:px-6 md:px-8 flex-grow flex flex-col justify-evenly py-8 sm:py-12">
         
         {/* Header */}
         <div className="text-center px-2">
@@ -183,7 +159,7 @@ const Footer = () => {
         </div>
 
         {/* Cards */}
-        <div className="relative z-10 w-full">
+        <div className="relative z-10 w-full text-center">
           {/* Mobile: Single column */}
           <div className="grid gap-4 sm:hidden">
             {cards.map((card, idx) => (
@@ -222,7 +198,7 @@ const Footer = () => {
           </div>
 
           {/* Tablet and Desktop: Multi-column */}
-          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 w-full justify-center">
             {cards.map((card, idx) => (
               <div
                 key={idx}

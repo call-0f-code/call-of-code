@@ -9,7 +9,7 @@ import { Person } from "@/components/ui/animated-tooltip";
 
 
 interface Project {
-  id: string;
+  id: number;
   name: string;
   imageUrl: string;
   githubUrl?: string;
@@ -34,7 +34,6 @@ const Skeleton = ({ src, alt = "Preview" }: { src: string; alt?: string }) => {
 const ProjectPage: React.FC = () => {
   const { theme } = useTheme();
   const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -48,8 +47,6 @@ const ProjectPage: React.FC = () => {
         }
       } catch (err) {
         console.error("Error fetching projects:", err);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -87,11 +84,6 @@ const ProjectPage: React.FC = () => {
             <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-full w-3/4 rounded-full animate-pulse" />
           </div>
 
-          {loading ? (
-            <div className="text-center text-gray-500 dark:text-gray-300 text-lg py-20">
-              Loading projects...
-            </div>
-          ) : (
             <BentoGrid>
               {projects.map((project, i) => (
                 <BentoGridItem
@@ -109,7 +101,6 @@ const ProjectPage: React.FC = () => {
                 />
               ))}
             </BentoGrid>
-          )}
         </main>
       </div>
     </div>
