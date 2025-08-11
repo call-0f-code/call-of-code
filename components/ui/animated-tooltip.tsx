@@ -20,14 +20,13 @@ export const AnimatedTooltip: React.FC<AnimatedTooltipProps> = ({ items }) => {
         className="
           flex items-center justify-start 
           w-full overflow-visible
-          sm:flex-row flex-wrap gap-3
+          sm:flex-row flex-wrap
         "
       >
-        {items.map((item, idx) => (
+        {items.map((item) => (
           <div
             key={item.id}
-            className={`relative group transition-transform duration-300
-              ${idx !== 0 ? "-ml-4 sm:-ml-4 ml-0" : ""}
+            className={`relative group transition-transform duration-30
             `}
             onMouseEnter={() => setHoveredIndex(item.id)}
             onMouseLeave={() => setHoveredIndex(null)}
@@ -52,12 +51,12 @@ export const AnimatedTooltip: React.FC<AnimatedTooltipProps> = ({ items }) => {
             {hoveredIndex === item.id && (
               <div
                 className="
-                  absolute -top-10 left-1/2 transform -translate-x-1/2 
+                  absolute -top-10 left-1/2 -translate-x-1/2 transform 
                   bg-black text-white dark:bg-white dark:text-black 
-                  text-xs sm:text-base font-medium px-2 sm:px-3 py-1 rounded-md shadow-md 
+                  text-xs sm:text-base font-medium py-1 rounded-md shadow-md 
                   z-50 fade-in-tooltip pointer-events-none whitespace-nowrap
-                  sm:left-1/2 sm:translate-x-[-50%]
                 "
+                role="tooltip"
               >
                 {item.name}
               </div>
