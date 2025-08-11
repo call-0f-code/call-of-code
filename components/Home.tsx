@@ -5,11 +5,20 @@ import { motion } from "framer-motion";
 import Particles from "@/components/ui/particles";
 import Gopher from "@/components/ui/gopher-eyes";
 import Ferris from "./ui/ferris-eyes";
+import { Button } from 'pixel-retroui';
+import localFont from "next/font/local";
+
+const pressStart2P = localFont({
+  src: "../app/fonts/PressStart2P-Regular.ttf",
+  display: "swap",
+  variable: "--font-pressstart",
+});
 
 
 export default function HeroSection() {
   const [color, setColor] = useState("#000000");
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [showButton ] = useState(false);
 
   useEffect(() => {
     const updateColor = () => {
@@ -48,6 +57,19 @@ export default function HeroSection() {
       },
     },
   };
+
+  const buttonStyles = `
+  ${pressStart2P.className} 
+  relative bg-gradient-to-r from-red-600 via-purple-600 to-blue-500 
+  dark:from-red-600 dark:via-purple-600 dark:to-blue-500 
+  text-black dark:text-white font-extrabold 
+  border-2 border-black dark:border-white
+  px-6 py-3 rounded-none
+  shadow-[6px_6px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_rgba(255,255,255,1)]
+  hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] dark:hover:shadow-[8px_8px_0px_rgba(255,255,255,1)]
+  active:translate-x-0.5 active:translate-y-0.5
+  transition-all duration-200 mb-32
+`.replace(/\s+/g, ' ').trim();
 
 
 
@@ -159,6 +181,18 @@ export default function HeroSection() {
           d="m391 216c6-43-25-64-68-79l14-55-34-9-13 54-28-7 14-54-35-9-13 56-22-5-47-12-8 36 24 6c14 4 17 14 15 21l-15 63 3 1-3-1-22 89c-2 5-6 11-16 8l-24-6-17 39 68 17-13 57 33 8 14-55 26 6-13 55 34 9 14-56c58 11 102 6 120-46 14-42-1-66-32-82 22-5 39-20 44-49zm-77 108c-11 41-82 20-105 14l19-75c23 6 97 17 86 61zm9-110c-9 39-67 20-87 15l17-68c20 5 81 14 70 53z"
         />
       </motion.svg>
+
+
+<Button
+  onClick={() => {
+    window.open("https://forms.gle/qME3Qh1Skj7JvsBr9", "_blank");
+  }}
+  className={buttonStyles}
+  aria-label="Register for Call of Code event"
+  style={{display : showButton ? "inline-block" : "none"}}
+>
+  Register Now!
+</Button>
       
 
       <h2 className="bg-clip-text text-transparent text-center bg-gradient-to-r from-red-600 via-purple-600 to-blue-500 dark:from-red-600 dark:via-purple-600 dark:to-blue-500 text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-sans relative z-20 font-bold tracking-tight leading-tight mb-8 px-4">
