@@ -37,7 +37,7 @@ export const AnimatedTooltip: React.FC<AnimatedTooltipProps> = ({ items }) => {
                 rounded-full border-2 border-white dark:border-black
                 overflow-hidden transition-all duration-300 transform 
                 group-hover:scale-110 group-hover:z-30 bg-gray-100
-                w-10 h-10 sm:w-14 sm:h-14
+                w-10 h-10 sm:w-14  sm:h-14
               "
             >
               <img
