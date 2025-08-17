@@ -16,18 +16,31 @@ export const AnimatedTooltip: React.FC<AnimatedTooltipProps> = ({ items }) => {
 
   return (
     <>
-      <div className="flex items-center justify-start w-full overflow-visible">
-        {items.map((item, idx) => (
+      <div
+        className="
+          flex items-center justify-start 
+          w-full overflow-visible
+          flex-wrap
+          sm:flex-row -space-x-4
+        "
+      >
+        {items.map((item) => (
           <div
             key={item.id}
-            className={`relative group transition-transform duration-300 ${
-              idx !== 0 ? "-ml-4" : ""
-            }`}
+            className={`relative group transition-transform duration-300
+            `}
             onMouseEnter={() => setHoveredIndex(item.id)}
             onMouseLeave={() => setHoveredIndex(null)}
           >
             {/* Avatar */}
-            <div className="h-14 w-14 rounded-full border-2 border-white dark:border-black overflow-hidden transition-all duration-300 transform group-hover:scale-110 group-hover:z-30 bg-gray-100">
+            <div
+              className="
+                rounded-full border-2 border-white dark:border-black
+                overflow-hidden transition-all duration-300 transform 
+                group-hover:scale-110 group-hover:z-30 bg-gray-100
+                w-10 h-10 sm:w-14  sm:h-14
+              "
+            >
               <img
                 src={item.image}
                 alt={item.name}
@@ -37,7 +50,15 @@ export const AnimatedTooltip: React.FC<AnimatedTooltipProps> = ({ items }) => {
 
             {/* Tooltip */}
             {hoveredIndex === item.id && (
-              <div className="absolute -top-10 transform -translate-x-1/2 bg-black text-white dark:bg-white dark:text-black text-base font-medium px-3 py-1 rounded-md shadow-md z-50 fade-in-tooltip pointer-events-none whitespace-nowrap">
+              <div
+                className="
+                  absolute -top-10 left-1/2 -translate-x-1/2 transform 
+                  bg-black text-white dark:bg-white dark:text-black 
+                  text-xs sm:text-base font-medium py-1 rounded-md shadow-md 
+                  z-50 fade-in-tooltip pointer-events-none whitespace-nowrap
+                "
+                role="tooltip"
+              >
                 {item.name}
               </div>
             )}
