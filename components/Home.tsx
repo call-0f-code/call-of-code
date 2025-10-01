@@ -18,7 +18,7 @@ const pressStart2P = localFont({
 export default function HeroSection() {
   const [color, setColor] = useState("#000000");
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [showButton ] = useState(false);
+  const [showButton ] = useState(true);
 
   useEffect(() => {
     const updateColor = () => {

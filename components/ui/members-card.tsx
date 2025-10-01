@@ -1,5 +1,5 @@
-import React from 'react';
-import { Github, Linkedin } from 'lucide-react';
+import React from "react";
+import { Github, Linkedin } from "lucide-react";
 
 interface MembersCardProps {
   name: string;
@@ -35,23 +35,27 @@ export default function MembersCard({
           </h3>
 
           <div className="flex justify-center space-x-4">
-            <a
-              href={githubLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-full bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-200"
-            >
-              <Github size={18} className="text-black dark:text-white" />
-            </a>
-
-            <a
-              href={linkedinLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2 rounded-full bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-200"
-            >
-              <Linkedin size={18} className="text-black dark:text-white" />
-            </a>
+            {/* conditionally render links only if they exist */}
+            {githubLink && (
+              <a
+                href={githubLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-full bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-200"
+              >
+                <Github size={18} className="text-black dark:text-white" />
+              </a>
+            )}
+            {linkedinLink && (
+              <a
+                href={linkedinLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-full bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-200"
+              >
+                <Linkedin size={18} className="text-black dark:text-white" />
+              </a>
+            )}
           </div>
         </div>
       </div>
@@ -67,23 +71,27 @@ export default function MembersCard({
           {name}
         </h3>
         <div className="flex space-x-4">
-          <a
-            href={githubLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 rounded-full bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-200"
-          >
-            <Github size={18} className="text-black dark:text-white" />
-          </a>
+          {githubLink && (
+            <a
+              href={githubLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-full bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-200"
+            >
+              <Github size={18} className="text-black dark:text-white" />
+            </a>
+          )}
 
-          <a
-            href={linkedinLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-2 rounded-full bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-200"
-          >
-            <Linkedin size={18} className="text-black dark:text-white" />
-          </a>
+          {linkedinLink && (
+            <a
+              href={linkedinLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-full bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-200"
+            >
+              <Linkedin size={18} className="text-black dark:text-white" />
+            </a>
+          )}
         </div>
       </div>
     </div>
