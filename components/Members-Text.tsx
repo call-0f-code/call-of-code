@@ -111,7 +111,7 @@ export default function MembersPage() {
     const fetchMembers = async () => {
       try {
         const res = await fetch("/api/members", {
-          signal: abortController.signal
+          signal: abortController.signal,
         });
         if (!res.ok) {
           setError(`Error ${res.status}: ${res.statusText}`);
@@ -140,8 +140,8 @@ export default function MembersPage() {
         const format = (m: Member): DisplayMember => ({
           name: m.name,
           imageSrc: m.profilePhoto ?? "/fallback.jpg",
-          githubLink: m.github ?? "#",
-          linkedinLink: m.linkedin ?? "#",
+          githubLink: m.github ?? "",
+          linkedinLink: m.linkedin ?? "",
         });
 
         const foundersList = approved
@@ -160,7 +160,7 @@ export default function MembersPage() {
         setSuperSeniors(superSeniorsList);
         setPresentMembers(presentList);
       } catch (err) {
-        if (err instanceof Error && err.name === 'AbortError') {
+        if (err instanceof Error && err.name === "AbortError") {
           return;
         }
         console.error("Failed to fetch members", err);
@@ -175,8 +175,6 @@ export default function MembersPage() {
     };
   }, []);
 
-
-  
   const tabs = [
     {
       title: "Present Members",
@@ -194,8 +192,6 @@ export default function MembersPage() {
       content: <MemberGrid members={founders} isFounder={true} />,
     },
   ];
-
-
 
   if (error) {
     return (
