@@ -22,7 +22,8 @@ To get a local copy up and running, follow these steps:
    ```bash
    npm install
    ```
-4. **Set API_BASE_URL env variable
+4. **Set API_BASE_URL env variable**
+
 5. **Run the development server:**
    ```bash
    npm run dev
