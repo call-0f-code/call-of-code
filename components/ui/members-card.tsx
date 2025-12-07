@@ -40,7 +40,7 @@ export default function MembersCard({
               <a
                 href={githubLink}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener"
                 className="p-2 rounded-full bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-200"
               >
                 <Github size={18} className="text-black dark:text-white" />
@@ -50,7 +50,7 @@ export default function MembersCard({
               <a
                 href={linkedinLink}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener"
                 className="p-2 rounded-full bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-200"
               >
                 <Linkedin size={18} className="text-black dark:text-white" />
@@ -75,7 +75,7 @@ export default function MembersCard({
             <a
               href={githubLink}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener"
               className="p-2 rounded-full bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-200"
             >
               <Github size={18} className="text-black dark:text-white" />
@@ -86,7 +86,7 @@ export default function MembersCard({
             <a
               href={linkedinLink}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener"
               className="p-2 rounded-full bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-200"
             >
               <Linkedin size={18} className="text-black dark:text-white" />
