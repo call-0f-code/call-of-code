@@ -86,7 +86,7 @@ const Footer = () => {
                 key={href}
                 href={href}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener"
                 aria-label={label}
                 className={`text-gray-600 hover:text-black dark:hover:text-gray-300 transition-all duration-300 hover:scale-110 text-2xl ${
                   index % 2 === 0 ? "justify-self-end" : "justify-self-start"
@@ -125,7 +125,7 @@ const Footer = () => {
                 key={href}
                 href={href}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener"
                 aria-label={label}
                 className={`text-gray-600 hover:text-black dark:hover:text-gray-300 transition-all duration-300 hover:scale-110 text-3xl md:text-4xl ${
                   index % 2 === 0 ? "justify-self-end" : "justify-self-start"
