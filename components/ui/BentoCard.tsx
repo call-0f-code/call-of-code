@@ -64,7 +64,7 @@ export const BentoGridItem = ({
                 <a
                   href={github}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noopener"
                   className="p-3 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-all duration-200 transform hover:scale-110"
                 >
                   <Github className="w-6 h-6 text-white" />
@@ -74,7 +74,7 @@ export const BentoGridItem = ({
                 <a
                   href={live}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noopener"
                   className="p-3 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-all duration-200 transform hover:scale-110"
                 >
                   <ExternalLink className="w-6 h-6 text-white" />
