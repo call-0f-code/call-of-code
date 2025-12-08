@@ -44,11 +44,15 @@ export function FloatingNavbar() {
   ];
 
   return (
-    <div className="fixed bottom-4 left-4 z-50  md:bottom-14 md:left-0 md:w-full md:flex md:justify-center md:pb-4">
-      <FloatingDock
-        mobileClassName="flex-row space-x-2 origin-left"
-        items={links}
-      />
+    <div className="fixed bottom-4 left-4 z-50 md:bottom-14 md:left-0 md:w-full md:flex md:justify-center md:pb-4 pointer-events-none">
+      <div className="pointer-events-auto">
+        <FloatingDock
+          mobileClassName="flex-row space-x-2 origin-left pointer-events-auto"
+          desktopClassName="pointer-events-auto"
+          items={links}
+        />
+      </div>
     </div>
   );
+
 }
