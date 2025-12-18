@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Tabs } from "./ui/tabs";
 import MembersCard from "./ui/members-card";
 import Image from "next/image";
@@ -113,6 +113,7 @@ const MemberGrid = ({
 export default function MembersPage() {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const { theme } = useTheme();
+  const tabTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [presentMembers, setPresentMembers] = useState<DisplayMember[]>([]);
   const [superSeniors, setSuperSeniors] = useState<DisplayMember[]>([]);
@@ -121,16 +122,29 @@ export default function MembersPage() {
   const [loading, setLoading] = useState(true);
   const [tabLoading, setTabLoading] = useState(false);
 
+
   const handleTabChange = (idx: number) => {
     setActiveTabIndex(idx);
     setTabLoading(true);
 
-    const timeout = setTimeout(() => {
+    if (tabTimeoutRef.current) {
+      clearTimeout(tabTimeoutRef.current);
+    }
+
+    tabTimeoutRef.current = setTimeout(() => {
       setTabLoading(false);
+      tabTimeoutRef.current = null;
     }, 500);
 
-    return () => clearTimeout(timeout);
-};
+  };
+
+  useEffect(() => {
+    return () => {
+      if (tabTimeoutRef.current) {
+        clearTimeout(tabTimeoutRef.current);
+      }
+    };
+  }, []);
 
   
 
