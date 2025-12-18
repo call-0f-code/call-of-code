@@ -100,26 +100,27 @@ export const FadeInDiv = ({
   return (
     <div className="relative w-full h-full min-h-[600px]">
       {/* Blurred stacked cards: only show on hover */}
-      {hovering &&
-        tabs
-          .filter((_, idx) => idx !== activeIndex)
-          .slice(0, 2)
-          .map((tab, idx) => (
-            <div
-              key={`stacked-${tab.value}`}
-              style={{
-                top: (idx + 1) * -30,
-                scale: 0.95 - idx * 0.03,
-                zIndex: 5 - idx,
-                filter: "blur(2px) brightness(0.8)",
-                opacity: 0.8 - idx * 0.2,
-              }}
-              className={cn(
-                "absolute top-0 left-0 w-full min-h-[400px] sm:min-h-[520px] md:min-h-[600px] rounded-3xl border-[6px] border-purple-500 dark:border-pink-600 bg-white dark:bg-black shadow-xl pointer-events-none transition-all duration-300",
-                className
-              )}
-            />
-          ))}
+      {tabs
+        .filter((_, i) => i !== activeIndex)
+        .slice(0, 2)
+        .map((tab, idx) => (
+          <div
+            key={`stacked-${tab.value}`}
+            style={{
+              top: hovering ? (idx + 1) * -30 : 0,
+              scale: hovering ? 0.95 - idx * 0.03 : 1,
+              zIndex: 5 - idx,
+              filter: hovering
+                ? "blur(2px) brightness(0.8)"
+                : "blur(0px) brightness(1)",
+              opacity: hovering ? 0.8 - idx * 0.2 : 0,
+            }}
+            className={cn(
+              "absolute top-0 left-0 w-full min-h-[400px] sm:min-h-[520px] md:min-h-[600px] rounded-3xl border-[6px] border-purple-500 dark:border-pink-600 bg-white dark:bg-black shadow-xl pointer-events-none transition-all duration-300 ease-in-out",
+              className
+            )}
+          />
+        ))}
 
       {/* Active tab content */}
       <AnimatePresence mode="wait">
