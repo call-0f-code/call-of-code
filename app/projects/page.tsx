@@ -6,7 +6,7 @@ import Particles from "@/components/ui/particles";
 import { useTheme } from "@/components/ui/theme-provider";
 import Image from "next/image";
 import { Person } from "@/components/ui/animated-tooltip";
-
+import { SkeletonLoader } from "./skeletonLoader";
 
 interface Project {
   id: number;
@@ -34,6 +34,7 @@ const Skeleton = ({ src, alt = "Preview" }: { src: string; alt?: string }) => {
 const ProjectPage: React.FC = () => {
   const { theme } = useTheme();
   const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -47,6 +48,8 @@ const ProjectPage: React.FC = () => {
         }
       } catch (err) {
         console.error("Error fetching projects:", err);
+      } finally{
+        setLoading(false);
       }
     };
 
@@ -84,23 +87,27 @@ const ProjectPage: React.FC = () => {
             <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-full w-3/4 rounded-full animate-pulse" />
           </div>
 
-            <BentoGrid>
-              {projects.map((project, i) => (
-                <BentoGridItem
-                  key={project.id}
-                  title={project.name}
-                  header={<Skeleton src={project.imageUrl} alt={project.name} />}
-                  github={project.githubUrl}
-                  live={project.deployUrl}
-                  tooltipItems={project.members?.map((member) => ({
-                    id: member.id,
-                    name: member.name,
-                    image: member.image || "/default-avatar.png",
-                  }))}
-                  className={i === 3 || i === 6 ? "md:col-span-2" : ""}
-                />
-              ))}
-            </BentoGrid>
+          <BentoGrid>
+            {loading
+              ? Array.from({ length: 6 }).map((_, i) => (
+                  <SkeletonLoader key={i} />
+                ))
+              : projects.map((project, i) => (
+                  <BentoGridItem
+                    key={project.id}
+                    title={project.name}
+                    header={<Skeleton src={project.imageUrl} alt={project.name} />}
+                    github={project.githubUrl}
+                    live={project.deployUrl}
+                    tooltipItems={project.members?.map((member) => ({
+                      id: member.id,
+                      name: member.name,
+                      image: member.image || "/default-avatar.png",
+                    }))}
+                    className={i === 3 || i === 6 ? "md:col-span-2" : ""}
+                  />
+                ))}
+          </BentoGrid>
         </main>
       </div>
     </div>

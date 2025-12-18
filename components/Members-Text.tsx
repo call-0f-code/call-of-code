@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import Particles from "./ui/particles";
 import { useTheme } from "@/components/ui/theme-provider";
 import { cn } from "@/lib/utils";
+import MemberSkeletonCard from "./ui/member-skeleton-card";
 
 type Member = {
   name: string;
@@ -42,6 +43,19 @@ const TabProgressBar = ({ index, total }: { index: number; total: number }) => {
     </div>
   );
 };
+
+const MembersSkeletonGrid = () => {
+  return (
+    <div className="relative rounded-3xl border-[6px] border-purple-500 dark:border-pink-600 bg-white dark:bg-black shadow-xl min-h-[600px] p-6">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <MemberSkeletonCard key={i} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 
 const MemberGrid = ({
   members,
@@ -104,6 +118,21 @@ export default function MembersPage() {
   const [superSeniors, setSuperSeniors] = useState<DisplayMember[]>([]);
   const [founders, setFounders] = useState<DisplayMember[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [tabLoading, setTabLoading] = useState(false);
+
+  const handleTabChange = (idx: number) => {
+    setActiveTabIndex(idx);
+    setTabLoading(true);
+
+    const timeout = setTimeout(() => {
+      setTabLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timeout);
+};
+
+  
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -165,6 +194,10 @@ export default function MembersPage() {
         }
         console.error("Failed to fetch members", err);
         setError("Failed to load members. Please try again later.");
+      } finally{
+        setTimeout(() => {
+          setLoading(false);
+      }, 1000);
       }
     };
 
@@ -176,22 +209,34 @@ export default function MembersPage() {
   }, []);
 
   const tabs = [
-    {
-      title: "Present Members",
-      value: "present",
-      content: <MemberGrid members={presentMembers} />,
-    },
-    {
-      title: "Super Seniors",
-      value: "seniors",
-      content: <MemberGrid members={superSeniors} />,
-    },
-    {
-      title: "Founders",
-      value: "founders",
-      content: <MemberGrid members={founders} isFounder={true} />,
-    },
-  ];
+  {
+    title: "Present Members",
+    value: "present",
+    content: loading || tabLoading? (
+      <MembersSkeletonGrid />
+    ) : (
+      <MemberGrid members={presentMembers} />
+    ),
+  },
+  {
+    title: "Super Seniors",
+    value: "seniors",
+    content: loading || tabLoading? (
+      <MembersSkeletonGrid />
+    ) : (
+      <MemberGrid members={superSeniors} />
+    ),
+  },
+  {
+    title: "Founders",
+    value: "founders",
+    content: loading || tabLoading? (
+      <MembersSkeletonGrid />
+    ) : (
+      <MemberGrid members={founders} isFounder />
+    ),
+  },
+];
 
   if (error) {
     return (
@@ -211,7 +256,7 @@ export default function MembersPage() {
         <Particles
           quantity={500}
           color={theme === "dark" ? "#ffffff" : "#000000"}
-          className="absolute inset-0 z-0 h-full w-full"
+          className="fixed inset-0 z-0 h-full w-full"
           size={1.5}
           staticity={50}
           ease={40}
@@ -250,7 +295,7 @@ export default function MembersPage() {
                 tabs={tabs}
                 containerClassName="mb-8"
                 contentClassName="mt-16"
-                onTabChange={(idx) => setActiveTabIndex(idx)}
+                onTabChange={handleTabChange}
               />
             </div>
           </main>
