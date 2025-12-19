@@ -63,7 +63,7 @@ const ProjectPage: React.FC = () => {
       <Particles
         quantity={500}
         color={theme === "dark" ? "#ffffff" : "#000000"}
-        className="absolute inset-0 z-0"
+        className="fixed inset-0 z-0"
         size={1.5}
         staticity={50}
         ease={40}
