@@ -62,6 +62,7 @@ export default function AchievementsClient({ achievements }: AchievementsClientP
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [loadingMembers, setLoadingMembers] = useState<Record<number, boolean>>({});
+  const [error, setError] = useState<string | null>(null);
   const [achievementsWithMembers, setAchievementsWithMembers] = useState<Achievement[]>(achievements);
 
   useEffect(() => {
@@ -98,7 +99,8 @@ export default function AchievementsClient({ achievements }: AchievementsClientP
         });
       }
     } catch (error) {
-      console.error('Error fetching members:', error);
+      setError("Failed to load acheivements")
+      console.error('Error fetching acheivements:', error);
     } finally {
       setLoadingMembers(prev => ({ ...prev, [achievementId]: false }));
     }
@@ -117,6 +119,15 @@ export default function AchievementsClient({ achievements }: AchievementsClientP
 
   // Data is already sorted from the server component
   const sortedAchievements = achievementsWithMembers;
+
+  if (error) {
+    return (
+      <div className="flex min-h-screen items-center justify-center text-lg text-center text-red-500 px-4">
+        {error}
+      </div>
+    );
+  }
+
 
   return (
     <div className="relative min-h-screen w-full bg-white dark:bg-black transition-colors duration-300 pb-40">
