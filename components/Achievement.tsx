@@ -162,10 +162,43 @@ export default function AchievementsClient({ achievements }: AchievementsClientP
 
         {/* Loading state or no achievements */}
         {!sortedAchievements || sortedAchievements.length === 0 ? (
-          <div className="text-center text-gray-600 dark:text-gray-400">
-            <p>No achievements to display at the moment.</p>
+          <div className="flex items-center justify-center py-40">
+            <div className="flex items-center gap-4 text-gray-700 dark:text-gray-300">
+              {/* Gradient SVG */}
+              <svg
+                className="h-11 w-11 opacity-80"
+                fill="none"
+                stroke="url(#purplePinkGradient)"
+                strokeWidth="1.5"
+                viewBox="0 0 24 24"
+              >
+                <defs>
+                  <linearGradient
+                    id="purplePinkGradient"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="0%"
+                  >
+                    <stop offset="0%" stopColor="#a855f7" /> {/* purple-500 */}
+                    <stop offset="100%" stopColor="#ec4899" /> {/* pink-500 */}
+                  </linearGradient>
+                </defs>
+
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+
+              {/* Text */}
+              <p className="text-3xl font-semibold tracking-wide">
+                Failed to load achievements
+              </p>
+            </div>
           </div>
-        ) : (
+          ) : (
           <>
             {isMobile ? (
               (() => {
