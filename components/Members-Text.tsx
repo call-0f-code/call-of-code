@@ -118,7 +118,6 @@ export default function MembersPage() {
   const [presentMembers, setPresentMembers] = useState<DisplayMember[]>([]);
   const [superSeniors, setSuperSeniors] = useState<DisplayMember[]>([]);
   const [founders, setFounders] = useState<DisplayMember[]>([]);
-  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [tabLoading, setTabLoading] = useState(false);
 
@@ -157,7 +156,6 @@ export default function MembersPage() {
           signal: abortController.signal,
         });
         if (!res.ok) {
-          setError(`Error ${res.status}: ${res.statusText}`);
           throw new Error("Network response was not ok");
         }
         const result = await res.json();
@@ -165,7 +163,6 @@ export default function MembersPage() {
         const rawData: Member[] = Array.isArray(result.data) ? result.data : [];
 
         if (!result.success) {
-          setError("Failed to load member data");
           throw new Error("Invalid API response");
         }
 
@@ -207,7 +204,6 @@ export default function MembersPage() {
           return;
         }
         console.error("Failed to fetch members", err);
-        setError("Failed to load members. Please try again later.");
       } finally{
         setTimeout(() => {
           setLoading(false);
@@ -222,12 +218,46 @@ export default function MembersPage() {
     };
   }, []);
 
+
+  const MembersEmptyState = ({ message }: { message: string }) => (
+    <div className="flex items-center justify-center py-40">
+      <div className="flex items-center gap-4 text-gray-700 dark:text-gray-300">
+        <svg
+          className="h-11 w-11 opacity-80"
+          fill="none"
+          stroke="url(#purplePinkGradient)"
+          strokeWidth="1.5"
+          viewBox="0 0 24 24"
+        >
+          <defs>
+            <linearGradient id="purplePinkGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#a855f7" />
+              <stop offset="100%" stopColor="#ec4899" />
+            </linearGradient>
+          </defs>
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+
+        <p className="text-3xl font-semibold tracking-wide">
+          {message}
+        </p>
+      </div>
+    </div>
+  );
+
+
   const tabs = [
   {
     title: "Present Members",
     value: "present",
-    content: loading || tabLoading? (
+    content: loading || tabLoading ? (
       <MembersSkeletonGrid />
+    ) : presentMembers.length === 0 ? (
+      <MembersEmptyState message="Failed to load present members" />
     ) : (
       <MemberGrid members={presentMembers} />
     ),
@@ -235,8 +265,10 @@ export default function MembersPage() {
   {
     title: "Super Seniors",
     value: "seniors",
-    content: loading || tabLoading? (
+    content: loading || tabLoading ? (
       <MembersSkeletonGrid />
+    ) : superSeniors.length === 0 ? (
+      <MembersEmptyState message="Failed to load super seniors" />
     ) : (
       <MemberGrid members={superSeniors} />
     ),
@@ -244,21 +276,16 @@ export default function MembersPage() {
   {
     title: "Founders",
     value: "founders",
-    content: loading || tabLoading? (
+    content: loading || tabLoading ? (
       <MembersSkeletonGrid />
+    ) : founders.length === 0 ? (
+      <MembersEmptyState message="Failed to load founders" />
     ) : (
       <MemberGrid members={founders} isFounder />
     ),
   },
-];
+  ];
 
-  if (error) {
-    return (
-      <div className="flex min-h-screen items-center justify-center text-lg text-center text-red-500 px-4">
-        {error}
-      </div>
-    );
-  }
 
   return (
     <div>

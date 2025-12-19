@@ -49,7 +49,9 @@ const ProjectPage: React.FC = () => {
       } catch (err) {
         console.error("Error fetching projects:", err);
       } finally{
-        setLoading(false);
+          setTimeout(() => {
+            setLoading(false);
+          }, 500);
       }
     };
 
@@ -87,27 +89,72 @@ const ProjectPage: React.FC = () => {
             <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-full w-3/4 rounded-full animate-pulse" />
           </div>
 
-          <BentoGrid>
-            {loading
-              ? Array.from({ length: 6 }).map((_, i) => (
-                  <SkeletonLoader key={i} />
-                ))
-              : projects.map((project, i) => (
-                  <BentoGridItem
-                    key={project.id}
-                    title={project.name}
-                    header={<Skeleton src={project.imageUrl} alt={project.name} />}
-                    github={project.githubUrl}
-                    live={project.deployUrl}
-                    tooltipItems={project.members?.map((member) => ({
-                      id: member.id,
-                      name: member.name,
-                      image: member.image || "/default-avatar.png",
-                    }))}
-                    className={i === 3 || i === 6 ? "md:col-span-2" : ""}
-                  />
-                ))}
-          </BentoGrid>
+          {/* Loading State */}
+          {loading && (
+            <BentoGrid>
+              {Array.from({ length: 6 }).map((_, i) => (
+                <SkeletonLoader key={i} />
+              ))}
+            </BentoGrid>
+          )}
+
+          {/* Empty State */}
+          {!loading && projects.length === 0 && (
+            <div className="flex items-center justify-center py-40">
+              <div className="flex items-center gap-4">
+                <svg
+                  className="h-11 w-11 opacity-80"
+                  fill="none"
+                  stroke="url(#purplePinkGradient)"
+                  strokeWidth="1.5"
+                  viewBox="0 0 24 24"
+                >
+                <defs>
+                  <linearGradient id="purplePinkGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#a855f7" /> {/* purple-500 */}
+                  <stop offset="100%" stopColor="#ec4899" /> {/* pink-500 */}
+                  </linearGradient>
+                </defs>
+
+                <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+                </svg>
+
+                <p className="text-3xl font-semibold tracking-wide text-gray-700 dark:text-gray-300">
+                  Failed to fetch projects
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Projects Grid */}
+          {!loading && projects.length > 0 && (
+            <BentoGrid>
+              {projects.map((project, i) => (
+                <BentoGridItem
+                  key={project.id}
+                  title={project.name}
+                  header={
+                    <Skeleton
+                      src={project.imageUrl}
+                      alt={project.name}
+                    />
+                  }
+                  github={project.githubUrl}
+                  live={project.deployUrl}
+                  tooltipItems={project.members?.map((member) => ({
+                    id: member.id,
+                    name: member.name,
+                    image: member.image || "/default-avatar.png",
+                  }))}
+                  className={i === 3 || i === 6 ? "md:col-span-2" : ""}
+                />
+              ))}
+            </BentoGrid>
+          )}
         </main>
       </div>
     </div>
