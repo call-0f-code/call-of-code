@@ -96,16 +96,7 @@ async function fetchAchievements(): Promise<ClientAchievement[]> {
     console.error('Error fetching achievements:', error);
     
     // Return fallback data in case of error
-    return [
-      {
-        id: -1,
-        title: "Achievement Data Unavailable",
-        description: "Unable to load achievements at this time. Please try again later.",
-        date: "Present",
-        imageSrc: "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=800",
-        teamMembers: []
-      }
-    ];
+    return [];
   }
 }
 
