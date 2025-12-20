@@ -120,7 +120,7 @@ export default function MembersPage() {
   const [founders, setFounders] = useState<DisplayMember[]>([]);
   const [loading, setLoading] = useState(true);
   const [tabLoading, setTabLoading] = useState(false);
-
+  const [error, setError] = useState(false);
 
   const handleTabChange = (idx: number) => {
     setActiveTabIndex(idx);
@@ -149,6 +149,8 @@ export default function MembersPage() {
 
   useEffect(() => {
     const abortController = new AbortController();
+    setLoading(true);
+    setError(false);
 
     const fetchMembers = async () => {
       try {
@@ -204,6 +206,7 @@ export default function MembersPage() {
           return;
         }
         console.error("Failed to fetch members", err);
+        setError(true);
       } finally{
         setTimeout(() => {
           setLoading(false);
@@ -250,40 +253,39 @@ export default function MembersPage() {
   );
 
 
+  const renderMembersTab = (members: DisplayMember[], isFounder = false) => {
+    if (loading || tabLoading) {
+      return <MembersSkeletonGrid />;
+    }
+
+    if (error) {
+      return <MembersEmptyState message="Failed to load members" />;
+    }
+
+    if (members.length === 0) {
+      return <MembersEmptyState message="No members found" />;
+    }
+
+    return <MemberGrid members={members} isFounder={isFounder} />;
+  };
+
+
   const tabs = [
-  {
-    title: "Present Members",
-    value: "present",
-    content: loading || tabLoading ? (
-      <MembersSkeletonGrid />
-    ) : presentMembers.length === 0 ? (
-      <MembersEmptyState message="Failed to load present members" />
-    ) : (
-      <MemberGrid members={presentMembers} />
-    ),
-  },
-  {
-    title: "Super Seniors",
-    value: "seniors",
-    content: loading || tabLoading ? (
-      <MembersSkeletonGrid />
-    ) : superSeniors.length === 0 ? (
-      <MembersEmptyState message="Failed to load super seniors" />
-    ) : (
-      <MemberGrid members={superSeniors} />
-    ),
-  },
-  {
-    title: "Founders",
-    value: "founders",
-    content: loading || tabLoading ? (
-      <MembersSkeletonGrid />
-    ) : founders.length === 0 ? (
-      <MembersEmptyState message="Failed to load founders" />
-    ) : (
-      <MemberGrid members={founders} isFounder />
-    ),
-  },
+    {
+      title: "Present Members",
+      value: "present",
+      content: renderMembersTab(presentMembers),
+    },
+    {
+      title: "Super Seniors",
+      value: "seniors",
+      content: renderMembersTab(superSeniors),
+    },
+    {
+      title: "Founders",
+      value: "founders",
+      content: renderMembersTab(founders, true),
+    },
   ];
 
 
