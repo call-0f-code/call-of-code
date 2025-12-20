@@ -40,6 +40,7 @@ const ProjectPage: React.FC = () => {
   useEffect(() => {
     setLoading(true);
     setError(false);
+    
     const fetchProjects = async () => {
       try {
         const res = await fetch("/api/projects-with-members");
@@ -50,13 +51,13 @@ const ProjectPage: React.FC = () => {
           console.error("Error loading project data");
           throw new Error("Network response was not ok");
         }
-      } catch (err) {
-          console.error("Error fetching projects:", err);
-          setError(true);
-      } finally{
           setTimeout(() => {
             setLoading(false);
           }, 500);
+      } catch (err) {
+          console.error("Error fetching projects:", err);
+          setError(true);
+          setLoading(false);
       }
     };
 

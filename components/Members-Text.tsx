@@ -120,7 +120,16 @@ export default function MembersPage() {
   const [founders, setFounders] = useState<DisplayMember[]>([]);
   const [loading, setLoading] = useState(true);
   const [tabLoading, setTabLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [tabError, setTabError] = useState<{
+    present: boolean;
+    seniors: boolean;
+    founders: boolean;
+  }>({
+    present: false,
+    seniors: false,
+    founders: false,
+  });
+
 
   const handleTabChange = (idx: number) => {
     setActiveTabIndex(idx);
@@ -150,7 +159,11 @@ export default function MembersPage() {
   useEffect(() => {
     const abortController = new AbortController();
     setLoading(true);
-    setError(false);
+    setTabError({
+      present: false,
+      seniors: false,
+      founders: false,
+    });
 
     const fetchMembers = async () => {
       try {
@@ -172,6 +185,7 @@ export default function MembersPage() {
           setFounders([]);
           setSuperSeniors([]);
           setPresentMembers([]);
+          setLoading(false);
           return;
         }
 
@@ -201,17 +215,21 @@ export default function MembersPage() {
         setFounders(foundersList);
         setSuperSeniors(superSeniorsList);
         setPresentMembers(presentList);
+        setTimeout(() => {
+          setLoading(false);
+        }, 500);
       } catch (err) {
         if (err instanceof Error && err.name === "AbortError") {
           return;
         }
         console.error("Failed to fetch members", err);
-        setError(true);
-      } finally{
-        setTimeout(() => {
-          setLoading(false);
-      }, 1000);
-      }
+        setTabError({
+          present: true,
+          seniors: true,
+          founders: true,
+        });
+        setLoading(false);
+      } 
     };
 
     fetchMembers();
@@ -252,14 +270,21 @@ export default function MembersPage() {
     </div>
   );
 
+  const TAB_LABELS = {
+  present: "Present Members",
+  seniors: "Super Seniors",
+  founders: "Founders",
+  } as const;
 
-  const renderMembersTab = (members: DisplayMember[], isFounder = false) => {
+  const renderMembersTab = (members: DisplayMember[], tab: "present" | "seniors" | "founders", isFounder = false) => {
     if (loading || tabLoading) {
       return <MembersSkeletonGrid />;
     }
 
-    if (error) {
-      return <MembersEmptyState message="Failed to load members" />;
+    if (tabError[tab]) {
+      return (
+        <MembersEmptyState message={`Failed to load ${TAB_LABELS[tab]}`} />
+      );
     }
 
     if (members.length === 0) {
@@ -274,17 +299,17 @@ export default function MembersPage() {
     {
       title: "Present Members",
       value: "present",
-      content: renderMembersTab(presentMembers),
+      content: renderMembersTab(presentMembers, "present"),
     },
     {
       title: "Super Seniors",
       value: "seniors",
-      content: renderMembersTab(superSeniors),
+      content: renderMembersTab(superSeniors, "seniors"),
     },
     {
       title: "Founders",
       value: "founders",
-      content: renderMembersTab(founders, true),
+      content: renderMembersTab(founders, "founders", true),
     },
   ];
 
