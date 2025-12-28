@@ -40,7 +40,7 @@ export default function PlatformCard({
       case "codechef":
         return { label: "Rating", value: data.rating || "N/A" };
       case "geeksforgeeks":
-        return { label: "Coding Score", value: data.codingScore || "N/A" };
+        return { label: "Problems Solved", value: data.totalSolved || 0 };
       default:
         return { label: "Score", value: "N/A" };
     }
@@ -59,6 +59,18 @@ export default function PlatformCard({
           { label: "Current", value: data.rating || "N/A", color: "text-blue-500" },
           { label: "Max", value: data.maxRating || "N/A", color: "text-purple-500" },
           { label: "Solved", value: data.totalSolved || 0, color: "text-green-500" },
+        ];
+      case "codechef":
+        return [
+          { label: "Current", value: data.rating || "N/A", color: "text-orange-500" },
+          { label: "Highest", value: data.highestRating || "N/A", color: "text-amber-500" },
+          { label: "Stars", value: data.stars ? "⭐".repeat(data.stars) : "N/A", color: "text-yellow-500" },
+        ];
+      case "geeksforgeeks":
+        return [
+          { label: "Easy", value: data.easy || 0, color: "text-green-500" },
+          { label: "Medium", value: data.medium || 0, color: "text-yellow-500" },
+          { label: "Hard", value: data.hard || 0, color: "text-red-500" },
         ];
       default:
         return [];

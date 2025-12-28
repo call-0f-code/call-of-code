@@ -244,19 +244,60 @@ export async function fetchCodeforcesData(username: string) {
   }
 }
 
-// CodeChef Scraper (simplified - you may need to enhance)
+// CodeChef Scraper
 export async function fetchCodeChefData(username: string) {
   try {
-    // Note: CodeChef doesn't have an official API, would need web scraping
-    // This is a placeholder - implement actual scraping logic or use a proxy service
+    const response = await fetch(`https://www.codechef.com/users/${username}`, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      },
+      next: { revalidate: 3600 },
+    });
+
+    if (!response.ok) return null;
+
+    const html = await response.text();
+
+    // Extract total problems solved
+    const problemsMatch = html.match(/<h3>Total Problems Solved:\s*(\d+)<\/h3>/);
+    const totalSolved = problemsMatch ? parseInt(problemsMatch[1]) : null;
+
+    // Extract rating
+    const ratingMatch = html.match(/<div class="rating-number">(\d+)<\/div>/);
+    const rating = ratingMatch ? parseInt(ratingMatch[1]) : null;
+
+    // Extract highest rating
+    const highestMatch = html.match(/Highest Rating\s+(\d+)/);
+    const highestRating = highestMatch ? parseInt(highestMatch[1]) : null;
+
+    // Extract stars (count the star symbols)
+    const starsMatch = html.match(/rating-star[^>]*>([\s\S]*?)<\/div>/);
+    const stars = starsMatch
+      ? (starsMatch[1].match(/★|&#9733;/g) || []).length
+      : null;
+
+    // Extract global rank
+    const globalRankMatch = html.match(
+      /<a href="\/ratings\/all"><strong>(\d+)<\/strong><\/a>\s*Global Rank/
+    );
+    const globalRank = globalRankMatch ? parseInt(globalRankMatch[1]) : null;
+
+    // Extract country rank
+    const countryRankMatch = html.match(
+      /<a href="[^"]*Country[^"]*"><strong>(\d+)<\/strong><\/a>\s*Country Rank/
+    );
+    const countryRank = countryRankMatch ? parseInt(countryRankMatch[1]) : null;
+
     return {
-      rating: null,
-      stars: null,
-      totalSolved: null,
-      globalRank: null,
+      rating,
+      highestRating,
+      stars,
+      totalSolved,
+      globalRank,
+      countryRank,
     };
   } catch (error) {
-    console.error("CodeChef API Error:", error);
+    console.error("CodeChef Scraper Error:", error);
     return null;
   }
 }
