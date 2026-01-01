@@ -5,7 +5,6 @@ import PortfolioHero from "@/components/portfolio/PortfolioHero";
 import PortfolioBentoGrid from "@/components/portfolio/PortfolioBentoGrid";
 import PortfolioProjects from "@/components/portfolio/PortfolioProjects";
 import PortfolioTimeline from "@/components/portfolio/PortfolioTimeline";
-import FloatingDockNav from "@/components/portfolio/FloatingDockNav";
 import ParticleBackground from "@/components/portfolio/ParticleBackground";
 import PortfolioSkeleton from "@/components/portfolio/PortfolioSkeleton";
 import { getMemberPortfolioData } from "@/lib/actions/portfolio";

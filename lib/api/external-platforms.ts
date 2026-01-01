@@ -113,78 +113,49 @@ export async function fetchLeetCodeData(username: string) {
           ranking
         }
       }
-      recentSubmissionList(username: $username, limit: 100) {
+      recentSubmissionList(username: $username) {
         timestamp
       }
     }
   `;
 
   try {
-    // Use alfa-leetcode-api proxy to avoid SSL issues
-    const response = await fetch(`https://alfa-leetcode-api.onrender.com/${username}/solved`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "User-Agent": "Mozilla/5.0",
-      },
+    const response = await fetch("https://leetcode.com/graphql", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query, variables: { username } }),
       next: { revalidate: 3600 },
     });
 
     if (!response.ok) return null;
 
     const data = await response.json();
+    const user = data.data?.matchedUser;
 
-    // The proxy returns a different format
-    const totalSolved = data.solvedProblem || 0;
-    const easy = data.easySolved || 0;
-    const medium = data.mediumSolved || 0;
-    const hard = data.hardSolved || 0;
+    if (!user) return null;
 
-    // Try to get calendar data from submission calendar endpoint
-    let calendar: any[] = [];
-    try {
-      const calendarResponse = await fetch(
-        `https://alfa-leetcode-api.onrender.com/${username}/calendar`,
-        { next: { revalidate: 3600 } }
-      );
-      if (calendarResponse.ok) {
-        const calendarData = await calendarResponse.json();
-        
-        // The submissionCalendar is a stringified JSON, need to parse it
-        let submissionCalendar: Record<string, number> = {};
-        
-        if (typeof calendarData.submissionCalendar === 'string') {
-          try {
-            submissionCalendar = JSON.parse(calendarData.submissionCalendar);
-          } catch {
-            submissionCalendar = {};
-          }
-        } else if (typeof calendarData.submissionCalendar === 'object') {
-          submissionCalendar = calendarData.submissionCalendar;
-        }
-        
-        // Convert submission calendar object to array of date objects
-        if (submissionCalendar && Object.keys(submissionCalendar).length > 0) {
-          calendar = Object.entries(submissionCalendar).map(
-            ([timestamp, count]) => ({
-              date: new Date(parseInt(timestamp) * 1000)
-                .toISOString()
-                .split("T")[0],
-              count: typeof count === 'number' ? count : parseInt(String(count)),
-            })
-          );
-        }
-      }
-    } catch (err) {
-      console.error("LeetCode calendar fetch error:", err);
-    }
+    // Parse submission stats
+    const stats = user.submitStats.acSubmissionNum.reduce(
+      (acc: any, item: any) => {
+        acc[item.difficulty.toLowerCase()] = item.count;
+        return acc;
+      },
+      {}
+    );
+
+    // Create submission calendar from recent submissions
+    const submissions = data.data?.recentSubmissionList || [];
+    const calendar = submissions.map((sub: any) => ({
+      date: new Date(parseInt(sub.timestamp) * 1000).toISOString().split("T")[0],
+      count: 1,
+    }));
 
     return {
-      totalSolved,
-      easy,
-      medium,
-      hard,
-      ranking: data.ranking || null,
+      totalSolved: stats.all || 0,
+      easy: stats.easy || 0,
+      medium: stats.medium || 0,
+      hard: stats.hard || 0,
+      ranking: user.profile?.ranking || null,
       calendar,
     };
   } catch (error) {
@@ -303,16 +274,71 @@ export async function fetchCodeChefData(username: string) {
 }
 
 // GeeksforGeeks Scraper (simplified - you may need to enhance)
-export async function fetchGeeksforGeeksData(username: string) {
-  try {
-    // Note: GFG doesn't have an official API, would need web scraping
-    // This is a placeholder - implement actual scraping logic or use a proxy service
-    return {
-      codingScore: null,
-      totalSolved: null,
-    };
-  } catch (error) {
-    console.error("GeeksforGeeks API Error:", error);
-    return null;
-  }
+export async function fetchGeeksforGeeksData(userName: string) {
+console.log("Fetching GFG data via API...");
+
+    try {
+        const response = await fetch("https://practiceapi.geeksforgeeks.org/api/v1/user/problems/submissions/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                // The Referer is often required for these internal APIs to verify the origin
+                "Referer": "https://www.geeksforgeeks.org/",
+            },
+            body: JSON.stringify({
+                handle: userName,
+                requestType: "",
+                year: "",
+                month: ""
+            }),
+            next: { revalidate: 3600 }
+        });
+
+        if (!response.ok) {
+            throw new Error(`GFG API failed: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        // The API returns distinct objects for difficulty levels in data.result
+        // Example: data.result.Medium = { "id": { pname: "..." }, ... }
+        const result = data.result || {};
+
+        // Helper to extract problem names from a specific difficulty object
+        const extractProblems = (difficultyKey: string) : number => {
+            const difficultyObj = result[difficultyKey];
+            if (!difficultyObj) return 0;
+            
+            // Map the values of the object to get the problem names
+            return Object.keys(difficultyObj).length
+        };
+
+        const easy = extractProblems("Easy");
+        const medium = extractProblems("Medium");
+        const hard = extractProblems("Hard");
+        
+
+        // Calculate total manually or use the count provided by API
+        const totalSolved = data.count || (easy + medium + hard);
+
+        console.log("Fetched GFG data");
+
+        return {
+            overallScore: "N/A", // This API does not provide the coding score
+            totalSolved: totalSolved.toString(),
+            easy,
+            medium,
+            hard,
+        };
+
+    } catch (error) {
+        console.error("Error fetching GFG API:", error);
+        return {
+            overallScore: null,
+            totalSolved: null,
+            easy: null,
+            medium: null,
+            hard: null,
+        };
+    }
 }
