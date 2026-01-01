@@ -4,7 +4,7 @@
 import { motion } from "framer-motion";
 import HeatmapDeck from "./HeatmapDeck";
 import PlatformCard from "./PlatformCard";
-
+import { PlatformIcons } from "./PlatformIcons";
 interface PlatformData {
   github: any;
   leetcode: any;
@@ -53,7 +53,7 @@ export default function PortfolioBentoGrid({
       viewport={{ once: true, margin: "-100px" }}
       className="grid grid-cols-1 lg:grid-cols-12 gap-6"
     >
-      {/* Heatmaps - Full width on mobile, 8 cols on desktop */}
+      {/* Heatmaps - 9 cols (approx 75% width) */}
       <motion.div
         variants={itemVariants}
         className="lg:col-span-9 relative overflow-hidden rounded-2xl bg-zinc-900/50 backdrop-blur-xl border border-white/10 p-6 hover:border-purple-500/30 transition-all duration-300"
@@ -64,7 +64,7 @@ export default function PortfolioBentoGrid({
         />
       </motion.div>
 
-      {/* Profile Summary - 4 cols on desktop */}
+      {/* Profile Summary - 3 cols (approx 25% width) */}
       <motion.div
         variants={itemVariants}
         className="lg:col-span-3 relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-xl border border-white/10 p-8 hover:border-purple-500/50 transition-all duration-300 group"
@@ -79,22 +79,22 @@ export default function PortfolioBentoGrid({
             />
           </div>
           <div>
-            <h3 className="text-2xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+            <h3 className="text-xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
               {member.name}
             </h3>
             {member.bio && (
-              <p className="text-gray-400 text-sm leading-relaxed">{member.bio}</p>
+              <p className="text-gray-400 text-xs leading-relaxed">{member.bio}</p>
             )}
           </div>
         </div>
       </motion.div>
 
-      {/* Platform Stats Cards - 3 cols each on desktop */}
+      {/* Platform Stats Cards - 3 cols each */}
       <motion.div variants={itemVariants} className="lg:col-span-3">
         <PlatformCard
           platform="leetcode"
           data={platforms.leetcode}
-          icon="💻"
+          icon={<PlatformIcons.LeetCode />}
           color="from-yellow-500 to-orange-500"
         />
       </motion.div>
@@ -103,7 +103,7 @@ export default function PortfolioBentoGrid({
         <PlatformCard
           platform="codeforces"
           data={platforms.codeforces}
-          icon="⚔️"
+          icon={<PlatformIcons.CodeForces />}
           color="from-blue-500 to-cyan-500"
         />
       </motion.div>
@@ -112,7 +112,7 @@ export default function PortfolioBentoGrid({
         <PlatformCard
           platform="codechef"
           data={platforms.codechef}
-          icon="🍳"
+          icon={<PlatformIcons.CodeChef />}
           color="from-amber-500 to-orange-600"
         />
       </motion.div>
@@ -121,7 +121,7 @@ export default function PortfolioBentoGrid({
         <PlatformCard
           platform="geeksforgeeks"
           data={platforms.geeksforgeeks}
-          icon="🎓"
+          icon={<PlatformIcons.GeeksForGeeks />}
           color="from-green-500 to-emerald-600"
         />
       </motion.div>

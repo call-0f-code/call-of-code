@@ -8,7 +8,7 @@ import { AlertCircle } from "lucide-react";
 interface PlatformCardProps {
   platform: string;
   data: any;
-  icon: string;
+  icon: React.ReactNode;
   color: string;
 }
 
