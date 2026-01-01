@@ -112,9 +112,9 @@ export async function fetchLeetCodeData(username: string) {
         profile {
           ranking
         }
-      }
-      recentSubmissionList(username: $username) {
-        timestamp
+        userCalendar {
+          submissionCalendar
+        }
       }
     }
   `;
@@ -122,7 +122,11 @@ export async function fetchLeetCodeData(username: string) {
   try {
     const response = await fetch("https://leetcode.com/graphql", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        // Adding a User-Agent is often necessary for LeetCode's direct API
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
+      },
       body: JSON.stringify({ query, variables: { username } }),
       next: { revalidate: 3600 },
     });
@@ -143,12 +147,24 @@ export async function fetchLeetCodeData(username: string) {
       {}
     );
 
-    // Create submission calendar from recent submissions
-    const submissions = data.data?.recentSubmissionList || [];
-    const calendar = submissions.map((sub: any) => ({
-      date: new Date(parseInt(sub.timestamp) * 1000).toISOString().split("T")[0],
-      count: 1,
-    }));
+    // --- New Calendar Logic ---
+    let calendar: { date: string; count: number }[] = [];
+    
+    if (user.userCalendar?.submissionCalendar) {
+      try {
+        // LeetCode returns submissionCalendar as a stringified JSON: "{\"1704067200\": 5, ...}"
+        const submissionMap = JSON.parse(user.userCalendar.submissionCalendar);
+        
+        // Convert the map { timestamp: count } to your array format
+        calendar = Object.entries(submissionMap).map(([timestamp, count]) => ({
+          // Convert unix timestamp (seconds) to YYYY-MM-DD
+          date: new Date(parseInt(timestamp) * 1000).toISOString().split("T")[0],
+          count: Number(count),
+        }));
+      } catch (e) {
+        console.error("Failed to parse LeetCode calendar JSON", e);
+      }
+    }
 
     return {
       totalSolved: stats.all || 0,
@@ -163,7 +179,6 @@ export async function fetchLeetCodeData(username: string) {
     return null;
   }
 }
-
 // Codeforces API
 export async function fetchCodeforcesData(username: string) {
   try {
@@ -304,8 +319,8 @@ console.log("Fetching GFG data via API...");
         // Example: data.result.Medium = { "id": { pname: "..." }, ... }
         const result = data.result || {};
 
-        // Helper to extract problem names from a specific difficulty object
-        const extractProblems = (difficultyKey: string) : number => {
+        // Helper to extract difficulty counts from a specific difficulty object
+        const extractProblemCount = (difficultyKey: string) : number => {
             const difficultyObj = result[difficultyKey];
             if (!difficultyObj) return 0;
             
@@ -313,9 +328,9 @@ console.log("Fetching GFG data via API...");
             return Object.keys(difficultyObj).length
         };
 
-        const easy = extractProblems("Easy");
-        const medium = extractProblems("Medium");
-        const hard = extractProblems("Hard");
+        const easy = extractProblemCount("Easy");
+        const medium = extractProblemCount("Medium");
+        const hard = extractProblemCount("Hard");
         
 
         // Calculate total manually or use the count provided by API
