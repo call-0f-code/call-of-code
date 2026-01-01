@@ -43,6 +43,8 @@ export default async function MemberPortfolioPage({ params }: PageProps) {
   }
 
   const { member, platforms, achievements, projects } = portfolioData;
+  const githubRepos = platforms.github?.pinnedRepos || [];
+  const hasProjects = projects.length > 0 || githubRepos.length > 0;
 
   return (
     <div className="relative min-h-screen bg-[#050505] text-white overflow-x-hidden">
@@ -66,13 +68,13 @@ export default async function MemberPortfolioPage({ params }: PageProps) {
           </section>
 
           {/* Projects Section */}
-          {projects.length > 0 && (
+          {hasProjects && (
             <section id="projects" className="min-h-screen px-4 py-20">
               <div className="container mx-auto max-w-7xl">
                 <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
-                  Featured Projects
+                  Projects
                 </h2>
-                <PortfolioProjects projects={projects} />
+                <PortfolioProjects projects={projects} githubRepos={githubRepos} />
               </div>
             </section>
           )}
