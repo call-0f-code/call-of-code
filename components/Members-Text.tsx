@@ -155,7 +155,10 @@ export default function MembersPage() {
           .map(format);
 
         const superSeniorsList = approved
-          .filter((m) => new Date(m.passoutYear).getFullYear() === currentYear)
+          .filter((m) => {
+            const passoutYear = new Date(m.passoutYear).getFullYear();
+            return passoutYear <= currentYear && passoutYear !== 2024;
+          })
           .map(format);
 
         const presentList = approved

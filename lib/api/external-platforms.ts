@@ -319,9 +319,8 @@ export async function fetchCodeChefData(username: string) {
   }
 }
 
-// GeeksforGeeks Scraper
+
 export async function fetchGeeksforGeeksData(userName: string) {
-  console.log("Fetching GFG data via API...");
 
     try {
         const response = await fetch("https://practiceapi.geeksforgeeks.org/api/v1/user/problems/submissions/", {
@@ -360,7 +359,6 @@ export async function fetchGeeksforGeeksData(userName: string) {
         
         const totalSolved = data.count || (easy + medium + hard);
 
-        console.log("Fetched GFG data");
 
         return {
             overallScore: "N/A",
