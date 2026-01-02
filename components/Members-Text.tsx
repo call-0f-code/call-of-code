@@ -16,7 +16,7 @@ type Member = {
   profilePhoto?: string;
   github: string;
   linkedin: string;
-  passoutYear: number;
+  passoutYear: string;
   isApproved: boolean;
 };
 

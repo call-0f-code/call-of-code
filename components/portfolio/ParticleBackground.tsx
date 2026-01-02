@@ -13,6 +13,9 @@ export default function ParticleBackground() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    // Track the animation frame ID so we can cancel it later
+    let animationFrameId: number;
+
     // Set canvas size
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
@@ -21,7 +24,7 @@ export default function ParticleBackground() {
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
 
-    // Particle class
+    // ... [Particle Class remains the same] ...
     class Particle {
       x: number;
       y: number;
@@ -31,8 +34,9 @@ export default function ParticleBackground() {
       opacity: number;
 
       constructor() {
-        this.x = Math.random() * canvas!.width;
-        this.y = Math.random() * canvas!.height;
+        // Use non-null assertion or fallback to 0 to make TS happy if canvas is null (though check above handles it)
+        this.x = Math.random() * (canvas?.width || window.innerWidth);
+        this.y = Math.random() * (canvas?.height || window.innerHeight);
         this.vx = (Math.random() - 0.5) * 0.5;
         this.vy = (Math.random() - 0.5) * 0.5;
         this.size = Math.random() * 2 + 0.5;
@@ -40,11 +44,12 @@ export default function ParticleBackground() {
       }
 
       update() {
+        if (!canvas) return;
         this.x += this.vx;
         this.y += this.vy;
 
-        if (this.x < 0 || this.x > canvas!.width) this.vx *= -1;
-        if (this.y < 0 || this.y > canvas!.height) this.vy *= -1;
+        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
       }
 
       draw() {
@@ -76,6 +81,8 @@ export default function ParticleBackground() {
 
     // Animation loop
     const animate = () => {
+      if (!ctx || !canvas) return;
+      
       ctx.fillStyle = "rgba(5, 5, 5, 0.05)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -114,7 +121,8 @@ export default function ParticleBackground() {
         }
       });
 
-      requestAnimationFrame(animate);
+      // CAPTURE THE ID HERE
+      animationFrameId = requestAnimationFrame(animate);
     };
 
     animate();
@@ -122,6 +130,9 @@ export default function ParticleBackground() {
     return () => {
       window.removeEventListener("resize", resizeCanvas);
       window.removeEventListener("mousemove", handleMouseMove);
+      
+      // CRITICAL FIX: Cancel the animation frame
+      cancelAnimationFrame(animationFrameId);
     };
   }, []);
 

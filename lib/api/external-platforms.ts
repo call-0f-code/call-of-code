@@ -361,8 +361,7 @@ export async function fetchGeeksforGeeksData(userName: string) {
 
 
         return {
-            overallScore: "N/A",
-            totalSolved: totalSolved.toString(),
+            totalSolved,
             easy,
             medium,
             hard,
@@ -370,12 +369,6 @@ export async function fetchGeeksforGeeksData(userName: string) {
 
     } catch (error) {
         console.error("Error fetching GFG API:", error);
-        return {
-            overallScore: null,
-            totalSolved: null,
-            easy: null,
-            medium: null,
-            hard: null,
-        };
+        return null;
     }
 }
