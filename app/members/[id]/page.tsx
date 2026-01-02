@@ -61,7 +61,7 @@ export default async function MemberPortfolioPage({ params }: PageProps) {
           {/* Stats Section */}
           <section id="stats" className="min-h-screen px-4 py-20">
             <div className="container mx-auto max-w-7xl">
-              <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
+              <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent pb-1">
                 Coding Statistics
               </h2>
               <PortfolioBentoGrid platforms={platforms} member={member} />
@@ -72,7 +72,7 @@ export default async function MemberPortfolioPage({ params }: PageProps) {
           {hasProjects && (
             <section id="projects" className="min-h-screen px-4 py-20">
               <div className="container mx-auto max-w-7xl">
-                <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
+                <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent pb-1">
                   Projects
                 </h2>
                 <PortfolioProjects projects={projects} githubRepos={githubRepos} />

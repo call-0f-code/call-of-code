@@ -3,6 +3,7 @@
 
 import { motion } from "framer-motion";
 import { ActivityCalendar } from "react-activity-calendar";
+import { useContainerWidth } from "@/app/hooks/useContainerWidth";
 
 interface ContributionData {
   date: string;
@@ -24,6 +25,19 @@ export default function HeatmapDeck({
   githubData: GitHubData | null;
   leetcodeData: LeetCodeData | null;
 }) {
+
+  const github = useContainerWidth();
+  const leetcode = useContainerWidth();
+
+
+  const WEEKS = 53;
+  const BLOCK_MARGIN = 3;
+
+  const getBlockSize = (width: number) =>
+  width
+    ? Math.max(6, Math.floor((width - WEEKS * BLOCK_MARGIN) / WEEKS))
+    : 12;
+
   // Normalize GitHub data
   const githubContributions = githubData?.contributions || [];
   
@@ -81,7 +95,7 @@ export default function HeatmapDeck({
           </div>
           
           {/* FIX APPLIED HERE */}
-          <div className="overflow-x-auto pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          <div ref={github.ref} className="w-full mx-auto">
             <ActivityCalendar
               data={githubContributions.map((d: ContributionData) => ({
                 date: d.date,
@@ -93,9 +107,12 @@ export default function HeatmapDeck({
                 dark: ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"],
               }}
               colorScheme="dark"
-              blockSize={12}
-              blockMargin={4}
-              fontSize={12}
+              blockSize={getBlockSize(github.width)}
+              blockMargin={BLOCK_MARGIN}
+              style={{
+                maxWidth: 'fit-content',
+                margin: '0 auto' 
+              }}
             />
           </div>
         </motion.div>
@@ -124,7 +141,7 @@ export default function HeatmapDeck({
           </div>
 
           {/* FIX APPLIED HERE */}
-          <div className="overflow-x-auto pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          <div ref={leetcode.ref} className="w-full mx-auto">
             <ActivityCalendar
               data={leetcodeNormalized}
               theme={{
@@ -132,9 +149,14 @@ export default function HeatmapDeck({
                 dark: ["#161b22", "#fbbf24", "#f59e0b", "#f97316", "#ea580c"],
               }}
               colorScheme="dark"
-              blockSize={12}
-              blockMargin={4}
+              blockSize={getBlockSize(leetcode.width)}
+              blockMargin={BLOCK_MARGIN}
               fontSize={12}
+              style={{
+                maxWidth: 'fit-content',
+                margin: '0 auto' 
+              }}
+    
             />
           </div>
         </motion.div>
