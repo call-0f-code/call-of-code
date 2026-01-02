@@ -116,7 +116,8 @@ export default function PlatformCard({
               <div className={`text-6xl bg-gradient-to-br ${color} bg-clip-text text-transparent`}>
                 {icon}
               </div>
-              <div className={`px-3 py-1 rounded-full bg-gradient-to-r ${color} opacity-50 text-xs font-bold uppercase tracking-wider`}>
+              
+              <div className={`absolute top-6 right-6 px-3 py-1 rounded-full bg-gradient-to-r ${color} opacity-50 text-xs font-bold uppercase tracking-wider`}>
                 {platform}
               </div>
             </div>

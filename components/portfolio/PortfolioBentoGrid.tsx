@@ -114,8 +114,8 @@ export default function PortfolioBentoGrid({
       {/* Heatmaps - 9 cols (approx 75% width) */}
       <motion.div
         variants={itemVariants}
-        className="lg:col-span-9 relative overflow-hidden rounded-2xl bg-zinc-900/50 backdrop-blur-xl border border-white/10 p-6 hover:border-purple-500/30 transition-all duration-300"
-      >
+        className="lg:col-span-9 relative rounded-2xl bg-zinc-900/50 backdrop-blur-xl border border-white/10 p-6 hover:border-purple-500/30 transition-all duration-300"
+       >
         <HeatmapDeck
           githubData={platforms.github}
           leetcodeData={platforms.leetcode}
@@ -166,7 +166,7 @@ export default function PortfolioBentoGrid({
         />
       </motion.div>
 
-      <motion.div variants={itemVariants} className="lg:col-span-3">
+      <motion.div variants={itemVariants} className="lg:col-span-3 ">
         <PlatformCard
           platform="codechef"
           data={platforms.codechef}
