@@ -44,7 +44,6 @@ export async function GET() {
       );
     }
 
-    console.log("Raw Supabase response:", JSON.stringify(data, null, 2));
 
     if (!data || !data.success || !Array.isArray(data.user)) {
       console.error("Unexpected API response structure", data);

@@ -75,6 +75,13 @@
 .no-visible-scrollbar {
   scrollbar-width: none; /* Firefox */
 }
-.no-visible-scrollbar::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Edge */
+/* Scroll works, scrollbar hidden */
+.react-activity-calendar__scroll-container {
+  overflow-x: auto;
+  scrollbar-width: none;    /* Firefox */
 }
+
+.react-activity-calendar__scroll-container::-webkit-scrollbar {
+  display: none;            /* Chrome, Safari */
+}
+
