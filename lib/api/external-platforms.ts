@@ -1,5 +1,41 @@
 // lib/api/external-platforms.ts
 
+// --- Types for GitHub ---
+interface GitHubDay {
+  contributionCount: number;
+  date: string;
+}
+
+interface GitHubWeek {
+  contributionDays: GitHubDay[];
+}
+
+interface GitHubRepo {
+  stargazerCount: number;
+}
+
+// --- Types for LeetCode ---
+interface LeetCodeStatItem {
+  difficulty: string;
+  count: number;
+}
+
+interface LeetCodeStatsAccumulator {
+  [key: string]: number;
+}
+
+// --- Types for Codeforces ---
+interface CodeforcesSubmission {
+  id: number;
+  verdict?: string;
+  problem: {
+    contestId?: number;
+    index: string;
+    name: string;
+  };
+}
+
+
 // GitHub GraphQL API
 export async function fetchGitHubData(username: string) {
   const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
@@ -74,8 +110,9 @@ export async function fetchGitHubData(username: string) {
 
     // Normalize contribution calendar
     const calendar = user.contributionsCollection.contributionCalendar;
-    const contributions = calendar.weeks.flatMap((week: any) =>
-      week.contributionDays.map((day: any) => ({
+    // FIXED: Added types GitHubWeek and GitHubDay
+    const contributions = calendar.weeks.flatMap((week: GitHubWeek) =>
+      week.contributionDays.map((day: GitHubDay) => ({
         date: day.date,
         count: day.contributionCount,
       }))
@@ -86,8 +123,9 @@ export async function fetchGitHubData(username: string) {
       contributions,
       pinnedRepos: user.pinnedItems.nodes,
       totalRepos: user.repositories.totalCount,
+      // FIXED: Added type GitHubRepo for repo
       totalStars: user.repositories.nodes.reduce(
-        (sum: number, repo: any) => sum + repo.stargazerCount,
+        (sum: number, repo: GitHubRepo) => sum + repo.stargazerCount,
         0
       ),
     };
@@ -124,7 +162,6 @@ export async function fetchLeetCodeData(username: string) {
       method: "POST",
       headers: { 
         "Content-Type": "application/json",
-        // Adding a User-Agent is often necessary for LeetCode's direct API
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
       },
       body: JSON.stringify({ query, variables: { username } }),
@@ -139,12 +176,13 @@ export async function fetchLeetCodeData(username: string) {
     if (!user) return null;
 
     // Parse submission stats
+    // FIXED: Added types LeetCodeStatsAccumulator and LeetCodeStatItem
     const stats = user.submitStats.acSubmissionNum.reduce(
-      (acc: any, item: any) => {
+      (acc: LeetCodeStatsAccumulator, item: LeetCodeStatItem) => {
         acc[item.difficulty.toLowerCase()] = item.count;
         return acc;
       },
-      {}
+      {} as LeetCodeStatsAccumulator
     );
 
     // --- New Calendar Logic ---
@@ -152,12 +190,9 @@ export async function fetchLeetCodeData(username: string) {
     
     if (user.userCalendar?.submissionCalendar) {
       try {
-        // LeetCode returns submissionCalendar as a stringified JSON: "{\"1704067200\": 5, ...}"
         const submissionMap = JSON.parse(user.userCalendar.submissionCalendar);
         
-        // Convert the map { timestamp: count } to your array format
         calendar = Object.entries(submissionMap).map(([timestamp, count]) => ({
-          // Convert unix timestamp (seconds) to YYYY-MM-DD
           date: new Date(parseInt(timestamp) * 1000).toISOString().split("T")[0],
           count: Number(count),
         }));
@@ -179,6 +214,7 @@ export async function fetchLeetCodeData(username: string) {
     return null;
   }
 }
+
 // Codeforces API
 export async function fetchCodeforcesData(username: string) {
   try {
@@ -209,8 +245,9 @@ export async function fetchCodeforcesData(username: string) {
       
       // Count unique solved problems
       const solvedProblems = new Set();
-      submissions.forEach((submission: any) => {
-        if (submission.verdict === "OK") {
+      // FIXED: Added type CodeforcesSubmission
+      submissions.forEach((submission: CodeforcesSubmission) => {
+        if (submission.verdict === "OK" && submission.problem?.contestId) {
           const problemKey = `${submission.problem.contestId}-${submission.problem.index}`;
           solvedProblems.add(problemKey);
         }
@@ -244,31 +281,25 @@ export async function fetchCodeChefData(username: string) {
 
     const html = await response.text();
 
-    // Extract total problems solved
     const problemsMatch = html.match(/<h3>Total Problems Solved:\s*(\d+)<\/h3>/);
     const totalSolved = problemsMatch ? parseInt(problemsMatch[1]) : null;
 
-    // Extract rating
     const ratingMatch = html.match(/<div class="rating-number">(\d+)<\/div>/);
     const rating = ratingMatch ? parseInt(ratingMatch[1]) : null;
 
-    // Extract highest rating
     const highestMatch = html.match(/Highest Rating\s+(\d+)/);
     const highestRating = highestMatch ? parseInt(highestMatch[1]) : null;
 
-    // Extract stars (count the star symbols)
     const starsMatch = html.match(/rating-star[^>]*>([\s\S]*?)<\/div>/);
     const stars = starsMatch
       ? (starsMatch[1].match(/★|&#9733;/g) || []).length
       : null;
 
-    // Extract global rank
     const globalRankMatch = html.match(
       /<a href="\/ratings\/all"><strong>(\d+)<\/strong><\/a>\s*Global Rank/
     );
     const globalRank = globalRankMatch ? parseInt(globalRankMatch[1]) : null;
 
-    // Extract country rank
     const countryRankMatch = html.match(
       /<a href="[^"]*Country[^"]*"><strong>(\d+)<\/strong><\/a>\s*Country Rank/
     );
@@ -288,16 +319,15 @@ export async function fetchCodeChefData(username: string) {
   }
 }
 
-// GeeksforGeeks Scraper (simplified - you may need to enhance)
+// GeeksforGeeks Scraper
 export async function fetchGeeksforGeeksData(userName: string) {
-console.log("Fetching GFG data via API...");
+  console.log("Fetching GFG data via API...");
 
     try {
         const response = await fetch("https://practiceapi.geeksforgeeks.org/api/v1/user/problems/submissions/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                // The Referer is often required for these internal APIs to verify the origin
                 "Referer": "https://www.geeksforgeeks.org/",
             },
             body: JSON.stringify({
@@ -315,16 +345,12 @@ console.log("Fetching GFG data via API...");
 
         const data = await response.json();
         
-        // The API returns distinct objects for difficulty levels in data.result
         // Example: data.result.Medium = { "id": { pname: "..." }, ... }
         const result = data.result || {};
 
-        // Helper to extract difficulty counts from a specific difficulty object
         const extractProblemCount = (difficultyKey: string) : number => {
             const difficultyObj = result[difficultyKey];
             if (!difficultyObj) return 0;
-            
-            // Map the values of the object to get the problem names
             return Object.keys(difficultyObj).length
         };
 
@@ -332,14 +358,12 @@ console.log("Fetching GFG data via API...");
         const medium = extractProblemCount("Medium");
         const hard = extractProblemCount("Hard");
         
-
-        // Calculate total manually or use the count provided by API
         const totalSolved = data.count || (easy + medium + hard);
 
         console.log("Fetched GFG data");
 
         return {
-            overallScore: "N/A", // This API does not provide the coding score
+            overallScore: "N/A",
             totalSolved: totalSolved.toString(),
             easy,
             medium,

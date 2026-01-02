@@ -5,12 +5,70 @@ import { motion } from "framer-motion";
 import HeatmapDeck from "./HeatmapDeck";
 import PlatformCard from "./PlatformCard";
 import { PlatformIcons } from "./PlatformIcons";
+
+// --- Return Types ---
+export interface GitHubData {
+  totalContributions: number;
+  contributions: {
+    date: string;
+    count: number;
+  }[];
+  pinnedRepos: {
+    name: string;
+    description: string;
+    stargazerCount: number;
+    forkCount: number;
+    primaryLanguage: {
+      name: string;
+      color: string;
+    };
+    url: string;
+  }[];
+  totalRepos: number;
+  totalStars: number;
+}
+
+export interface LeetCodeData {
+  totalSolved: number;
+  easy: number;
+  medium: number;
+  hard: number;
+  ranking: number | null;
+  calendar: {
+    date: string;
+    count: number;
+  }[];
+}
+
+export interface CodeforcesData {
+  rating: number | null;
+  maxRating: number | null;
+  totalSolved: number | null;
+}
+
+export interface CodeChefData {
+  rating: number | null;
+  highestRating: number | null;
+  stars: number | null;
+  totalSolved: number | null;
+  globalRank: number | null;
+  countryRank: number | null;
+}
+
+export interface GeeksForGeeksData {
+  totalSolved: number | null;
+  easy: number | null;
+  medium: number | null;
+  hard: number | null;
+}
+
+// FIX: Updated interface to allow 'null' for all platforms
 interface PlatformData {
-  github: any;
-  leetcode: any;
-  codeforces: any;
-  codechef: any;
-  geeksforgeeks: any;
+  github: GitHubData | null;
+  leetcode: LeetCodeData | null;      // Added | null
+  codeforces: CodeforcesData | null;  // Added | null
+  codechef: CodeChefData | null;      // Added | null
+  geeksforgeeks: GeeksForGeeksData | null; // Added | null
 }
 
 interface Member {

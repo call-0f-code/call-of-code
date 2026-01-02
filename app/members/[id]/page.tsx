@@ -39,6 +39,7 @@ export default async function MemberPortfolioPage({ params }: PageProps) {
   try {
     portfolioData = await getMemberPortfolioData(params.id);
   } catch (error) {
+    console.error("Error fetching portfolio data:", error);
     notFound();
   }
 

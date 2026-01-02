@@ -4,12 +4,25 @@
 import { motion } from "framer-motion";
 import { ActivityCalendar } from "react-activity-calendar";
 
+interface ContributionData {
+  date: string;
+  count: number;
+}
+interface GitHubData {
+  contributions: ContributionData[];
+  totalContributions: number;
+}
+interface LeetCodeData {
+  calendar: ContributionData[];
+  totalSolved: number;
+}
+
 export default function HeatmapDeck({
   githubData,
   leetcodeData,
 }: {
-  githubData: any;
-  leetcodeData: any;
+  githubData: GitHubData | null;
+  leetcodeData: LeetCodeData | null;
 }) {
   // Normalize GitHub data
   const githubContributions = githubData?.contributions || [];
@@ -17,7 +30,7 @@ export default function HeatmapDeck({
   // Normalize LeetCode data
   const leetcodeCalendar = leetcodeData?.calendar || [];
 
-  const leetcodeGrouped = leetcodeCalendar.reduce((acc: any, item: any) => {
+  const leetcodeGrouped = leetcodeCalendar.reduce((acc: Record<string, number>, item: ContributionData) => {
     if (item.date && item.count) {
       acc[item.date] = (acc[item.date] || 0) + item.count;
     }
@@ -70,7 +83,7 @@ export default function HeatmapDeck({
           {/* FIX APPLIED HERE */}
           <div className="overflow-x-auto pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
             <ActivityCalendar
-              data={githubContributions.map((d: any) => ({
+              data={githubContributions.map((d: ContributionData) => ({
                 date: d.date,
                 count: d.count,
                 level: Math.min(Math.floor(d.count / 3), 4),

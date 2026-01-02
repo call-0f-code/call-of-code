@@ -43,7 +43,7 @@ export default function NotFound() {
           transition={{ duration: 0.6, delay: 0.6 }}
           className="text-xl text-gray-400 mb-12"
         >
-          The member you're looking for doesn't exist or may have been removed.
+          The member you&apos;re looking for doesn&apos;t exist or may have been removed.
         </motion.p>
 
         {/* Action Buttons */}

@@ -7,7 +7,16 @@ import { AlertCircle } from "lucide-react";
 
 interface PlatformCardProps {
   platform: string;
-  data: any;
+  data: {
+    totalSolved?: number | null;
+    rating?: number | null;
+    maxRating?: number | null;
+    easy?: number | null;
+    medium?: number | null;
+    hard?: number | null;
+    highestRating?: number | null;
+    stars?: number | null;
+  } | null;
   icon: React.ReactNode;
   color: string;
 }

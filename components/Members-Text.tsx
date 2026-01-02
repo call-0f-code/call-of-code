@@ -64,7 +64,7 @@ const MemberGrid = ({
     >
       {isCompact ? (
         <div className="flex flex-wrap justify-center items-center gap-10">
-          {members.map((member, index) => (
+          {members.map((member) => (
             <div
               key={member.id}
               className={cn(
@@ -84,7 +84,7 @@ const MemberGrid = ({
         </div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
-          {members.map((member, index) => (
+          {members.map((member) => (
             <div key={member.id} className="w-full sm:w-[300px]">
               <MembersCard
                 memberId={member.id}

@@ -105,11 +105,6 @@ export async function getMemberPortfolioData(memberId: string) {
   };
 }
 
-function extractHandle(url: string | null, prefix: string): string | null {
-  if (!url) return null;
-  const match = url.match(new RegExp(`${prefix}([^/?]+)`));
-  return match ? match[1] : null;
-}
 
 // Platform-specific handle extractors for more reliability
 function extractHandles(member: Member) {

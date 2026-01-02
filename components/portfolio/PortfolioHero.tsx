@@ -3,7 +3,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Github, Linkedin, Twitter, Code2, Terminal, Award } from "lucide-react";
+import { Github, Linkedin, Twitter } from "lucide-react";
 
 interface Member {
   name: string;
