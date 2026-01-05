@@ -123,9 +123,25 @@ export default function MembersPage() {
   const [founders, setFounders] = useState<DisplayMember[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [tabError, setTabError] = useState<{
+    present: boolean;
+    seniors: boolean;
+    founders: boolean;
+  }>({
+    present: false,
+    seniors: false,
+    founders: false,
+  });
+
 
   useEffect(() => {
     const abortController = new AbortController();
+    setLoading(true);
+    setTabError({
+      present: false,
+      seniors: false,
+      founders: false,
+    });
 
     const fetchMembers = async () => {
       try {
@@ -190,6 +206,11 @@ export default function MembersPage() {
         }
         console.error("Failed to fetch members", err);
         setError("Failed to load members. Please try again later.");
+        setTabError({
+          present: true,
+          seniors: true,
+          founders: true,
+        });
         setLoading(false);
       }
     };
@@ -201,43 +222,80 @@ export default function MembersPage() {
     };
   }, []);
 
+    const MembersEmptyState = ({ message }: { message: string }) => (
+    <div className="flex items-center justify-center py-40">
+      <div className="flex items-center gap-4 text-gray-700 dark:text-gray-300">
+        <svg
+          className="h-11 w-11 opacity-80"
+          fill="none"
+          stroke="url(#purplePinkGradient)"
+          strokeWidth="1.5"
+          viewBox="0 0 24 24"
+        >
+          <defs>
+            <linearGradient id="purplePinkGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#a855f7" />
+              <stop offset="100%" stopColor="#ec4899" />
+            </linearGradient>
+          </defs>
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+
+        <p className="text-3xl font-semibold tracking-wide">
+          {message}
+        </p>
+      </div>
+    </div>
+  );
+
+
+  const TAB_LABELS = {
+  present: "Present Members",
+  seniors: "Super Seniors",
+  founders: "Founders",
+  } as const;
+
+  const renderMembersTab = (members: DisplayMember[], tab: "present" | "seniors" | "founders", isFounder = false) => {
+    if (loading) {
+      return <MembersSkeletonGrid />;
+    }
+
+    if (tabError[tab]) {
+      return (
+        <MembersEmptyState message={`Failed to load ${TAB_LABELS[tab]}`} />
+      );
+    }
+
+    if (members.length === 0) {
+      return <MembersEmptyState message="No members found" />;
+    }
+
+    return <MemberGrid members={members} isFounder={isFounder} />;
+  };
+
+
   const tabs = [
-    {
+    {       
       title: "Present Members",
       value: "present",
-      content: loading ? (
-        <MembersSkeletonGrid />
-      ) : (
-        <MemberGrid members={presentMembers} />
-      ),
+      content: renderMembersTab(presentMembers, "present"),
     },
     {
       title: "Super Seniors",
       value: "seniors",
-      content: loading ? (
-        <MembersSkeletonGrid />
-      ) : (
-        <MemberGrid members={superSeniors} />
-      ),
+      content: renderMembersTab(superSeniors, "seniors"),
     },
     {
       title: "Founders",
       value: "founders",
-      content: loading ? (
-        <MembersSkeletonGrid />
-      ) : (
-        <MemberGrid members={founders} isFounder />
-      ),
+      content: renderMembersTab(founders, "founders", true),
     },
   ];
-
-  if (error) {
-    return (
-      <div className="flex min-h-screen items-center justify-center text-lg text-center text-red-500 px-4">
-        {error}
-      </div>
-    );
-  }
+  
 
   return (
     <div>
