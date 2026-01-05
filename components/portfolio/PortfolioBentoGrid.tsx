@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import HeatmapDeck from "./HeatmapDeck";
 import PlatformCard from "./PlatformCard";
 import { PlatformIcons } from "./PlatformIcons";
+import Image from "next/image";
 
 // --- Return Types ---
 export interface GitHubData {
@@ -115,7 +116,7 @@ export default function PortfolioBentoGrid({
       <motion.div
         variants={itemVariants}
         className="lg:col-span-9 relative rounded-2xl bg-zinc-900/50 backdrop-blur-xl border border-white/10 p-6 hover:border-purple-500/30 transition-all duration-300"
-       >
+      >
         <HeatmapDeck
           githubData={platforms.github}
           leetcodeData={platforms.leetcode}
@@ -129,11 +130,12 @@ export default function PortfolioBentoGrid({
       >
         <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center space-y-6">
-          <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-purple-500/50 ring-4 ring-purple-500/20">
-            <img
+          <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-purple-500/50 ring-4 ring-purple-500/20 relative">
+            <Image
               src={member.profilePhoto}
               alt={member.name}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
             />
           </div>
           <div>

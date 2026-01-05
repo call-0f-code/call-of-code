@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { Github, Linkedin } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface MembersCardProps {
   memberId: string;
@@ -126,9 +127,11 @@ export default function MembersCard({
             {!isMobileImageLoaded && (
               <div className={`absolute inset-0 rounded-full ${shimmer} border-4 border-pink-500 dark:border-purple-500`} />
             )}
-            <img
+            <Image
               src={imageSrc}
               alt={`Profile picture of ${name}`}
+              width={112}
+              height={112}
               className={`w-28 h-28 rounded-full object-cover shadow-md border-4 border-pink-500 dark:border-purple-500 transition-opacity duration-300 ${isMobileImageLoaded ? 'opacity-100' : 'opacity-0'}`}
               onLoad={() => setIsMobileImageLoaded(true)}
             />

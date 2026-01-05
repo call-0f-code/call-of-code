@@ -4,6 +4,7 @@
 import { motion } from "framer-motion";
 import { ExternalLink, Github, Star, GitFork, Code } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
 
 interface Project {
   id: number;
@@ -171,10 +172,11 @@ function InternalProjectCard({ project }: { project: Project }) {
         {/* Project Image */}
         <div className="absolute inset-0">
           {project.imageUrl ? (
-            <img
+            <Image
               src={project.imageUrl}
               alt={project.name}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
             />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-pink-500/20 via-purple-500/20 to-blue-500/20 flex items-center justify-center">
@@ -225,10 +227,10 @@ function InternalProjectCard({ project }: { project: Project }) {
   );
 }
 
-export default function PortfolioProjects({ 
+export default function PortfolioProjects({
   projects,
   githubRepos = [],
-}: { 
+}: {
   projects: Project[];
   githubRepos?: GithubRepo[];
 }) {

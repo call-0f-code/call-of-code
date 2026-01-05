@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { ChevronRight, X, Loader2 } from "lucide-react";
+import Image from "next/image";
 
 interface AchievementCardProps {
   id: number;
@@ -32,7 +33,7 @@ export default function AchievementCard({
   const getBorderColor = () => {
     const colors = [
       'bg-gradient-to-br from-blue-400 to-blue-600',
-      'bg-gradient-to-br from-red-400 to-red-600', 
+      'bg-gradient-to-br from-red-400 to-red-600',
       'bg-gradient-to-br from-yellow-400 to-yellow-600',
       'bg-gradient-to-br from-green-400 to-green-600',
       'bg-gradient-to-br from-purple-400 to-purple-600',
@@ -40,26 +41,24 @@ export default function AchievementCard({
       'bg-gradient-to-br from-indigo-400 to-indigo-600',
       'bg-gradient-to-br from-orange-400 to-orange-600',
     ];
-    
+
     // Use title length to consistently assign colors
     const colorIndex = title.length % colors.length;
     return colors[colorIndex];
   };
 
   return (
-    <div 
-      className={`transform-gpu transition-all duration-500 cursor-pointer ${
-        isExpanded 
-          ? "fixed inset-0 flex items-center justify-center z-[100] bg-black/50 backdrop-blur-sm" 
+    <div
+      className={`transform-gpu transition-all duration-500 cursor-pointer ${isExpanded
+          ? "fixed inset-0 flex items-center justify-center z-[100] bg-black/50 backdrop-blur-sm"
           : "w-full h-full"
-      }`}
-    >
-      <div 
-        className={`transition-all duration-500 ${
-          isExpanded 
-            ? "w-[90vw] sm:w-[70vw] max-w-[900px] h-[85vh] max-h-[600px]" 
-            : "w-full h-full"
         }`}
+    >
+      <div
+        className={`transition-all duration-500 ${isExpanded
+            ? "w-[90vw] sm:w-[70vw] max-w-[900px] h-[85vh] max-h-[600px]"
+            : "w-full h-full"
+          }`}
       >
         {/* Main Card */}
         {!isExpanded && (
@@ -68,34 +67,35 @@ export default function AchievementCard({
             <div className={`absolute inset-0 rounded-2xl p-3 shadow-2xl transition-all duration-300 group-hover:shadow-3xl ${getBorderColor()}`}>
               {/* Card Background */}
               <div className="w-full h-full bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border-2 border-gray-100 dark:border-gray-700 transition-all duration-300 group-hover:shadow-xl">
-                
+
                 {/* Image Section */}
                 <div className="relative h-60 overflow-hidden">
-                  <img 
-                    src={imageSrc} 
-                    alt={title} 
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                  <Image
+                    src={imageSrc}
+                    alt={title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                  
+
                   {/* Date Badge */}
                   <div className="absolute top-3 left-3">
                     <span className="px-3 py-1.5 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-full text-xs font-semibold text-gray-700 dark:text-gray-200 shadow-md border border-white/50 dark:border-gray-700/50">
                       {date}
                     </span>
                   </div>
-                  
+
                   {/* Expand Icon */}
                   <div className="absolute top-3 right-3 w-8 h-8 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md border border-white/50 dark:border-gray-700/50 opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-75 group-hover:scale-100">
                     <ChevronRight className="w-4 h-4 text-gray-600 dark:text-gray-300" />
                   </div>
                 </div>
-                
+
                 {/* Content Section */}
                 <div className="p-5 bg-white dark:bg-gray-800">
                   <h4 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-2 leading-tight line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
                     {title}
                   </h4>
-                  
+
                   <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-3 leading-relaxed">
                     {description}
                   </p>
@@ -110,8 +110,8 @@ export default function AchievementCard({
             <div className="flex flex-col sm:flex-row w-full h-full">
               {/* Left Panel */}
               <div className="w-full sm:w-1/2 h-1/2 sm:h-full border-b sm:border-b-0 sm:border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-                <div 
-                  ref={contentRef} 
+                <div
+                  ref={contentRef}
                   className="w-full h-full overflow-auto custom-scrollbar"
                 >
                   {/* Content Sections */}
@@ -138,7 +138,7 @@ export default function AchievementCard({
                         <Loader2 className="ml-2 w-4 h-4 animate-spin text-blue-500" />
                       )}
                     </h5>
-                    
+
                     {isLoadingMembers ? (
                       <div className="flex items-center justify-center py-8">
                         <div className="flex flex-col items-center space-y-2">
@@ -151,13 +151,14 @@ export default function AchievementCard({
                         {teamMembers.map((member, index) => (
                           <div key={index} className="group/member relative bg-gradient-to-br from-white to-slate-100 dark:from-gray-700 dark:to-gray-800 p-3 rounded-xl hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-600">
                             <div className="relative w-12 h-12 mb-2 mx-auto rounded-full overflow-hidden ring-2 ring-blue-200 dark:ring-blue-700 ring-offset-2 ring-offset-white dark:ring-offset-gray-800">
-                              <img
+                              <Image
                                 src={member.image}
                                 alt={member.name}
+                                fill
                                 onError={(e) => {
                                   e.currentTarget.src = 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150';
                                 }}
-                                className="w-full h-full object-cover transition-transform duration-500 group-hover/member:scale-110"
+                                className="object-cover transition-transform duration-500 group-hover/member:scale-110"
                               />
                             </div>
                             <div className="text-center">
@@ -176,11 +177,12 @@ export default function AchievementCard({
               </div>
 
               {/* Right Panel - Static Image */}
-              <div className="w-full sm:w-1/2 h-64 sm:h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-white dark:from-gray-800 dark:to-gray-900 p-4 sm:p-6">
-                <img 
-                  src={imageSrc} 
-                  alt={title} 
-                  className="w-full max-h-full object-contain rounded-xl shadow-md"
+              <div className="w-full sm:w-1/2 h-64 sm:h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-white dark:from-gray-800 dark:to-gray-900 p-4 sm:p-6 relative">
+                <Image
+                  src={imageSrc}
+                  alt={title}
+                  fill
+                  className="object-contain rounded-xl shadow-md"
                 />
               </div>
             </div>

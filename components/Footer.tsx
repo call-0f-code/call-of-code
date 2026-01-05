@@ -5,6 +5,7 @@ import { FaTwitter, FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 import Link from "next/link";
 import localFont from "next/font/local";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 const pressStart2P = localFont({
   src: "../app/fonts/PressStart2P-Regular.ttf",
@@ -15,7 +16,7 @@ const pressStart2P = localFont({
 const Footer = () => {
 
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  
+
   const cards = [
     {
       title: "About Us",
@@ -88,9 +89,8 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener"
                 aria-label={label}
-                className={`text-gray-600 hover:text-black dark:hover:text-gray-300 transition-all duration-300 hover:scale-110 text-2xl ${
-                  index % 2 === 0 ? "justify-self-end" : "justify-self-start"
-                }`}
+                className={`text-gray-600 hover:text-black dark:hover:text-gray-300 transition-all duration-300 hover:scale-110 text-2xl ${index % 2 === 0 ? "justify-self-end" : "justify-self-start"
+                  }`}
               >
                 <Icon />
               </a>
@@ -127,9 +127,8 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener"
                 aria-label={label}
-                className={`text-gray-600 hover:text-black dark:hover:text-gray-300 transition-all duration-300 hover:scale-110 text-3xl md:text-4xl ${
-                  index % 2 === 0 ? "justify-self-end" : "justify-self-start"
-                }`}
+                className={`text-gray-600 hover:text-black dark:hover:text-gray-300 transition-all duration-300 hover:scale-110 text-3xl md:text-4xl ${index % 2 === 0 ? "justify-self-end" : "justify-self-start"
+                  }`}
               >
                 <Icon />
               </a>
@@ -146,7 +145,7 @@ const Footer = () => {
     >
 
       <div className="relative z-10 w-full px-0 xs:px-4 sm:px-6 md:px-8 flex-grow flex flex-col justify-evenly py-8 sm:py-12">
-        
+
         {/* Header */}
         <div className="text-center px-2">
           <h1 className="whitespace-nowrap text-sm xs:text-base sm:text-2xl md:text-4xl lg:text-5xl xl:text-6xl leading-relaxed">
@@ -237,11 +236,12 @@ const Footer = () => {
         {/* Bottom */}
         <div className="opacity-90 flex items-center justify-center gap-2 text-[10px] xs:text-xs sm:text-sm md:text-base px-4">
           <span>Made with</span>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img 
-            src="/heart.png" 
-            alt="heart" 
-            className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6" 
+          <Image
+            src="/heart.png"
+            alt="heart"
+            width={24}
+            height={24}
+            className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6"
           />
           <span>by Our Members</span>
         </div>

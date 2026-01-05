@@ -4,6 +4,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Calendar } from "lucide-react";
+import Image from "next/image";
 
 interface Achievement {
   id: number;
@@ -33,9 +34,8 @@ function TimelineItem({
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      className={`relative flex items-center gap-8 ${
-        isEven ? "flex-row" : "flex-row-reverse"
-      }`}
+      className={`relative flex items-center gap-8 ${isEven ? "flex-row" : "flex-row-reverse"
+        }`}
     >
       {/* Content Card */}
       <div className="flex-1">
@@ -60,10 +60,11 @@ function TimelineItem({
             {/* Image */}
             {achievement.imageUrl && (
               <div className="relative h-48 rounded-lg overflow-hidden">
-                <img
+                <Image
                   src={achievement.imageUrl}
                   alt={achievement.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
             )}
