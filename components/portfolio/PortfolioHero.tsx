@@ -4,6 +4,7 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Github, Linkedin, Twitter } from "lucide-react";
+import { siLeetcode, siCodechef, siGeeksforgeeks, siCodeforces } from "simple-icons/icons";
 
 interface Member {
   name: string;
@@ -20,50 +21,54 @@ interface Member {
 
 export default function PortfolioHero({ member }: { member: Member }) {
   const socialLinks = [
-    { 
-      url: member.github, 
-      icon: Github, 
+    {
+      url: member.github,
+      icon: Github,
       label: "GitHub",
-      color: "hover:text-white hover:bg-gray-800" 
+      color: "hover:text-white hover:bg-gray-800"
     },
-    { 
-      url: member.linkedin, 
-      icon: Linkedin, 
+    {
+      url: member.linkedin,
+      icon: Linkedin,
       label: "LinkedIn",
-      color: "hover:text-blue-500 hover:bg-blue-500/10" 
+      color: "hover:text-blue-500 hover:bg-blue-500/10"
     },
-    { 
-      url: member.twitter, 
-      icon: Twitter, 
+    {
+      url: member.twitter,
+      icon: Twitter,
       label: "Twitter",
-      color: "hover:text-sky-400 hover:bg-sky-400/10" 
+      color: "hover:text-sky-400 hover:bg-sky-400/10"
     },
   ];
 
   const platformLinks = [
-    { 
-      url: member.leetcode, 
+    {
+      url: member.leetcode,
       label: "LC",
+      icon: siLeetcode,
       name: "LeetCode",
-      color: "hover:bg-gradient-to-r from-yellow-500 to-orange-500 hover:text-white" 
+      color: "hover:bg-gradient-to-r from-yellow-500 to-orange-500 hover:text-white"
     },
-    { 
-      url: member.codeforces, 
+    {
+      url: member.codeforces,
       label: "CF",
+      icon: siCodeforces,
       name: "Codeforces",
-      color: "hover:bg-gradient-to-r from-blue-500 to-cyan-500 hover:text-white" 
+      color: "hover:bg-gradient-to-r from-blue-500 to-cyan-500 hover:text-white"
     },
-    { 
-      url: member.codechef, 
+    {
+      url: member.codechef,
       label: "CC",
+      icon: siCodechef,
       name: "CodeChef",
-      color: "hover:bg-gradient-to-r from-amber-500 to-orange-600 hover:text-white" 
+      color: "hover:bg-gradient-to-r from-amber-500 to-orange-600 hover:text-white"
     },
-    { 
-      url: member.geeksforgeeks, 
+    {
+      url: member.geeksforgeeks,
       label: "GFG",
+      icon: siGeeksforgeeks,
       name: "GeeksforGeeks",
-      color: "hover:bg-gradient-to-r from-green-500 to-emerald-600 hover:text-white" 
+      color: "hover:bg-gradient-to-r from-green-500 to-emerald-600 hover:text-white"
     },
   ];
 
@@ -150,25 +155,38 @@ export default function PortfolioHero({ member }: { member: Member }) {
         transition={{ delay: 1.0, duration: 0.6 }}
         className="flex flex-wrap justify-center gap-2"
       >
-        {platformLinks.filter(link => link.url).map((link, index) => (
-          <motion.a
-            key={link.label}
-            href={link.url!}
-            target="_blank"
-            rel="noopener noreferrer"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 1.1 + index * 0.1, type: "spring" }}
-            className={`group relative px-4 py-2 bg-white/5 backdrop-blur-xl rounded-lg border border-white/10 transition-all duration-300 hover:scale-105 hover:border-transparent ${link.color}`}
-          >
-            <span className="text-sm font-bold text-gray-400 group-hover:text-current transition-colors">
-              {link.label}
-            </span>
-            <span className="absolute -top-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-              {link.name}
-            </span>
-          </motion.a>
-        ))}
+        {platformLinks.filter(link => link.url).map((link, index) => {
+          return (
+            <motion.a
+              key={link.label}
+              href={link.url!}
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 1.1 + index * 0.1, type: "spring" }}
+              className={`group relative px-4 py-2 bg-white/5 backdrop-blur-xl rounded-lg border border-white/10 transition-all duration-300 hover:scale-105 hover:border-transparent ${link.color}`}
+            >
+              {link.icon ? (
+                <svg
+                  role="img"
+                  viewBox="0 0 24 24"
+                  className="w-6 h-6 fill-gray-400 group-hover:fill-current transition-colors"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d={link.icon.path} />
+                </svg>
+              ) : (
+                <span className="text-sm font-bold text-gray-400 group-hover:text-current">
+                  {link.label}
+                </span>
+              )}
+              <span className="absolute -top-10 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                {link.name}
+              </span>
+            </motion.a>
+          )
+        })}
       </motion.div>
 
       {/* Scroll Indicator */}
