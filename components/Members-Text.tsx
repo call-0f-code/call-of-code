@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import Particles from "./ui/particles";
 import { useTheme } from "@/components/ui/theme-provider";
 import { cn } from "@/lib/utils";
+import MemberSkeletonCard from "./ui/member-skeleton-card";
 
 type Member = {
   id: string; // Added id field
@@ -41,6 +42,18 @@ const TabProgressBar = ({ index, total }: { index: number; total: number }) => {
           transition={{ type: "spring", stiffness: 300, damping: 25 }}
           style={{ width: `${barWidth}%` }}
         />
+      </div>
+    </div>
+  );
+};
+
+const MembersSkeletonGrid = () => {
+  return (
+    <div className="relative rounded-2xl shadow-xl border border-gray-300 dark:border-gray-700 min-h-[820px] p-6">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <MemberSkeletonCard key={i} />
+        ))}
       </div>
     </div>
   );
@@ -109,6 +122,7 @@ export default function MembersPage() {
   const [superSeniors, setSuperSeniors] = useState<DisplayMember[]>([]);
   const [founders, setFounders] = useState<DisplayMember[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -135,6 +149,7 @@ export default function MembersPage() {
           setFounders([]);
           setSuperSeniors([]);
           setPresentMembers([]);
+          setLoading(false);
           return;
         }
 
@@ -168,12 +183,14 @@ export default function MembersPage() {
         setFounders(foundersList);
         setSuperSeniors(superSeniorsList);
         setPresentMembers(presentList);
+        setLoading(false);
       } catch (err) {
         if (err instanceof Error && err.name === "AbortError") {
           return;
         }
         console.error("Failed to fetch members", err);
         setError("Failed to load members. Please try again later.");
+        setLoading(false);
       }
     };
 
@@ -188,17 +205,29 @@ export default function MembersPage() {
     {
       title: "Present Members",
       value: "present",
-      content: <MemberGrid members={presentMembers} />,
+      content: loading ? (
+        <MembersSkeletonGrid />
+      ) : (
+        <MemberGrid members={presentMembers} />
+      ),
     },
     {
       title: "Super Seniors",
       value: "seniors",
-      content: <MemberGrid members={superSeniors} />,
+      content: loading ? (
+        <MembersSkeletonGrid />
+      ) : (
+        <MemberGrid members={superSeniors} />
+      ),
     },
     {
       title: "Founders",
       value: "founders",
-      content: <MemberGrid members={founders} isFounder={true} />,
+      content: loading ? (
+        <MembersSkeletonGrid />
+      ) : (
+        <MemberGrid members={founders} isFounder />
+      ),
     },
   ];
 
@@ -213,9 +242,8 @@ export default function MembersPage() {
   return (
     <div>
       <div
-        className={`relative min-h-screen w-full h-full ${
-          theme === "dark" ? "bg-black" : "bg-white"
-        }`}
+        className={`relative min-h-screen w-full h-full ${theme === "dark" ? "bg-black" : "bg-white"
+          }`}
       >
         <Particles
           quantity={500}
