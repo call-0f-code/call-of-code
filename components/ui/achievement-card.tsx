@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { ChevronRight, X, Loader2 } from "lucide-react";
 import Image from "next/image";
 
@@ -28,6 +28,7 @@ export default function AchievementCard({
   isLoadingMembers = false,
 }: AchievementCardProps) {
   const contentRef = useRef<HTMLDivElement>(null);
+  const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
 
   // Function to get random colorful border
   const getBorderColor = () => {
@@ -50,14 +51,14 @@ export default function AchievementCard({
   return (
     <div
       className={`transform-gpu transition-all duration-500 cursor-pointer ${isExpanded
-          ? "fixed inset-0 flex items-center justify-center z-[100] bg-black/50 backdrop-blur-sm"
-          : "w-full h-full"
+        ? "fixed inset-0 flex items-center justify-center z-[100] bg-black/50 backdrop-blur-sm"
+        : "w-full h-full"
         }`}
     >
       <div
         className={`transition-all duration-500 ${isExpanded
-            ? "w-[90vw] sm:w-[70vw] max-w-[900px] h-[85vh] max-h-[600px]"
-            : "w-full h-full"
+          ? "w-[90vw] sm:w-[70vw] max-w-[900px] h-[85vh] max-h-[600px]"
+          : "w-full h-full"
           }`}
       >
         {/* Main Card */}
@@ -152,11 +153,14 @@ export default function AchievementCard({
                           <div key={index} className="group/member relative bg-gradient-to-br from-white to-slate-100 dark:from-gray-700 dark:to-gray-800 p-3 rounded-xl hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-600">
                             <div className="relative w-12 h-12 mb-2 mx-auto rounded-full overflow-hidden ring-2 ring-blue-200 dark:ring-blue-700 ring-offset-2 ring-offset-white dark:ring-offset-gray-800">
                               <Image
-                                src={member.image}
+                                src={imageErrors.has(index)
+                                  ? 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150'
+                                  : member.image
+                                }
                                 alt={member.name}
                                 fill
-                                onError={(e) => {
-                                  e.currentTarget.src = 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150';
+                                onError={() => {
+                                  setImageErrors(prev => new Set(prev).add(index));
                                 }}
                                 className="object-cover transition-transform duration-500 group-hover/member:scale-110"
                               />
