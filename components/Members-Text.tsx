@@ -10,6 +10,7 @@ import Particles from "./ui/particles";
 import { useTheme } from "@/components/ui/theme-provider";
 import { cn } from "@/lib/utils";
 import MemberSkeletonCard from "./ui/member-skeleton-card";
+import cocGroupPhoto from "@/public/coc.jpg";
 
 type Member = {
   id: string; // Added id field
@@ -222,7 +223,7 @@ export default function MembersPage() {
     };
   }, []);
 
-    const MembersEmptyState = ({ message }: { message: string }) => (
+  const MembersEmptyState = ({ message }: { message: string }) => (
     <div className="flex items-center justify-center py-40">
       <div className="flex items-center gap-4 text-gray-700 dark:text-gray-300">
         <svg
@@ -254,9 +255,9 @@ export default function MembersPage() {
 
 
   const TAB_LABELS = {
-  present: "Present Members",
-  seniors: "Super Seniors",
-  founders: "Founders",
+    present: "Present Members",
+    seniors: "Super Seniors",
+    founders: "Founders",
   } as const;
 
   const renderMembersTab = (members: DisplayMember[], tab: "present" | "seniors" | "founders", isFounder = false) => {
@@ -279,7 +280,7 @@ export default function MembersPage() {
 
 
   const tabs = [
-    {       
+    {
       title: "Present Members",
       value: "present",
       content: renderMembersTab(presentMembers, "present"),
@@ -295,7 +296,7 @@ export default function MembersPage() {
       content: renderMembersTab(founders, "founders", true),
     },
   ];
-  
+
 
   return (
     <div>
@@ -325,11 +326,12 @@ export default function MembersPage() {
           <main className="container mx-auto px-6 py-10 space-y-12">
             <div className="relative w-full aspect-[3/1] sm:aspect-[16/5] md:aspect-[16/4] lg:aspect-[16/3] xl:aspect-[16/3] overflow-hidden rounded-2xl">
               <Image
-                src="/coc.jpg"
+                src={cocGroupPhoto}
                 alt="Members group photo"
                 fill
                 priority
                 className="object-cover brightness-75"
+                placeholder="blur"
               />
               <div className="absolute inset-0 flex items-center justify-center bg-black/20 px-4 text-center">
                 <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-wide text-white drop-shadow-lg mt-36">
