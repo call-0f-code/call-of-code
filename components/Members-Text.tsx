@@ -11,7 +11,6 @@ import { useTheme } from "@/components/ui/theme-provider";
 import { cn } from "@/lib/utils";
 import MemberSkeletonCard from "./ui/member-skeleton-card";
 import cocGroupPhoto from "@/public/coc.jpg";
-import { log } from "console";
 
 type Member = {
   id: string; // Added id field
