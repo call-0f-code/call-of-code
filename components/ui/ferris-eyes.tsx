@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 
 function Ferris() {
   const [mouseCoordinates, setMouseCoordinates] = useState({ x: 0, y: 0 });
@@ -45,10 +46,12 @@ function Ferris() {
     <div>
       {/* Ferris Image */}
       <div>
-        <img
+        <Image
           src="/rustacean-flat-happy.png"
           alt="Ferris the Crab"
-          className="absolute top-[250px] right-[100px] w-[250px] h-[250px] object-contain"
+          width={250}
+          height={250}
+          className="absolute top-[250px] right-[100px] object-contain pt-10"
         />
       </div>
       {/* Left Eye */}

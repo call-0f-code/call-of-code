@@ -11,6 +11,7 @@ import { useTheme } from "@/components/ui/theme-provider";
 import { cn } from "@/lib/utils";
 import MemberSkeletonCard from "./ui/member-skeleton-card";
 import cocGroupPhoto from "@/public/coc.jpg";
+import { log } from "console";
 
 type Member = {
   id: string; // Added id field
@@ -122,7 +123,6 @@ export default function MembersPage() {
   const [presentMembers, setPresentMembers] = useState<DisplayMember[]>([]);
   const [superSeniors, setSuperSeniors] = useState<DisplayMember[]>([]);
   const [founders, setFounders] = useState<DisplayMember[]>([]);
-  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [tabError, setTabError] = useState<{
     present: boolean;
@@ -150,7 +150,7 @@ export default function MembersPage() {
           signal: abortController.signal,
         });
         if (!res.ok) {
-          setError(`Error ${res.status}: ${res.statusText}`);
+          console.log(`Error ${res.status}: ${res.statusText}`)
           throw new Error("Network response was not ok");
         }
         const result = await res.json();
@@ -158,7 +158,7 @@ export default function MembersPage() {
         const rawData: Member[] = Array.isArray(result.data) ? result.data : [];
 
         if (!result.success) {
-          setError("Failed to load member data");
+          console.log("Failed to load member data")
           throw new Error("Invalid API response");
         }
 
@@ -206,7 +206,6 @@ export default function MembersPage() {
           return;
         }
         console.error("Failed to fetch members", err);
-        setError("Failed to load members. Please try again later.");
         setTabError({
           present: true,
           seniors: true,
