@@ -307,7 +307,7 @@ export default function MembersPage() {
         <Particles
           quantity={500}
           color={theme === "dark" ? "#ffffff" : "#000000"}
-          className="absolute inset-0 z-0 h-full w-full"
+          className="fixed inset-0 z-0 h-full w-full"
           size={1.5}
           staticity={50}
           ease={40}
