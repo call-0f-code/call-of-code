@@ -19,15 +19,31 @@ interface Project {
 
 const Skeleton = ({ src, alt = "Preview" }: { src: string; alt?: string }) => {
   const [isLoading, setIsLoading] = useState(true);
+
+  // Shimmer animation class matching member cards
+  const shimmer = "bg-[linear-gradient(90deg,_#d1d5db_0%,_#e5e7eb_50%,_#d1d5db_100%)] dark:bg-[linear-gradient(90deg,_#4b5563_0%,_#6b7280_50%,_#4b5563_100%)] bg-[length:200%_100%] animate-[shimmer_1.5s_infinite]";
+
   return (
-    <>
-      <img
+    <div className="relative w-full h-full">
+      {/* Skeleton shimmer while loading */}
+      {isLoading && (
+        <div className={`absolute inset-0 rounded-lg ${shimmer}`} />
+      )}
+      <Image
         src={src}
         alt={alt}
-        className={`w-full h-full object-cover rounded-lg ${isLoading ? "hidden" : ""}`}
+        fill
+        className={`object-cover rounded-lg transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
         onLoad={() => setIsLoading(false)}
+        unoptimized
       />
-    </>
+      <style jsx>{`
+        @keyframes shimmer {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
+      `}</style>
+    </div>
   );
 };
 
@@ -40,7 +56,7 @@ const ProjectPage: React.FC = () => {
   useEffect(() => {
     setLoading(true);
     setError(false);
-    
+
     const fetchProjects = async () => {
       try {
         const res = await fetch("/api/projects-with-members");
@@ -51,13 +67,13 @@ const ProjectPage: React.FC = () => {
           console.error("Error loading project data");
           throw new Error("Network response was not ok");
         }
-          setTimeout(() => {
-            setLoading(false);
-          }, 500);
-      } catch (err) {
-          console.error("Error fetching projects:", err);
-          setError(true);
+        setTimeout(() => {
           setLoading(false);
+        }, 500);
+      } catch (err) {
+        console.error("Error fetching projects:", err);
+        setError(true);
+        setLoading(false);
       }
     };
 
@@ -85,18 +101,18 @@ const ProjectPage: React.FC = () => {
               stroke="url(#purplePinkGradient)"
               strokeWidth="1.5"
               viewBox="0 0 24 24"
-              >
+            >
               <defs>
-              <linearGradient id="purplePinkGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#a855f7" /> {/* purple-500 */}
-              <stop offset="100%" stopColor="#ec4899" /> {/* pink-500 */}
-              </linearGradient>
+                <linearGradient id="purplePinkGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#a855f7" /> {/* purple-500 */}
+                  <stop offset="100%" stopColor="#ec4899" /> {/* pink-500 */}
+                </linearGradient>
               </defs>
 
               <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
 
@@ -159,6 +175,8 @@ const ProjectPage: React.FC = () => {
             width={80}
             height={80}
             className="rounded-md object-contain invert dark:invert-0"
+            placeholder="blur"
+            blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjZTVlN2ViIi8+PC9zdmc+"
           />
         </header>
 

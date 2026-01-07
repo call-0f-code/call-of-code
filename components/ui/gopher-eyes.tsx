@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 
 function Gopher() {
   const [mouseCoordinates, setMouseCoordinates] = useState({ x: 0, y: 0 });
@@ -45,10 +46,13 @@ function Gopher() {
     <div>
       {/* Gopher Image */}
       <div>
-        <img
+        <Image
           src="/gopher.png"
           alt="Gopher"
-          className="absolute top-[265px] left-[156px] w-[135px] h-[135px]overflow-hidden"
+          width={135}
+          height={135}
+          className="absolute top-[265px] left-[156px] overflow-hidden"
+          priority
         />
       </div>
       {/* Left Eye */}
