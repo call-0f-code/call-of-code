@@ -19,15 +19,31 @@ interface Project {
 
 const Skeleton = ({ src, alt = "Preview" }: { src: string; alt?: string }) => {
   const [isLoading, setIsLoading] = useState(true);
+
+  // Shimmer animation class matching member cards
+  const shimmer = "bg-[linear-gradient(90deg,_#d1d5db_0%,_#e5e7eb_50%,_#d1d5db_100%)] dark:bg-[linear-gradient(90deg,_#4b5563_0%,_#6b7280_50%,_#4b5563_100%)] bg-[length:200%_100%] animate-[shimmer_1.5s_infinite]";
+
   return (
-    <>
-      <img
+    <div className="relative w-full h-full">
+      {/* Skeleton shimmer while loading */}
+      {isLoading && (
+        <div className={`absolute inset-0 rounded-lg ${shimmer}`} />
+      )}
+      <Image
         src={src}
         alt={alt}
-        className={`w-full h-full object-cover rounded-lg ${isLoading ? "hidden" : ""}`}
+        fill
+        className={`object-cover rounded-lg transition-opacity duration-300 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
         onLoad={() => setIsLoading(false)}
+        unoptimized
       />
-    </>
+      <style jsx>{`
+        @keyframes shimmer {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
+      `}</style>
+    </div>
   );
 };
 
@@ -35,8 +51,12 @@ const ProjectPage: React.FC = () => {
   const { theme } = useTheme();
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
+    setError(false);
+
     const fetchProjects = async () => {
       try {
         const res = await fetch("/api/projects-with-members");
@@ -45,25 +65,103 @@ const ProjectPage: React.FC = () => {
           setProjects(data.data as Project[]);
         } else {
           console.error("Error loading project data");
+          throw new Error("Network response was not ok");
         }
+        setTimeout(() => {
+          setLoading(false);
+        }, 500);
       } catch (err) {
         console.error("Error fetching projects:", err);
-      } finally{
-          setTimeout(() => {
-            setLoading(false);
-          }, 500);
+        setError(true);
+        setLoading(false);
       }
     };
 
     fetchProjects();
   }, []);
 
+  const renderProjects = () => {
+    if (loading) {
+      return (
+        <BentoGrid>
+          {Array.from({ length: 6 }).map((_, i) => (
+            <SkeletonLoader key={i} />
+          ))}
+        </BentoGrid>
+      );
+    }
+
+    if (error) {
+      return (
+        <div className="flex items-center justify-center py-40">
+          <div className="flex items-center gap-4">
+            <svg
+              className="h-11 w-11 opacity-80"
+              fill="none"
+              stroke="url(#purplePinkGradient)"
+              strokeWidth="1.5"
+              viewBox="0 0 24 24"
+            >
+              <defs>
+                <linearGradient id="purplePinkGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#a855f7" /> {/* purple-500 */}
+                  <stop offset="100%" stopColor="#ec4899" /> {/* pink-500 */}
+                </linearGradient>
+              </defs>
+
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+
+            <p className="text-3xl font-semibold tracking-wide text-gray-700 dark:text-gray-300">
+              Failed to fetch projects
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    if (projects.length === 0) {
+      return (
+        <div className="flex items-center justify-center py-40">
+          <p className="text-3xl font-semibold tracking-wide text-gray-700 dark:text-gray-300">
+            No projects found
+          </p>
+        </div>
+      );
+    }
+
+    return (
+      <BentoGrid>
+        {projects.map((project, i) => (
+          <BentoGridItem
+            key={project.id}
+            title={project.name}
+            header={<Skeleton src={project.imageUrl} alt={project.name} />}
+            github={project.githubUrl}
+            live={project.deployUrl}
+            tooltipItems={project.members?.map((member) => ({
+              id: member.id,
+              name: member.name,
+              image: member.image || "/default-avatar.png",
+            }))}
+            className={i === 3 || i === 6 ? "md:col-span-2" : ""}
+          />
+        ))}
+      </BentoGrid>
+    );
+  };
+
+
   return (
     <div className={`relative min-h-screen w-full ${theme === "dark" ? "bg-black" : "bg-white"}`}>
       <Particles
         quantity={500}
         color={theme === "dark" ? "#ffffff" : "#000000"}
-        className="absolute inset-0 z-0"
+        className="fixed inset-0 z-0"
         size={1.5}
         staticity={50}
         ease={40}
@@ -77,6 +175,8 @@ const ProjectPage: React.FC = () => {
             width={80}
             height={80}
             className="rounded-md object-contain invert dark:invert-0"
+            placeholder="blur"
+            blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjZTVlN2ViIi8+PC9zdmc+"
           />
         </header>
 
@@ -89,72 +189,8 @@ const ProjectPage: React.FC = () => {
             <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-full w-3/4 rounded-full animate-pulse" />
           </div>
 
-          {/* Loading State */}
-          {loading && (
-            <BentoGrid>
-              {Array.from({ length: 6 }).map((_, i) => (
-                <SkeletonLoader key={i} />
-              ))}
-            </BentoGrid>
-          )}
+          {renderProjects()}
 
-          {/* Empty State */}
-          {!loading && projects.length === 0 && (
-            <div className="flex items-center justify-center py-40">
-              <div className="flex items-center gap-4">
-                <svg
-                  className="h-11 w-11 opacity-80"
-                  fill="none"
-                  stroke="url(#purplePinkGradient)"
-                  strokeWidth="1.5"
-                  viewBox="0 0 24 24"
-                >
-                <defs>
-                  <linearGradient id="purplePinkGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#a855f7" /> {/* purple-500 */}
-                  <stop offset="100%" stopColor="#ec4899" /> {/* pink-500 */}
-                  </linearGradient>
-                </defs>
-
-                <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-                </svg>
-
-                <p className="text-3xl font-semibold tracking-wide text-gray-700 dark:text-gray-300">
-                  Failed to fetch projects
-                </p>
-              </div>
-            </div>
-          )}
-
-          {/* Projects Grid */}
-          {!loading && projects.length > 0 && (
-            <BentoGrid>
-              {projects.map((project, i) => (
-                <BentoGridItem
-                  key={project.id}
-                  title={project.name}
-                  header={
-                    <Skeleton
-                      src={project.imageUrl}
-                      alt={project.name}
-                    />
-                  }
-                  github={project.githubUrl}
-                  live={project.deployUrl}
-                  tooltipItems={project.members?.map((member) => ({
-                    id: member.id,
-                    name: member.name,
-                    image: member.image || "/default-avatar.png",
-                  }))}
-                  className={i === 3 || i === 6 ? "md:col-span-2" : ""}
-                />
-              ))}
-            </BentoGrid>
-          )}
         </main>
       </div>
     </div>

@@ -13,6 +13,18 @@ const nextConfig = {
       },
     ];
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'nheuznumbetmqgolraku.supabase.co',
+      },      
+      {
+        protocol: 'https',
+        hostname: 'riqqtbuoaycwwiemnmri.supabase.co',
+      },
+    ],
+  },
 };
 
 export default nextConfig;
