@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 import MemberSkeletonCard from "./ui/member-skeleton-card";
 import cocGroupPhoto from "@/public/coc.jpg";
 
-type Member = {
+ export type Member = {
   id: string; // Added id field
   name: string;
   profilePhoto?: string;
