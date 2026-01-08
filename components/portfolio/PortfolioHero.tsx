@@ -89,7 +89,7 @@ export default function PortfolioHero({ member }: { member: Member }) {
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 rounded-full blur-2xl opacity-60 animate-pulse" />
         <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full blur-xl opacity-40" />
         <Image
-          src={member.profilePhoto}
+          src={member.profilePhoto || "/fallback.jpg"}
           alt={member.name}
           fill
           className="rounded-full object-cover relative z-10 border-4 border-white/20 shadow-2xl"
