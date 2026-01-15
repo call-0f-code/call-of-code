@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   motion,
   useTransform,
@@ -18,8 +19,12 @@ export interface Person {
 
 export const AnimatedTooltip = ({ items }: { items: Person[] }) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | string | null>(null);
+  const [loadedImages, setLoadedImages] = useState<Set<number | string>>(new Set());
   const springConfig = { stiffness: 100, damping: 15 };
   const x = useMotionValue(0);
+
+  // Shimmer animation class
+  const shimmer = "bg-[linear-gradient(90deg,_#d1d5db_0%,_#e5e7eb_50%,_#d1d5db_100%)] dark:bg-[linear-gradient(90deg,_#4b5563_0%,_#6b7280_50%,_#4b5563_100%)] bg-[length:200%_100%] animate-[shimmer_1.5s_infinite]";
 
   const rotate = useSpring(
     useTransform(x, [-100, 100], [-45, 45]),
@@ -35,6 +40,10 @@ export const AnimatedTooltip = ({ items }: { items: Person[] }) => {
     const target = event.target as HTMLImageElement;
     const halfWidth = target.offsetWidth / 2;
     x.set(event.nativeEvent.offsetX - halfWidth);
+  };
+
+  const handleImageLoad = (itemId: number | string) => {
+    setLoadedImages(prev => new Set(prev).add(itemId));
   };
 
   return (
@@ -83,12 +92,28 @@ export const AnimatedTooltip = ({ items }: { items: Person[] }) => {
               )}
             </AnimatePresence>
 
-            <img
-              onMouseMove={handleMouseMove}
-              src={item.image}
-              alt={item.name}
-              className="relative !m-0 h-14 w-14 rounded-full border-2 border-white object-cover object-top !p-0 transition duration-500 group-hover:z-30 group-hover:scale-105 cursor-pointer"
-            />
+            <div className="relative">
+              {/* Shimmer overlay while loading */}
+              {!loadedImages.has(item.id) && (
+                <div className={`absolute inset-0 rounded-full ${shimmer} border-2 border-white`} />
+              )}
+              <Image
+                onMouseMove={handleMouseMove}
+                src={item.image}
+                alt={item.name}
+                width={56}
+                height={56}
+                className={`relative !m-0 h-14 w-14 rounded-full border-2 border-white object-cover object-top !p-0 transition-all duration-500 group-hover:z-30 group-hover:scale-105 cursor-pointer ${loadedImages.has(item.id) ? 'opacity-100' : 'opacity-0'
+                  }`}
+                onLoad={() => handleImageLoad(item.id)}
+              />
+            </div>
+            <style jsx>{`
+              @keyframes shimmer {
+                0% { background-position: -200% 0; }
+                100% { background-position: 200% 0; }
+              }
+            `}</style>
           </div>
         </Link>
       ))}
