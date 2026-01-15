@@ -241,7 +241,7 @@ export default function PortfolioHero({ member }: { member: Member }) {
 
             {/* Text Animation */}
             <span className="relative z-10 text-sm font-medium text-gray-300 group-hover:text-white transition-colors duration-300">
-              Let's Connect
+              Let&apos;s Connect
             </span>
 
             {/* Glowing Tooltip */}
