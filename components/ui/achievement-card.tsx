@@ -1,10 +1,13 @@
 // components/ui/achievement-card.tsx
 import React, { useState } from "react";
-import { ChevronRight, X, Loader2 } from "lucide-react";
+import { ChevronRight, X, Loader2, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import Link from "next/link"; 
 
+// UPDATED: Interface now includes id
 interface TeamMember {
+  id: string;
   name: string;
   image: string;
 }
@@ -24,7 +27,6 @@ interface ExpandedCardProps extends AchievementProps {
   isLoadingMembers: boolean;
 }
 
-// Helper for border colors
 const getBorderColor = (title: string) => {
   const colors = [
     'bg-gradient-to-br from-blue-400 to-blue-600',
@@ -56,12 +58,8 @@ export function AchievementCard({
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.2 }}
     >
-      {/* Colorful Border Frame */}
       <div className={`absolute inset-0 rounded-2xl p-3 shadow-2xl transition-all duration-300 group-hover:shadow-3xl ${getBorderColor(title)}`}>
-        {/* Card Background */}
         <div className="w-full h-full bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border-2 border-gray-100 dark:border-gray-700">
-          
-          {/* Image Section */}
           <div className="relative h-60 overflow-hidden">
             <motion.div layoutId={`image-${id}`} className="w-full h-full relative">
               <Image
@@ -72,20 +70,17 @@ export function AchievementCard({
               />
             </motion.div>
 
-            {/* Date Badge */}
             <div className="absolute top-3 left-3">
               <span className="px-3 py-1.5 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-full text-xs font-semibold text-gray-700 dark:text-gray-200 shadow-md border border-white/50 dark:border-gray-700/50">
                 {date}
               </span>
             </div>
 
-            {/* Expand Icon */}
             <div className="absolute top-3 right-3 w-8 h-8 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md border border-white/50 dark:border-gray-700/50 opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-75 group-hover:scale-100">
               <ChevronRight className="w-4 h-4 text-gray-600 dark:text-gray-300" />
             </div>
           </div>
 
-          {/* Content Section */}
           <div className="p-5 bg-white dark:bg-gray-800">
             <motion.h4 
               layoutId={`title-${id}`}
@@ -122,7 +117,6 @@ export function ExpandedAchievementCard({
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center px-4 sm:px-0">
-      {/* Backdrop */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -131,17 +125,14 @@ export function ExpandedAchievementCard({
         onClick={onClose}
       />
 
-      {/* Expanded Card Container */}
       <motion.div
         layoutId={`card-${id}`}
         className="w-[90vw] sm:w-[70vw] max-w-[900px] h-[85vh] max-h-[600px] relative z-[101] bg-white dark:bg-gray-900 rounded-xl shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-700"
       >
         <div className="flex flex-col sm:flex-row w-full h-full">
-          {/* Left Panel (Content) */}
           <div className="w-full sm:w-1/2 h-1/2 sm:h-full border-b sm:border-b-0 sm:border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 flex flex-col">
             <div className="w-full h-full overflow-auto custom-scrollbar">
               
-              {/* Header Info */}
               <div className="p-6 bg-gradient-to-br from-gray-100 to-white dark:from-gray-800 dark:to-gray-900">
                 <div className="mb-4">
                   <span className="px-3 py-1.5 rounded-full text-sm font-medium bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 shadow-sm">
@@ -164,7 +155,6 @@ export function ExpandedAchievementCard({
                 </motion.p>
               </div>
 
-              {/* Team Members */}
               <div className="p-6">
                 <h5 className="text-base font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center">
                   <span className="w-6 h-0.5 bg-blue-300 dark:bg-blue-600 mr-3"></span>
@@ -184,29 +174,39 @@ export function ExpandedAchievementCard({
                 ) : teamMembers.length > 0 ? (
                   <div className="grid grid-cols-2 gap-3">
                     {teamMembers.map((member, index) => (
-                      <motion.div 
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 + (index * 0.1) }}
-                        key={index} 
-                        className="group/member relative bg-gradient-to-br from-white to-slate-100 dark:from-gray-700 dark:to-gray-800 p-3 rounded-xl hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-600"
-                      >
-                        <div className="relative w-12 h-12 mb-2 mx-auto rounded-full overflow-hidden ring-2 ring-blue-200 dark:ring-blue-700 ring-offset-2 ring-offset-white dark:ring-offset-gray-800">
-                          <Image
-                            src={imageErrors.has(index)
-                              ? 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150'
-                              : member.image
-                            }
-                            alt={member.name}
-                            fill
-                            onError={() => setImageErrors(prev => new Set(prev).add(index))}
-                            className="object-cover transition-transform duration-500 group-hover/member:scale-110"
-                          />
-                        </div>
-                        <div className="text-center">
-                          <p className="text-xs font-semibold text-gray-800 dark:text-gray-100">{member.name}</p>
-                        </div>
-                      </motion.div>
+                      <Link href={`/members/${member.id}`} key={index}>
+                        <motion.div 
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.2 + (index * 0.1) }}
+                          // UPDATED: Added hover styles for interaction feedback
+                          className="group/member relative bg-gradient-to-br from-white to-slate-100 dark:from-gray-700 dark:to-gray-800 p-3 rounded-xl hover:shadow-lg hover:border-blue-300 dark:hover:border-blue-500 border border-gray-200 dark:border-gray-600 transition-all duration-300 cursor-pointer"
+                        >
+                          {/* Visual Indicator Icon (Appears on Hover) */}
+                          <div className="absolute top-2 right-2 opacity-0 group-hover/member:opacity-100 transition-opacity duration-300">
+                             <ExternalLink className="w-3 h-3 text-blue-500" />
+                          </div>
+
+                          <div className="relative w-12 h-12 mb-2 mx-auto rounded-full overflow-hidden ring-2 ring-blue-200 dark:ring-blue-700 ring-offset-2 ring-offset-white dark:ring-offset-gray-800 group-hover/member:ring-blue-400 dark:group-hover/member:ring-blue-500 transition-all">
+                            <Image
+                              src={imageErrors.has(index)
+                                ? 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150'
+                                : member.image
+                              }
+                              alt={member.name}
+                              fill
+                              onError={() => setImageErrors(prev => new Set(prev).add(index))}
+                              className="object-cover transition-transform duration-500 group-hover/member:scale-110"
+                            />
+                          </div>
+                          <div className="text-center">
+                            <p className="text-xs font-semibold text-gray-800 dark:text-gray-100 group-hover/member:text-blue-600 dark:group-hover/member:text-blue-400 transition-colors">
+                              {member.name}
+                            </p>
+                            <p className="text-[10px] text-gray-400 mt-0.5 group-hover/member:text-gray-500 transition-colors">View Profile</p>
+                          </div>
+                        </motion.div>
+                      </Link>
                     ))}
                   </div>
                 ) : (
@@ -218,9 +218,7 @@ export function ExpandedAchievementCard({
             </div>
           </div>
 
-          {/* Right Panel - Static Image */}
           <div className="w-full sm:w-1/2 h-64 sm:h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-white dark:from-gray-800 dark:to-gray-900 p-4 sm:p-6 relative">
-             {/* We use the same layoutId here to morph the image from the small card */}
              <motion.div layoutId={`image-${id}`} className="relative w-full h-full">
                 <Image
                   src={imageSrc}
@@ -232,7 +230,6 @@ export function ExpandedAchievementCard({
           </div>
         </div>
 
-        {/* Close Button */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 p-2 bg-white dark:bg-gray-700 rounded-full hover:bg-gray-50 dark:hover:bg-gray-600 shadow-lg transition-all hover:scale-110 border border-gray-200 dark:border-gray-600 z-50"
@@ -241,7 +238,6 @@ export function ExpandedAchievementCard({
         </button>
       </motion.div>
 
-      {/* Global Style for scrollbar reuse */}
       <style jsx>{`
         .custom-scrollbar::-webkit-scrollbar {
           width: 6px;

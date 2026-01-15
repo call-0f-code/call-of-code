@@ -14,6 +14,7 @@ interface Achievement {
   date: string;
   imageSrc: string;
   teamMembers: Array<{
+    id: string;
     name: string;
     image: string;
   }>;

@@ -1,7 +1,6 @@
 // app/api/achievements/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 
-
 export const runtime = 'edge';
 
 interface Member {
@@ -41,11 +40,9 @@ interface ApiDetailResponse {
 
 export async function GET(
   request: NextRequest,
-  // 1. Change the type definition here to use Promise
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    // 2. Await the params object before accessing properties
     const { id } = await params;
     const achievementId = id;
 
@@ -53,12 +50,11 @@ export async function GET(
         throw new Error('API_BASE_URL environment variable is not configured');
     }
 
-    // Fetch achievement details from your API
     const response = await fetch(`${process.env.API_BASE_URL}/api/v1/achievements/${achievementId}`, {
       headers: {
         'Content-Type': 'application/json',
       },
-      next: { revalidate: 600 } // Cache for 10 minutes
+      next: { revalidate: 600 } 
     });
 
     if (!response.ok) {
@@ -71,8 +67,9 @@ export async function GET(
       throw new Error('Invalid API response format');
     }
 
-    // Transform member data to match your component format
+    // UPDATED: Now including 'id' in the returned object
     const transformedMembers = apiData.data.members.map(memberWrapper => ({
+      id: memberWrapper.member.id, 
       name: memberWrapper.member.name,
       image: memberWrapper.member.profilePhoto || "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150"
     }));
