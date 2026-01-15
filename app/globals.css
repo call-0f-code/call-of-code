@@ -85,3 +85,34 @@
   display: none;            /* Chrome, Safari */
 }
 
+/* app/globals.css */
+
+@layer utilities {
+  /* 1. Set the width of the scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px; /* Width for vertical scrollbars */
+    height: 10px; /* Height for horizontal scrollbars */
+  }
+
+  /* 2. Style the "Track" (the background behind the moving bar) */
+  ::-webkit-scrollbar-track {
+    background: transparent; /* Keeps it clean */
+  }
+
+  /* 3. Style the "Thumb" (the moving part with your gradient) */
+  ::-webkit-scrollbar-thumb {
+    border-radius: 9999px; /* Makes it pill-shaped */
+    
+
+    @apply bg-gradient-to-b from-pink-600 via-purple-600 to-blue-500;
+           
+    /* Adds a small border to separate thumb from content if needed */
+    border: 2px solid transparent;
+    background-clip: content-box; 
+  }
+
+  /* 4. Hover effect (Optional: make it brighter/wider on hover) */
+  ::-webkit-scrollbar-thumb:hover {
+     /* You can add specific hover styles here if you want */
+  }
+}

@@ -1,5 +1,5 @@
 // components/ui/members-card.tsx
-"use client"; // Required for Framer Motion
+"use client"; 
 
 import React, { useState } from "react";
 import { Github, Linkedin } from "lucide-react";
@@ -25,10 +25,8 @@ export default function MembersCard({
   const [isDesktopImageLoaded, setIsDesktopImageLoaded] = useState(false);
   const [isMobileImageLoaded, setIsMobileImageLoaded] = useState(false);
 
-  // Shimmer animation class
   const shimmer = "bg-[linear-gradient(90deg,_#d1d5db_0%,_#e5e7eb_50%,_#d1d5db_100%)] dark:bg-[linear-gradient(90deg,_#4b5563_0%,_#6b7280_50%,_#4b5563_100%)] bg-[length:200%_100%] animate-[shimmer_1.5s_infinite]";
 
-  // Animation variants for cleaner code
   const cardVariants = {
     rest: { scale: 1, y: 0 },
     hover: {
@@ -41,10 +39,6 @@ export default function MembersCard({
     }
   };
 
-  const handleCardClick = () => {
-    window.location.href = `/members/${memberId}`;
-  };
-
   return (
     <div className="w-full max-w-[200px] sm:max-w-[320px] mx-auto">
       {/* Desktop Card */}
@@ -53,12 +47,21 @@ export default function MembersCard({
         whileHover="hover"
         whileTap="tap"
         variants={cardVariants}
-        className="hidden sm:block group relative overflow-hidden rounded-2xl bg-white dark:bg-black shadow-md hover:shadow-[0_0_30px_5px_rgba(236,72,153,0.3)] dark:hover:shadow-[0_0_30px_5px_rgba(168,85,247,0.3)] border border-pink-500 dark:border-purple-500 cursor-pointer"
-        onClick={handleCardClick}
+        className="hidden sm:block group relative overflow-hidden rounded-2xl bg-white dark:bg-black shadow-md hover:shadow-[0_0_30px_5px_rgba(236,72,153,0.3)] dark:hover:shadow-[0_0_30px_5px_rgba(168,85,247,0.3)] border border-pink-500 dark:border-purple-500"
       >
+          {/* 1. THE MAIN LINK 
+            We place the Link here, absolutely positioned to cover the whole card.
+            This makes the whole card clickable without nesting <a> tags.
+            "z-0" keeps it behind the social buttons.
+          */}
+          <Link 
+            href={`/members/${memberId}`} 
+            className="absolute inset-0 z-0"
+            aria-label={`View ${name}'s portfolio`}
+          />
+
           {/* Image */}
-          <div className="aspect-square overflow-hidden relative">
-            {/* Skeleton shimmer while loading */}
+          <div className="aspect-square overflow-hidden relative pointer-events-none">
             {!isDesktopImageLoaded && (
               <div className={`absolute inset-0 ${shimmer}`} />
             )}
@@ -74,7 +77,7 @@ export default function MembersCard({
               loading="lazy"
               onLoad={() => setIsDesktopImageLoaded(true)}
             />
-            <style jsx>{`
+             <style jsx>{`
               @keyframes shimmer {
                 0% { background-position: -200% 0; }
                 100% { background-position: 200% 0; }
@@ -83,21 +86,27 @@ export default function MembersCard({
           </div>
 
           {/* Name + Socials */}
-          <div className="p-4">
-            <h3 className="font-semibold text-lg text-center text-black dark:text-white mb-3 break-words">
+          <div className="p-4 relative">
+            {/* pointer-events-none allows clicks to pass through text to the Link below */}
+            <h3 className="font-semibold text-lg text-center text-black dark:text-white mb-3 break-words pointer-events-none">
               {name}
             </h3>
 
             <div className="flex justify-center space-x-4">
+              {/* 2. THE SOCIAL LINKS
+                 z-10 ensures these sit ON TOP of the main card Link.
+                 Because they are on top, we don't need stopPropagation anymore, 
+                 but keeping it is safe practice.
+              */}
               {githubLink && (
                 <motion.a
                   href={githubLink}
                   target="_blank"
                   rel="noopener"
-                  onClick={(e) => e.stopPropagation()}
+                  // onClick={(e) => e.stopPropagation()} // Not strictly needed with z-index, but safe to keep
                   whileHover={{ scale: 1.2, rotate: 5 }}
                   whileTap={{ scale: 0.8 }}
-                  className="p-2 rounded-full bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-200 z-10 relative"
+                  className="p-2 rounded-full bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-200 z-10 relative cursor-pointer"
                 >
                   <Github size={18} className="text-black dark:text-white" />
                 </motion.a>
@@ -107,10 +116,9 @@ export default function MembersCard({
                   href={linkedinLink}
                   target="_blank"
                   rel="noopener"
-                  onClick={(e) => e.stopPropagation()}
                   whileHover={{ scale: 1.2, rotate: -5 }}
                   whileTap={{ scale: 0.8 }}
-                  className="p-2 rounded-full bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-200 z-10 relative"
+                  className="p-2 rounded-full bg-gray-100 dark:bg-gray-900 hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors duration-200 z-10 relative cursor-pointer"
                 >
                   <Linkedin size={18} className="text-black dark:text-white" />
                 </motion.a>
@@ -119,14 +127,19 @@ export default function MembersCard({
           </div>
       </motion.div>
 
-      {/* Mobile Version - Added tap animation here too */}
+      {/* Mobile Version */}
       <motion.div
         whileTap={{ scale: 0.95 }}
-        className="block sm:hidden flex flex-col items-center gap-3 py-4 cursor-pointer"
-        onClick={handleCardClick}
+        className="block sm:hidden relative flex flex-col items-center gap-3 py-4"
       >
-          <div className="relative w-28 h-28">
-            {/* Skeleton shimmer while loading */}
+          {/* Main Mobile Link */}
+          <Link 
+            href={`/members/${memberId}`} 
+            className="absolute inset-0 z-0"
+            aria-label={`View ${name}'s portfolio`}
+          />
+
+          <div className="relative w-28 h-28 pointer-events-none">
             {!isMobileImageLoaded && (
               <div className={`absolute inset-0 rounded-full ${shimmer} border-4 border-pink-500 dark:border-purple-500`} />
             )}
@@ -139,20 +152,16 @@ export default function MembersCard({
               onLoad={() => setIsMobileImageLoaded(true)}
             />
           </div>
-          <h3 className="text-center text-base font-semibold text-black dark:text-white px-4">
+          <h3 className="text-center text-base font-semibold text-black dark:text-white px-4 pointer-events-none">
             {name}
           </h3>
 
-          {/* Mobile Socials */}
-          <div className="flex space-x-4">
-            {/* Note: In mobile view, clicking socials might be tricky if the whole card is a link. 
-                 Since the parent is a Link, we keep stopPropagation. */}
+          <div className="flex space-x-4 z-10 relative">
             {githubLink && (
               <a
                 href={githubLink}
                 target="_blank"
                 rel="noopener"
-                onClick={(e) => e.stopPropagation()}
                 className="p-2 rounded-full bg-gray-100 dark:bg-gray-900 active:scale-90 transition-transform"
               >
                 <Github size={18} className="text-black dark:text-white" />
@@ -164,7 +173,6 @@ export default function MembersCard({
                 href={linkedinLink}
                 target="_blank"
                 rel="noopener"
-                onClick={(e) => e.stopPropagation()}
                 className="p-2 rounded-full bg-gray-100 dark:bg-gray-900 active:scale-90 transition-transform"
               >
                 <Linkedin size={18} className="text-black dark:text-white" />
