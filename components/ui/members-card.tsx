@@ -41,17 +41,21 @@ export default function MembersCard({
     }
   };
 
+  const handleCardClick = () => {
+    window.location.href = `/members/${memberId}`;
+  };
+
   return (
     <div className="w-full max-w-[200px] sm:max-w-[320px] mx-auto">
       {/* Desktop Card */}
-      <Link href={`/members/${memberId}`}>
-        <motion.div
-          initial="rest"
-          whileHover="hover"
-          whileTap="tap"
-          variants={cardVariants}
-          className="hidden sm:block group relative overflow-hidden rounded-2xl bg-white dark:bg-black shadow-md hover:shadow-[0_0_30px_5px_rgba(236,72,153,0.3)] dark:hover:shadow-[0_0_30px_5px_rgba(168,85,247,0.3)] border border-pink-500 dark:border-purple-500 cursor-pointer"
-        >
+      <motion.div
+        initial="rest"
+        whileHover="hover"
+        whileTap="tap"
+        variants={cardVariants}
+        className="hidden sm:block group relative overflow-hidden rounded-2xl bg-white dark:bg-black shadow-md hover:shadow-[0_0_30px_5px_rgba(236,72,153,0.3)] dark:hover:shadow-[0_0_30px_5px_rgba(168,85,247,0.3)] border border-pink-500 dark:border-purple-500 cursor-pointer"
+        onClick={handleCardClick}
+      >
           {/* Image */}
           <div className="aspect-square overflow-hidden relative">
             {/* Skeleton shimmer while loading */}
@@ -113,15 +117,14 @@ export default function MembersCard({
               )}
             </div>
           </div>
-        </motion.div>
-      </Link>
+      </motion.div>
 
       {/* Mobile Version - Added tap animation here too */}
-      <Link href={`/members/${memberId}`}>
-        <motion.div
-          whileTap={{ scale: 0.95 }}
-          className="block sm:hidden flex flex-col items-center gap-3 py-4 cursor-pointer"
-        >
+      <motion.div
+        whileTap={{ scale: 0.95 }}
+        className="block sm:hidden flex flex-col items-center gap-3 py-4 cursor-pointer"
+        onClick={handleCardClick}
+      >
           <div className="relative w-28 h-28">
             {/* Skeleton shimmer while loading */}
             {!isMobileImageLoaded && (
@@ -168,8 +171,7 @@ export default function MembersCard({
               </a>
             )}
           </div>
-        </motion.div>
-      </Link>
+      </motion.div>
     </div>
   );
 }

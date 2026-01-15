@@ -41,10 +41,13 @@ interface ApiDetailResponse {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  // 1. Change the type definition here to use Promise
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const achievementId = params.id;
+    // 2. Await the params object before accessing properties
+    const { id } = await params;
+    const achievementId = id;
 
     if (!process.env.API_BASE_URL) {
         throw new Error('API_BASE_URL environment variable is not configured');
