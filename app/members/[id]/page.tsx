@@ -8,9 +8,8 @@ import PortfolioTimeline from "@/components/portfolio/PortfolioTimeline";
 import ParticleBackground from "@/components/portfolio/ParticleBackground";
 import PortfolioSkeleton from "@/components/portfolio/PortfolioSkeleton";
 import { getMemberPortfolioData } from "@/lib/actions/portfolio";
-import { Member } from "@/components/Members-Text";
 export const revalidate = 3600; // 1 hour cache
-
+export const runtime = "edge";
 interface PageProps {
   params: Promise<{ id: string }>;
 }
@@ -32,23 +31,7 @@ export async function generateMetadata({ params }: PageProps) {
     };
   }
 }
-export async function generateStaticParams() {
-  // Fetch all member IDs at build time
-  try {
-    const res = await fetch(`${process.env.API_BASE_URL}/api/v1/members`);
-    if (!res.ok) {
-      throw new Error("Failed to fetch member IDs: " + res.statusText);
-    }
-    const members = await res.json();
-    const data = members.data || [];
-    return data.map((member: Member) => ({
-      id: member.id.toString(),
-    }));
-  } catch (error) {
-    console.error("Error fetching member IDs:", error);
-    return []; // Return empty array on error
-  }
-}
+
 export default async function MemberPortfolioPage({ params }: PageProps) {
   let portfolioData;
   
