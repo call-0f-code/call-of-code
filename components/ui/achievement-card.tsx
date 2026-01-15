@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { ChevronRight, X, Loader2, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import Link from "next/link"; 
+import Link from "next/link";
 
 // UPDATED: Interface now includes id
 interface TeamMember {
@@ -50,6 +50,11 @@ export function AchievementCard({
   imageSrc,
   onClick,
 }: AchievementProps) {
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
+  // Shimmer animation class
+  const shimmer = "bg-[linear-gradient(90deg,_#d1d5db_0%,_#e5e7eb_50%,_#d1d5db_100%)] dark:bg-[linear-gradient(90deg,_#4b5563_0%,_#6b7280_50%,_#4b5563_100%)] bg-[length:200%_100%] animate-[shimmer_1.5s_infinite]";
+
   return (
     <motion.div
       layoutId={`card-${id}`}
@@ -62,12 +67,23 @@ export function AchievementCard({
         <div className="w-full h-full bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border-2 border-gray-100 dark:border-gray-700">
           <div className="relative h-60 overflow-hidden">
             <motion.div layoutId={`image-${id}`} className="w-full h-full relative">
+              {/* Shimmer loader while image is loading */}
+              {!isImageLoaded && (
+                <div className={`absolute inset-0 ${shimmer}`} />
+              )}
               <Image
                 src={imageSrc}
                 alt={title}
                 fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                onLoad={() => setIsImageLoaded(true)}
+                className={`object-cover transition-all duration-300 group-hover:scale-105 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
               />
+              <style jsx>{`
+                @keyframes shimmer {
+                  0% { background-position: -200% 0; }
+                  100% { background-position: 200% 0; }
+                }
+              `}</style>
             </motion.div>
 
             <div className="absolute top-3 left-3">
@@ -82,14 +98,14 @@ export function AchievementCard({
           </div>
 
           <div className="p-5 bg-white dark:bg-gray-800">
-            <motion.h4 
+            <motion.h4
               layoutId={`title-${id}`}
               className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-2 leading-tight line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300"
             >
               {title}
             </motion.h4>
 
-            <motion.p 
+            <motion.p
               layoutId={`desc-${id}`}
               className="text-sm text-gray-600 dark:text-gray-300 line-clamp-3 leading-relaxed"
             >
@@ -114,6 +130,11 @@ export function ExpandedAchievementCard({
   isLoadingMembers,
 }: ExpandedCardProps) {
   const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
+  const [isMainImageLoaded, setIsMainImageLoaded] = useState(false);
+
+  // Shimmer animation class
+  const shimmer = "bg-[linear-gradient(90deg,_#d1d5db_0%,_#e5e7eb_50%,_#d1d5db_100%)] dark:bg-[linear-gradient(90deg,_#4b5563_0%,_#6b7280_50%,_#4b5563_100%)] bg-[length:200%_100%] animate-[shimmer_1.5s_infinite]";
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center px-4 sm:px-0">
@@ -132,22 +153,22 @@ export function ExpandedAchievementCard({
         <div className="flex flex-col sm:flex-row w-full h-full">
           <div className="w-full sm:w-1/2 h-1/2 sm:h-full border-b sm:border-b-0 sm:border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 flex flex-col">
             <div className="w-full h-full overflow-auto custom-scrollbar">
-              
+
               <div className="p-6 bg-gradient-to-br from-gray-100 to-white dark:from-gray-800 dark:to-gray-900">
                 <div className="mb-4">
                   <span className="px-3 py-1.5 rounded-full text-sm font-medium bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 shadow-sm">
                     {date}
                   </span>
                 </div>
-                
-                <motion.h4 
+
+                <motion.h4
                   layoutId={`title-${id}`}
                   className="text-2xl font-bold bg-gradient-to-br from-gray-800 to-gray-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent mb-3"
                 >
                   {title}
                 </motion.h4>
-                
-                <motion.p 
+
+                <motion.p
                   layoutId={`desc-${id}`}
                   className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed"
                 >
@@ -175,7 +196,7 @@ export function ExpandedAchievementCard({
                   <div className="grid grid-cols-2 gap-3">
                     {teamMembers.map((member, index) => (
                       <Link href={`/members/${member.id}`} key={index}>
-                        <motion.div 
+                        <motion.div
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.2 + (index * 0.1) }}
@@ -184,10 +205,14 @@ export function ExpandedAchievementCard({
                         >
                           {/* Visual Indicator Icon (Appears on Hover) */}
                           <div className="absolute top-2 right-2 opacity-0 group-hover/member:opacity-100 transition-opacity duration-300">
-                             <ExternalLink className="w-3 h-3 text-blue-500" />
+                            <ExternalLink className="w-3 h-3 text-blue-500" />
                           </div>
 
                           <div className="relative w-12 h-12 mb-2 mx-auto rounded-full overflow-hidden ring-2 ring-blue-200 dark:ring-blue-700 ring-offset-2 ring-offset-white dark:ring-offset-gray-800 group-hover/member:ring-blue-400 dark:group-hover/member:ring-blue-500 transition-all">
+                            {/* Shimmer loader while image is loading */}
+                            {!loadedImages.has(index) && (
+                              <div className={`absolute inset-0 ${shimmer}`} />
+                            )}
                             <Image
                               src={imageErrors.has(index)
                                 ? 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150'
@@ -196,7 +221,8 @@ export function ExpandedAchievementCard({
                               alt={member.name}
                               fill
                               onError={() => setImageErrors(prev => new Set(prev).add(index))}
-                              className="object-cover transition-transform duration-500 group-hover/member:scale-110"
+                              onLoad={() => setLoadedImages(prev => new Set(prev).add(index))}
+                              className={`object-cover transition-all duration-300 group-hover/member:scale-110 ${loadedImages.has(index) ? 'opacity-100' : 'opacity-0'}`}
                             />
                           </div>
                           <div className="text-center">
@@ -219,13 +245,18 @@ export function ExpandedAchievementCard({
           </div>
 
           <div className="w-full sm:w-1/2 h-64 sm:h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-white dark:from-gray-800 dark:to-gray-900 p-4 sm:p-6 relative">
-             <motion.div layoutId={`image-${id}`} className="relative w-full h-full">
-                <Image
-                  src={imageSrc}
-                  alt={title}
-                  fill
-                  className="object-contain rounded-xl shadow-md"
-                />
+            <motion.div layoutId={`image-${id}`} className="relative w-full h-full">
+              {/* Shimmer loader while image is loading */}
+              {!isMainImageLoaded && (
+                <div className={`absolute inset-0 ${shimmer} rounded-xl`} />
+              )}
+              <Image
+                src={imageSrc}
+                alt={title}
+                fill
+                onLoad={() => setIsMainImageLoaded(true)}
+                className={`object-contain rounded-xl shadow-md transition-opacity duration-300 ${isMainImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+              />
             </motion.div>
           </div>
         </div>
@@ -239,6 +270,10 @@ export function ExpandedAchievementCard({
       </motion.div>
 
       <style jsx>{`
+        @keyframes shimmer {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
         .custom-scrollbar::-webkit-scrollbar {
           width: 6px;
         }
