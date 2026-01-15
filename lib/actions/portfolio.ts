@@ -56,7 +56,7 @@ export async function getMemberPortfolioData(memberId: string) {
 
   const memberData = await memberResponse.json();
   const member: Member = memberData.user;
-  if(member.profilePhoto == null || member.profilePhoto==""){
+  if(!member.profilePhoto){
     member.profilePhoto = "/fallback.jpg"
   }
 

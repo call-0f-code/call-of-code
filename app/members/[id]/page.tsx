@@ -8,7 +8,7 @@ import PortfolioTimeline from "@/components/portfolio/PortfolioTimeline";
 import ParticleBackground from "@/components/portfolio/ParticleBackground";
 import PortfolioSkeleton from "@/components/portfolio/PortfolioSkeleton";
 import { getMemberPortfolioData } from "@/lib/actions/portfolio";
-export const revalidate = 3600; // 1 hour cache
+
 export const runtime = "edge";
 interface PageProps {
   params: Promise<{ id: string }>;
