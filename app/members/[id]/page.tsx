@@ -35,7 +35,11 @@ export async function generateMetadata({ params }: PageProps) {
 export async function generateStaticParams() {
   // Fetch all member IDs at build time
   try {
-    const members = await fetch(`${process.env.API_BASE_URL}/api/v1/members`).then(res => res.json());
+    const res = await fetch(`${process.env.API_BASE_URL}/api/v1/members`);
+    if (!res.ok) {
+      throw new Error("Failed to fetch member IDs: " + res.statusText);
+    }
+    const members = await res.json();
     const data = members.data || [];
     return data.map((member: Member) => ({
       id: member.id.toString(),
