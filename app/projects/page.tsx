@@ -145,6 +145,7 @@ const ProjectPage: React.FC = () => {
             live={project.deployUrl}
             tooltipItems={project.members?.map((member) => ({
               id: member.id,
+              memberId: member.memberId,
               name: member.name,
               image: member.image || "/default-avatar.png",
             }))}
