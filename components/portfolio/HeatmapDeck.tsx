@@ -4,6 +4,7 @@
 import { motion } from "framer-motion";
 import { ActivityCalendar } from "react-activity-calendar";
 import { useContainerWidth } from "@/app/hooks/useContainerWidth";
+import { useEffect, useState } from "react";
 
 interface ContributionData {
   date: string;
@@ -28,6 +29,29 @@ export default function HeatmapDeck({
 
   const github = useContainerWidth();
   const leetcode = useContainerWidth();
+
+  // Detect current theme
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  useEffect(() => {
+    // Check if dark mode is active
+    const checkDarkMode = () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      setIsDarkMode(isDark);
+    };
+
+    // Initial check
+    checkDarkMode();
+
+    // Watch for theme changes
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
 
   const WEEKS = 53;
@@ -95,7 +119,7 @@ export default function HeatmapDeck({
           </div>
 
           {/* FIX APPLIED HERE */}
-          <div ref={github.ref} className="w-full mx-auto">
+          <div ref={github.ref} className="w-full mx-auto calendar-light-mode">
             <ActivityCalendar
               data={githubContributions.map((d: ContributionData) => ({
                 date: d.date,
@@ -103,10 +127,10 @@ export default function HeatmapDeck({
                 level: Math.min(Math.floor(d.count / 3), 4),
               }))}
               theme={{
-                light: ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"],
+                light: ["#e5e7eb", "#0e4429", "#006d32", "#26a641", "#39d353"],
                 dark: ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"],
               }}
-              colorScheme="dark"
+              colorScheme={isDarkMode ? "dark" : "light"}
               blockSize={getBlockSize(github.width)}
               blockMargin={BLOCK_MARGIN}
               style={{
@@ -141,14 +165,14 @@ export default function HeatmapDeck({
           </div>
 
           {/* FIX APPLIED HERE */}
-          <div ref={leetcode.ref} className="w-full mx-auto">
+          <div ref={leetcode.ref} className="w-full mx-auto calendar-light-mode">
             <ActivityCalendar
               data={leetcodeNormalized}
               theme={{
-                light: ["#161b22", "#fbbf24", "#f59e0b", "#f97316", "#ea580c"],
+                light: ["#e5e7eb", "#fbbf24", "#f59e0b", "#f97316", "#ea580c"],
                 dark: ["#161b22", "#fbbf24", "#f59e0b", "#f97316", "#ea580c"],
               }}
-              colorScheme="dark"
+              colorScheme={isDarkMode ? "dark" : "light"}
               blockSize={getBlockSize(leetcode.width)}
               blockMargin={BLOCK_MARGIN}
               fontSize={12}
