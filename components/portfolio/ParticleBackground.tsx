@@ -82,7 +82,7 @@ export default function ParticleBackground() {
     // Animation loop
     const animate = () => {
       if (!ctx || !canvas) return;
-      
+
       ctx.fillStyle = "rgba(5, 5, 5, 0.05)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -130,7 +130,7 @@ export default function ParticleBackground() {
     return () => {
       window.removeEventListener("resize", resizeCanvas);
       window.removeEventListener("mousemove", handleMouseMove);
-      
+
       // CRITICAL FIX: Cancel the animation frame
       cancelAnimationFrame(animationFrameId);
     };
@@ -139,8 +139,7 @@ export default function ParticleBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0"
-      style={{ background: "#050505" }}
+      className="fixed inset-0 pointer-events-none z-0 bg-white dark:bg-[#050505]"
     />
   );
 }
