@@ -10,15 +10,14 @@ import PortfolioSkeleton from "@/components/portfolio/PortfolioSkeleton";
 import { getMemberPortfolioData } from "@/lib/actions/portfolio";
 
 export const runtime = "edge";
-export const revalidate = 3600; // 1 hour cache
-
 interface PageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export async function generateMetadata({ params }: PageProps) {
   try {
-    const data = await getMemberPortfolioData(params.id);
+    const resolvedParams = await params;
+    const data = await getMemberPortfolioData(resolvedParams.id);
     return {
       title: `${data.member.name} - Call of Code`,
       description: data.member.bio || `Portfolio of ${data.member.name}`,
@@ -37,7 +36,8 @@ export default async function MemberPortfolioPage({ params }: PageProps) {
   let portfolioData;
   
   try {
-    portfolioData = await getMemberPortfolioData(params.id);
+    const resolvedParams = await params;
+    portfolioData = await getMemberPortfolioData(resolvedParams.id);
   } catch (error) {
     console.error("Error fetching portfolio data:", error);
     notFound();

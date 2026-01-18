@@ -63,7 +63,7 @@ function GithubRepoCard({ repo }: { repo: GithubRepo }) {
       transition={{ duration: 0.6 }}
     >
       <motion.div
-        className="relative h-full min-h-[220px] rounded-2xl overflow-hidden bg-gradient-to-br from-zinc-900/90 to-zinc-800/90 backdrop-blur-xl border border-white/10 hover:border-purple-500/50 transition-all duration-300 p-6"
+        className="relative h-full min-h-[220px] rounded-2xl overflow-hidden bg-gradient-to-br from-white dark:from-zinc-900/90 to-gray-100 dark:to-zinc-800/90 backdrop-blur-xl border border-gray-200 dark:border-white/10 hover:border-purple-500/50 transition-all duration-300 p-6 shadow-sm dark:shadow-none"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         animate={{
@@ -83,12 +83,12 @@ function GithubRepoCard({ repo }: { repo: GithubRepo }) {
 
         <div className="space-y-4">
           {/* Repo Name */}
-          <h3 className="text-xl font-bold text-white pr-20 group-hover:text-purple-400 transition-colors">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white pr-20 group-hover:text-purple-400 transition-colors">
             {repo.name}
           </h3>
 
           {/* Description */}
-          <p className="text-sm text-gray-400 line-clamp-2 leading-relaxed">
+          <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed">
             {repo.description || "No description available"}
           </p>
 
@@ -99,17 +99,17 @@ function GithubRepoCard({ repo }: { repo: GithubRepo }) {
                 className="w-3 h-3 rounded-full"
                 style={{ backgroundColor: repo.primaryLanguage.color }}
               />
-              <span className="text-xs text-gray-500">{repo.primaryLanguage.name}</span>
+              <span className="text-xs text-gray-600 dark:text-gray-500">{repo.primaryLanguage.name}</span>
             </div>
           )}
 
           {/* Stats */}
           <div className="flex items-center gap-4 pt-2">
-            <div className="flex items-center gap-1.5 text-gray-400 group-hover:text-yellow-400 transition-colors">
+            <div className="flex items-center gap-1.5 text-gray-600 dark:text-gray-400 group-hover:text-yellow-400 transition-colors">
               <Star className="w-4 h-4" />
               <span className="text-sm font-medium">{repo.stargazerCount}</span>
             </div>
-            <div className="flex items-center gap-1.5 text-gray-400 group-hover:text-blue-400 transition-colors">
+            <div className="flex items-center gap-1.5 text-gray-600 dark:text-gray-400 group-hover:text-blue-400 transition-colors">
               <GitFork className="w-4 h-4" />
               <span className="text-sm font-medium">{repo.forkCount}</span>
             </div>
@@ -161,7 +161,7 @@ function InternalProjectCard({ project }: { project: Project }) {
       transition={{ duration: 0.6 }}
     >
       <motion.div
-        className="relative h-full min-h-[400px] rounded-2xl overflow-hidden bg-zinc-900/50 backdrop-blur-xl border border-white/10 hover:border-pink-500/50 transition-all duration-300"
+        className="relative h-full min-h-[400px] rounded-2xl overflow-hidden bg-white dark:bg-zinc-900/50 backdrop-blur-xl border border-gray-200 dark:border-white/10 hover:border-pink-500/50 transition-all duration-300 shadow-sm dark:shadow-none"
         animate={{
           rotateX,
           rotateY,
@@ -204,8 +204,8 @@ function InternalProjectCard({ project }: { project: Project }) {
                 className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg hover:bg-white/20 transition-all duration-300 group/btn"
                 onClick={(e) => e.stopPropagation()}
               >
-                <Github className="w-4 h-4 group-hover/btn:rotate-12 transition-transform" />
-                <span className="text-sm font-medium">Code</span>
+                <Github className="w-4 h-4 text-white group-hover/btn:rotate-12 transition-transform" />
+                <span className="text-sm font-medium text-white">Code</span>
               </a>
             )}
             {project.deployUrl && (
@@ -248,7 +248,7 @@ export default function PortfolioProjects({
         <div>
           <div className="flex items-center gap-3 mb-8">
             <Github className="w-6 h-6 text-purple-400" />
-            <h3 className="text-2xl font-bold text-white">Pinned Repositories</h3>
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Pinned Repositories</h3>
             <div className="flex-1 h-px bg-gradient-to-r from-purple-500/50 to-transparent" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -264,7 +264,7 @@ export default function PortfolioProjects({
         <div>
           <div className="flex items-center gap-3 mb-8">
             <Code className="w-6 h-6 text-pink-400" />
-            <h3 className="text-2xl font-bold text-white">Call Of Code Projects</h3>
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Call Of Code Projects</h3>
             <div className="flex-1 h-px bg-gradient-to-r from-pink-500/50 to-transparent" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

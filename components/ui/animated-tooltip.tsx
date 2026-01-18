@@ -47,7 +47,7 @@ export const AnimatedTooltip = ({ items }: { items: Person[] }) => {
   };
 
   return (
-    <div className="flex flex-row items-center justify-start -space-x-4 overflow-visible">
+    <div className="flex flex-row items-center justify-start -space-x-2 sm:-space-x-3 md:-space-x-4 overflow-visible">
       {items.map((item) => (
         <Link
           key={item.id}
@@ -60,7 +60,7 @@ export const AnimatedTooltip = ({ items }: { items: Person[] }) => {
           >
             <AnimatePresence mode="popLayout">
               {hoveredIndex === item.id && (
-                <div className="absolute -top-14 left-[60%] -translate-x-1/2 flex flex-col items-center justify-center z-50">
+                <div className="absolute -top-12 sm:-top-14 left-[60%] -translate-x-1/2 flex flex-col items-center justify-center z-50">
 
                   <motion.div
                     initial={{ opacity: 0, y: 20, scale: 0.6 }}
@@ -80,11 +80,11 @@ export const AnimatedTooltip = ({ items }: { items: Person[] }) => {
                       x: translateX,
                       whiteSpace: "nowrap",
                     }}
-                    className="flex flex-col items-center justify-center rounded-md bg-black shadow-xl px-4 py-2 text-xs relative"
+                    className="flex flex-col items-center justify-center rounded-md bg-black shadow-xl px-3 py-1.5 sm:px-4 sm:py-2 text-xs relative"
                   >
                     <div className="absolute inset-x-10 -bottom-px h-px w-[20%] bg-gradient-to-r from-transparent via-emerald-500 to-transparent" />
                     <div className="absolute left-10 -bottom-px h-px w-[40%] bg-gradient-to-r from-transparent via-sky-500 to-transparent" />
-                    <div className="font-bold text-white relative z-30 text-base">
+                    <div className="font-bold text-white relative z-30 text-sm sm:text-base">
                       {item.name}
                     </div>
                   </motion.div>
@@ -95,7 +95,7 @@ export const AnimatedTooltip = ({ items }: { items: Person[] }) => {
             <div className="relative">
               {/* Shimmer overlay while loading */}
               {!loadedImages.has(item.id) && (
-                <div className={`absolute inset-0 rounded-full ${shimmer} border-2 border-white`} />
+                <div className={`absolute inset-0 rounded-full ${shimmer} border-[1.5px] sm:border-2 border-white dark:border-gray-200`} />
               )}
               <Image
                 onMouseMove={handleMouseMove}
@@ -103,7 +103,7 @@ export const AnimatedTooltip = ({ items }: { items: Person[] }) => {
                 alt={item.name}
                 width={56}
                 height={56}
-                className={`relative !m-0 h-14 w-14 rounded-full border-2 border-white object-cover object-top !p-0 transition-all duration-500 group-hover:z-30 group-hover:scale-105 cursor-pointer ${loadedImages.has(item.id) ? 'opacity-100' : 'opacity-0'
+                className={`relative !m-0 h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 rounded-full border-[1.5px] sm:border-2 border-white dark:border-gray-200 object-cover object-top !p-0 transition-all duration-500 group-hover:z-30 group-hover:scale-105 cursor-pointer ${loadedImages.has(item.id) ? 'opacity-100' : 'opacity-0'
                   }`}
                 onLoad={() => handleImageLoad(item.id)}
               />

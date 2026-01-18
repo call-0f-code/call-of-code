@@ -3,6 +3,7 @@ import { ThemeProvider, ThemeSwitcher } from "@/components/ui/theme-provider";
 import { FloatingNavbar } from "@/components/Navbar";
 import localFont from "next/font/local";
 import "./globals.css";
+import ScrollToTop from "@/components/scroll-to-top";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,6 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider>
+          <ScrollToTop />
           <div className="fixed top-4 right-4 z-50">
             <ThemeSwitcher />
           </div>
