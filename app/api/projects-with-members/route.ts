@@ -61,10 +61,11 @@ export async function GET() {
       githubUrl: proj.githubUrl,
       deployUrl: proj.deployUrl,
       members: (proj.members || []).map((m, idx) => ({
-  id: `${proj.id}-${m.member.id || idx}`,  // always unique
-  name: m.member.name,
-  image: m.member.profilePhoto || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(m.member.name)}`
-}))
+        id: `${proj.id}-${m.member.id || idx}`,  // always unique
+        memberId: m.member.id,  // actual member ID for navigation
+        name: m.member.name,
+        image: m.member.profilePhoto || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(m.member.name)}`
+      }))
 
     }));
 
