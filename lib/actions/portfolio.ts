@@ -56,6 +56,9 @@ export async function getMemberPortfolioData(memberId: string) {
 
   const memberData = await memberResponse.json();
   const member: Member = memberData.user;
+  if(!member.profilePhoto){
+    member.profilePhoto = "/fallback.jpg"
+  }
 
   // Parallel fetch for achievements and projects
   const [achievementsRes, projectsRes] = await Promise.allSettled([

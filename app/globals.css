@@ -63,9 +63,11 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply scroll-smooth;
   }
@@ -73,15 +75,76 @@
 
 /* app/globals.css */
 .no-visible-scrollbar {
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
+  /* Firefox */
 }
+
 /* Scroll works, scrollbar hidden */
 .react-activity-calendar__scroll-container {
   overflow-x: auto;
-  scrollbar-width: none;    /* Firefox */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 .react-activity-calendar__scroll-container::-webkit-scrollbar {
-  display: none;            /* Chrome, Safari */
+  display: none;
+  /* Chrome, Safari */
 }
 
+/* Activity Calendar Text Styling */
+.calendar-light-mode text {
+  fill: #374151 !important;
+  /* gray-700 for light mode */
+}
+
+.calendar-light-mode * {
+  color: #374151;
+  /* gray-700 for light mode */
+}
+
+.dark .calendar-light-mode text {
+  fill: #9ca3af !important;
+  /* gray-400 for dark mode */
+}
+
+.dark .calendar-light-mode * {
+  color: #9ca3af;
+  /* gray-400 for dark mode */
+}
+
+/* app/globals.css */
+
+@layer utilities {
+
+  /* 1. Set the width of the scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    /* Width for vertical scrollbars */
+    height: 10px;
+    /* Height for horizontal scrollbars */
+  }
+
+  /* 2. Style the "Track" (the background behind the moving bar) */
+  ::-webkit-scrollbar-track {
+    background: transparent;
+    /* Keeps it clean */
+  }
+
+  /* 3. Style the "Thumb" (the moving part with your gradient) */
+  ::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    /* Makes it pill-shaped */
+
+
+    @apply bg-gradient-to-b from-pink-600 via-purple-600 to-blue-500;
+
+    /* Adds a small border to separate thumb from content if needed */
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  /* 4. Hover effect (Optional: make it brighter/wider on hover) */
+  ::-webkit-scrollbar-thumb:hover {
+    /* You can add specific hover styles here if you want */
+  }
+}

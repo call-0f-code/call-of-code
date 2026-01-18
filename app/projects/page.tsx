@@ -169,24 +169,24 @@ const ProjectPage: React.FC = () => {
       />
 
       <div className="relative z-10 min-h-screen">
-        <header className="flex justify-center p-6">
+        <header className="flex justify-center p-4 sm:p-6">
           <Image
             src="/coc-logo.jpg"
             alt="COC Logo"
             width={80}
             height={80}
-            className="rounded-md object-contain invert dark:invert-0"
+            className="w-16 h-16 sm:w-20 sm:h-20 rounded-md object-contain invert dark:invert-0"
             placeholder="blur"
             blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjZTVlN2ViIi8+PC9zdmc+"
           />
         </header>
 
-        <main className="container mx-auto px-6 py-10 space-y-12">
-          <h1 className="text-6xl font-extrabold tracking-wider text-center text-black dark:text-white drop-shadow-lg">
+        <main className="container mx-auto px-4 sm:px-6 py-6 sm:py-10 space-y-6 sm:space-y-8 md:space-y-12">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-wider text-center text-black dark:text-white drop-shadow-lg">
             Projects
           </h1>
 
-          <div className="w-full bg-gray-300 dark:bg-gray-700 h-2 rounded-full overflow-hidden">
+          <div className="w-full bg-gray-300 dark:bg-gray-700 h-1.5 sm:h-2 rounded-full overflow-hidden">
             <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-full w-3/4 rounded-full animate-pulse" />
           </div>
 

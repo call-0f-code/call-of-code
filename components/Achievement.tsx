@@ -1,8 +1,7 @@
-// app/achievements/AchievementsClient.tsx (Client Component)
 "use client";
-import { motion } from "framer-motion"
-import { useState, useEffect } from "react"
-import AchievementCard from "@/components/ui/achievement-card";
+import { motion, AnimatePresence } from "framer-motion"
+import { useState, useEffect, useMemo } from "react"
+import { AchievementCard, ExpandedAchievementCard } from "@/components/ui/achievement-card";
 import Particles from "@/components/ui/particles";
 import { useTheme } from "@/components/ui/theme-provider";
 import Image from "next/image";
@@ -15,6 +14,7 @@ interface Achievement {
   date: string;
   imageSrc: string;
   teamMembers: Array<{
+    id: string;
     name: string;
     image: string;
   }>;
@@ -24,42 +24,38 @@ interface AchievementsClientProps {
   achievements: Achievement[];
 }
 
-// Predefined positions and rotations for scattered layout - these will repeat cyclically
 const cardPositions = [
   // Row 1
   { x: '4%', y: '2%', rotation: -7, zIndex: 5 },
   { x: '35%', y: '4%', rotation: 5, zIndex: 7 },
   { x: '65%', y: '1%', rotation: -6, zIndex: 6 },
-
   // Row 2
   { x: '6%', y: '23%', rotation: 6, zIndex: 5 },
   { x: '35%', y: '25%', rotation: -4, zIndex: 6 },
   { x: '65%', y: '23%', rotation: 3, zIndex: 4 },
-
   // Row 3
   { x: '6%', y: '45%', rotation: -3, zIndex: 5 },
   { x: '35%', y: '50%', rotation: 2, zIndex: 4 },
   { x: '65%', y: '45%', rotation: -5, zIndex: 3 },
-
   // Row 4
   { x: '8%', y: '70%', rotation: 4, zIndex: 4 },
   { x: '38%', y: '69%', rotation: -2, zIndex: 5 },
   { x: '70%', y: '63%', rotation: 3, zIndex: 3 },
-
   // Row 5
   { x: '10%', y: '90%', rotation: -4, zIndex: 5 },
   { x: '40%', y: '90%', rotation: 4, zIndex: 4 },
   { x: '65%', y: '85%', rotation: -3, zIndex: 3 },
 ];
 
-// Function to calculate dynamic container height based on number of achievements
 const calculateContainerHeight = (totalCards: number, positionsPerCycle: number) => {
   const cycles = Math.ceil(totalCards / positionsPerCycle);
-  return cycles * 300; // 300px per cycle to ensure proper spacing
+  return cycles * 300; 
 };
 
 export default function AchievementsClient({ achievements }: AchievementsClientProps) {
-  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+  // FIX 1: Only store the ID of the active card, not the whole object.
+  const [activeId, setActiveId] = useState<number | null>(null);
+  
   const [isMobile, setIsMobile] = useState(false);
   const [loadingMembers, setLoadingMembers] = useState<Record<number, boolean>>({});
   const [achievementsWithMembers, setAchievementsWithMembers] = useState<Achievement[]>(achievements);
@@ -73,10 +69,19 @@ export default function AchievementsClient({ achievements }: AchievementsClientP
 
   const { theme } = useTheme();
 
-  // Function to fetch members for a specific achievement
-  const fetchMembersForAchievement = async (achievementId: number, index: number) => {
-    // If members are already loaded, don't fetch again
-    if (achievementsWithMembers[index].teamMembers.length > 0) {
+  // FIX 2: Derive the active object directly from the main state array.
+  // This ensures that when 'achievementsWithMembers' updates, the modal updates instantly.
+  const activeAchievement = useMemo(
+    () => achievementsWithMembers.find((a) => a.id === activeId),
+    [achievementsWithMembers, activeId]
+  );
+
+  const fetchMembersForAchievement = async (achievementId: number) => {
+    // Find index in current state
+    const index = achievementsWithMembers.findIndex(a => a.id === achievementId);
+    
+    // If we already have members, don't re-fetch
+    if (index === -1 || achievementsWithMembers[index].teamMembers.length > 0) {
       return;
     }
 
@@ -87,9 +92,9 @@ export default function AchievementsClient({ achievements }: AchievementsClientP
       const data = await response.json();
 
       if (data.success && data.members) {
-        // Update the specific achievement with loaded members
         setAchievementsWithMembers(prev => {
           const updated = [...prev];
+          // Update the specific item in the main list
           updated[index] = {
             ...updated[index],
             teamMembers: data.members
@@ -104,18 +109,11 @@ export default function AchievementsClient({ achievements }: AchievementsClientP
     }
   };
 
-  const handleCardExpand = (index: number) => {
-    const isExpanding = expandedIndex !== index;
-    setExpandedIndex(expandedIndex === index ? null : index);
-    
-    // If expanding and members haven't been loaded, fetch them
-    if (isExpanding) {
-      const achievement = sortedAchievements[index];
-      fetchMembersForAchievement(achievement.id, index);
-    }
+  const handleCardClick = (id: number) => {
+    setActiveId(id);
+    fetchMembersForAchievement(id);
   };
 
-  // Data is already sorted from the server component
   const sortedAchievements = achievementsWithMembers;
 
   return (
@@ -130,7 +128,6 @@ export default function AchievementsClient({ achievements }: AchievementsClientP
         />
       </div>
 
-      {/* Header */}
       <header className="flex justify-center p-6">
         <Image
           src="/coc-logo.jpg"
@@ -160,11 +157,9 @@ export default function AchievementsClient({ achievements }: AchievementsClientP
           <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-full w-3/4 rounded-full animate-pulse" />
         </div>
 
-        {/* Loading state or no achievements */}
         {!sortedAchievements || sortedAchievements.length === 0 ? (
           <div className="flex items-center justify-center py-40">
             <div className="flex items-center gap-4 text-gray-700 dark:text-gray-300">
-              {/* Gradient SVG */}
               <svg
                 className="h-11 w-11 opacity-80"
                 fill="none"
@@ -173,36 +168,22 @@ export default function AchievementsClient({ achievements }: AchievementsClientP
                 viewBox="0 0 24 24"
               >
                 <defs>
-                  <linearGradient
-                    id="purplePinkGradient"
-                    x1="0%"
-                    y1="0%"
-                    x2="100%"
-                    y2="0%"
-                  >
-                    <stop offset="0%" stopColor="#a855f7" /> {/* purple-500 */}
-                    <stop offset="100%" stopColor="#ec4899" /> {/* pink-500 */}
+                  <linearGradient id="purplePinkGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#a855f7" />
+                    <stop offset="100%" stopColor="#ec4899" />
                   </linearGradient>
                 </defs>
-
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-
-              {/* Text */}
-              <p className="text-3xl font-semibold tracking-wide">
-                Failed to load achievements
-              </p>
+              <p className="text-3xl font-semibold tracking-wide">Failed to load achievements</p>
             </div>
           </div>
           ) : (
           <>
             {isMobile ? (
+              // MOBILE LAYOUT
               (() => {
-                const cardHeight = 26 * 16 + 120; // 26rem + 120px margin
+                const cardHeight = 26 * 16 + 120;
                 const totalHeight = sortedAchievements.length * cardHeight + 200;
 
                 return (
@@ -210,20 +191,11 @@ export default function AchievementsClient({ achievements }: AchievementsClientP
                     className="relative w-full max-w-md mx-auto overflow-visible pt-20 pb-40"
                     style={{ minHeight: `${totalHeight}px` }}
                   >
-                    {/* Curly Dotted Line */}
                     <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 z-0 pointer-events-none overflow-hidden">
-                      <svg
-                        width="12"
-                        height="100%"
-                        viewBox="0 0 12 3000"
-                        preserveAspectRatio="none"
-                        className="h-full"
-                      >
+                       <svg width="12" height="100%" viewBox="0 0 12 3000" preserveAspectRatio="none" className="h-full">
                         <path
                           d={Array.from({ length: 20 }, (_, i) => {
-                            const y1 = i * 150;
-                            const y2 = y1 + 50;
-                            const y3 = y1 + 150;
+                            const y1 = i * 150; const y2 = y1 + 50; const y3 = y1 + 150;
                             return `${i === 0 ? 'M6 0' : ''} C 12 ${y2}, 0 ${y2 + 50}, 6 ${y3}`;
                           }).join(' ')}
                           stroke={theme === 'dark' ? '#ffffff' : '#000000'}
@@ -234,58 +206,25 @@ export default function AchievementsClient({ achievements }: AchievementsClientP
                       </svg>
                     </div>
 
-                    {/* Achievement Cards */}
                     <div className="relative z-10">
                       {sortedAchievements.map((achievement, index) => {
-                        if (expandedIndex !== null && expandedIndex !== index) return null;
                         const position = cardPositions[index % cardPositions.length];
-
                         return (
                           <motion.div
                             key={index}
                             className="relative w-80 md:w-96 h-[26rem] mx-auto"
                             style={{
                               marginTop: index === 0 ? "0px" : "120px",
-                              zIndex: expandedIndex === index ? 50 : position.zIndex,
-                              transform:
-                                expandedIndex === null
-                                  ? `rotate(${position.rotation}deg)`
-                                  : "rotate(0deg)",
+                              zIndex: position.zIndex,
+                              transform: `rotate(${position.rotation}deg)`,
                             }}
-                            initial={{
-                              opacity: 0,
-                              scale: 0.8,
-                              rotate: position.rotation + 20,
-                            }}
-                            animate={{
-                              opacity:
-                                expandedIndex !== null && expandedIndex !== index
-                                  ? 0.3
-                                  : 1,
-                              scale: 1,
-                              rotate: expandedIndex === null ? position.rotation : 0,
-                            }}
-                            transition={{
-                              duration: 0.6,
-                              delay: index * 0.1,
-                              type: "spring",
-                              stiffness: 100,
-                            }}
-                            whileHover={{
-                              scale: expandedIndex === null ? 1.05 : 1,
-                              rotate:
-                                expandedIndex === null
-                                  ? position.rotation - 2
-                                  : 0,
-                              zIndex: expandedIndex === null ? 10 : position.zIndex,
-                              transition: { duration: 0.3 },
-                            }}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.6, delay: index * 0.1 }}
                           >
                             <AchievementCard
                               {...achievement}
-                              isExpanded={expandedIndex === index}
-                              onExpand={() => handleCardExpand(index)}
-                              isLoadingMembers={loadingMembers[achievement.id] || false}
+                              onClick={() => handleCardClick(achievement.id)}
                             />
                           </motion.div>
                         );
@@ -295,6 +234,7 @@ export default function AchievementsClient({ achievements }: AchievementsClientP
                 );
               })()
             ) : (
+              // DESKTOP SCATTER LAYOUT
               <div
                 className="relative w-full max-w-7xl mx-auto" 
                 style={{
@@ -302,16 +242,13 @@ export default function AchievementsClient({ achievements }: AchievementsClientP
                 }}
               >
                 {sortedAchievements.map((achievement, index) => {
-                  if (expandedIndex !== null && expandedIndex !== index) return null;
-                  // Calculate which cycle this card belongs to
                   const cycleIndex = Math.floor(index / cardPositions.length);
                   const positionIndex = index % cardPositions.length;
                   const basePosition = cardPositions[positionIndex];
                   
-                  // Adjust the Y position based on the cycle
                   const adjustedPosition = {
                     ...basePosition,
-                    y: `${parseFloat(basePosition.y) + (cycleIndex * 120)}%`, // Add 120% for each cycle
+                    y: `${parseFloat(basePosition.y) + (cycleIndex * 120)}%`,
                   };
                   
                   return (
@@ -321,47 +258,22 @@ export default function AchievementsClient({ achievements }: AchievementsClientP
                       style={{
                         left: adjustedPosition.x,
                         top: adjustedPosition.y,
-                        zIndex: expandedIndex === index ? 50 : adjustedPosition.zIndex,
-                        transform:
-                          expandedIndex === null
-                            ? `rotate(${adjustedPosition.rotation}deg)`
-                            : "rotate(0deg)",
+                        zIndex: adjustedPosition.zIndex,
+                        transform: `rotate(${adjustedPosition.rotation}deg)`,
                       }}
-                      initial={{
-                        opacity: 0,
-                        scale: 0.8,
-                        rotate: adjustedPosition.rotation + 20,
-                      }}
-                      animate={{
-                        opacity:
-                          expandedIndex !== null && expandedIndex !== index
-                            ? 0.3
-                            : 1,
-                        scale: 1,
-                        rotate: expandedIndex === null ? adjustedPosition.rotation : 0,
-                      }}
-                      transition={{
-                        duration: 0.6,
-                        delay: index * 0.1,
-                        type: "spring",
-                        stiffness: 100,
-                      }}
+                      initial={{ opacity: 0, scale: 0.8, rotate: adjustedPosition.rotation + 20 }}
+                      animate={{ opacity: 1, scale: 1, rotate: adjustedPosition.rotation }}
+                      transition={{ duration: 0.6, delay: index * 0.1, type: "spring", stiffness: 100 }}
                       whileHover={{
-                        scale: expandedIndex === null ? 1.05 : 1,
-                        rotate:
-                          expandedIndex === null
-                            ? adjustedPosition.rotation - 2
-                            : 0,
-                        zIndex:
-                          expandedIndex === null ? 10 : adjustedPosition.zIndex,
+                        scale: 1.05,
+                        rotate: adjustedPosition.rotation - 2,
+                        zIndex: 40,
                         transition: { duration: 0.3 },
                       }}
                     >
                       <AchievementCard
                         {...achievement}
-                        isExpanded={expandedIndex === index}
-                        onExpand={() => handleCardExpand(index)}
-                        isLoadingMembers={loadingMembers[achievement.id] || false}
+                        onClick={() => handleCardClick(achievement.id)}
                       />
                     </motion.div>
                   );
@@ -371,6 +283,17 @@ export default function AchievementsClient({ achievements }: AchievementsClientP
           </>
         )}
       </div>
+
+      {/* --- OVERLAY FOR EXPANDED CARD --- */}
+      <AnimatePresence>
+        {activeAchievement && (
+          <ExpandedAchievementCard
+            {...activeAchievement}
+            onClose={() => setActiveId(null)}
+            isLoadingMembers={loadingMembers[activeAchievement.id] || false}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

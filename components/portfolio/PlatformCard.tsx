@@ -31,11 +31,11 @@ export default function PlatformCard({
 
   if (!data) {
     return (
-      <div className="relative h-full min-h-[280px] rounded-2xl bg-zinc-900/30 backdrop-blur-xl border border-white/5 p-8 flex items-center justify-center">
-        <div className="text-center text-gray-600">
+      <div className="relative h-full min-h-[280px] rounded-2xl bg-gray-100 dark:bg-zinc-900/30 backdrop-blur-xl border border-gray-200 dark:border-white/5 p-8 flex items-center justify-center shadow-sm dark:shadow-none">
+        <div className="text-center text-gray-400 dark:text-gray-600">
           <AlertCircle className="w-12 h-12 mx-auto mb-3 opacity-50" />
           <p className="text-sm font-medium">Data Unavailable</p>
-          <p className="text-xs text-gray-700 mt-1">Check platform profile</p>
+          <p className="text-xs text-gray-500 dark:text-gray-700 mt-1">Check platform profile</p>
         </div>
       </div>
     );
@@ -105,18 +105,18 @@ export default function PlatformCard({
       >
         {/* Front */}
         <div
-          className="absolute inset-0 rounded-2xl bg-zinc-900/50 backdrop-blur-xl border border-white/10 hover:border-purple-500/50 transition-all duration-300 overflow-hidden"
+          className="absolute inset-0 rounded-2xl bg-white dark:bg-zinc-900/50 backdrop-blur-xl border border-gray-200 dark:border-white/10 hover:border-purple-500/50 transition-all duration-300 overflow-hidden shadow-sm dark:shadow-none"
           style={{ backfaceVisibility: "hidden" }}
         >
           {/* Gradient Overlay */}
           <div className={`absolute inset-0 bg-gradient-to-br ${color} opacity-5`} />
-          
+
           <div className="relative z-10 p-8 flex flex-col justify-between h-full">
             <div className="flex items-start justify-between">
               <div className={`text-6xl bg-gradient-to-br ${color} bg-clip-text text-transparent`}>
                 {icon}
               </div>
-              
+
               <div className={`absolute top-6 right-6 px-3 py-1 rounded-full bg-gradient-to-r ${color} opacity-50 text-xs font-bold uppercase tracking-wider`}>
                 {platform}
               </div>
@@ -126,14 +126,14 @@ export default function PlatformCard({
               <div className={`text-5xl font-black bg-gradient-to-br ${color} bg-clip-text text-transparent`}>
                 {metric.value}
               </div>
-              <div className="text-sm text-gray-400 font-medium uppercase tracking-wider">
+              <div className="text-sm text-gray-600 dark:text-gray-400 font-medium uppercase tracking-wider">
                 {metric.label}
               </div>
             </div>
           </div>
 
           {breakdown.length > 0 && (
-            <div className="absolute bottom-4 right-4 text-xs text-gray-600 flex items-center gap-1">
+            <div className="absolute bottom-4 right-4 text-xs text-gray-500 dark:text-gray-600 flex items-center gap-1">
               <span>Hover for details</span>
               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
@@ -145,7 +145,7 @@ export default function PlatformCard({
         {/* Back */}
         {breakdown.length > 0 && (
           <div
-            className="absolute inset-0 rounded-2xl bg-zinc-900/50 backdrop-blur-xl border border-white/10 overflow-hidden"
+            className="absolute inset-0 rounded-2xl bg-white dark:bg-zinc-900/50 backdrop-blur-xl border border-gray-200 dark:border-white/10 overflow-hidden shadow-sm dark:shadow-none"
             style={{
               backfaceVisibility: "hidden",
               transform: "rotateY(180deg)",
@@ -153,7 +153,7 @@ export default function PlatformCard({
           >
             {/* Gradient Overlay */}
             <div className={`absolute inset-0 bg-gradient-to-br ${color} opacity-10`} />
-            
+
             <div className="relative z-10 p-8 flex flex-col justify-center h-full">
               <h3 className={`text-sm font-bold uppercase tracking-wider mb-6 bg-gradient-to-r ${color} bg-clip-text text-transparent`}>
                 Breakdown
@@ -164,7 +164,7 @@ export default function PlatformCard({
                     <span className={`text-sm font-medium ${item.color} group-hover:scale-105 transition-transform`}>
                       {item.label}
                     </span>
-                    <span className="text-2xl font-bold text-white group-hover:scale-110 transition-transform">
+                    <span className="text-2xl font-bold text-gray-900 dark:text-white group-hover:scale-110 transition-transform">
                       {item.value}
                     </span>
                   </div>

@@ -115,7 +115,7 @@ export default function PortfolioBentoGrid({
       {/* Heatmaps - 9 cols (approx 75% width) */}
       <motion.div
         variants={itemVariants}
-        className="lg:col-span-9 relative rounded-2xl bg-zinc-900/50 backdrop-blur-xl border border-white/10 p-6 hover:border-purple-500/30 transition-all duration-300"
+        className="lg:col-span-9 relative rounded-2xl bg-white dark:bg-zinc-900/50 backdrop-blur-xl border border-gray-200 dark:border-white/10 p-6 hover:border-purple-500/30 transition-all duration-300 shadow-sm dark:shadow-none"
       >
         <HeatmapDeck
           githubData={platforms.github}
@@ -126,9 +126,9 @@ export default function PortfolioBentoGrid({
       {/* Profile Summary - 3 cols (approx 25% width) */}
       <motion.div
         variants={itemVariants}
-        className="lg:col-span-3 relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-xl border border-white/10 p-8 hover:border-purple-500/50 transition-all duration-300 group"
+        className="lg:col-span-3 relative overflow-hidden rounded-2xl bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-xl border border-gray-200 dark:border-white/10 p-8 hover:border-purple-500/50 transition-all duration-300 group shadow-sm dark:shadow-none"
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 dark:from-purple-500/5 to-pink-500/10 dark:to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center space-y-6">
           <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-purple-500/50 ring-4 ring-purple-500/20 relative">
             <Image
@@ -139,11 +139,11 @@ export default function PortfolioBentoGrid({
             />
           </div>
           <div>
-            <h3 className="text-xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+            <h3 className="text-xl font-bold mb-2 bg-gradient-to-r from-purple-600 dark:from-purple-400 to-pink-600 dark:to-pink-500 bg-clip-text text-transparent">
               {member.name}
             </h3>
             {member.bio && (
-              <p className="text-gray-400 text-xs leading-relaxed">{member.bio}</p>
+              <p className="text-gray-600 dark:text-gray-400 text-xs leading-relaxed">{member.bio}</p>
             )}
           </div>
         </div>
