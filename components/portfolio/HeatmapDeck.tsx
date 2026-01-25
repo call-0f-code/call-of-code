@@ -171,8 +171,8 @@ export default function HeatmapDeck({
             <ActivityCalendar
               data={leetcodeNormalized}
               theme={{
-                light: ["#e5e7eb", "#fbbf24", "#f59e0b", "#f97316", "#ea580c"],
-                dark: ["#161b22", "#fbbf24", "#f59e0b", "#f97316", "#ea580c"],
+                light: ["#e5e7eb", "#ea580c", "#f97316", "#f59e0b", "#fbbf24"],
+                dark: ["#161b22", "#ea580c", "#f97316", "#f59e0b", "#fbbf24"],
               }}
               colorScheme={isDarkMode ? "dark" : "light"}
               blockSize={getBlockSize(leetcode.width)}
