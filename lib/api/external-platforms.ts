@@ -190,12 +190,21 @@ export async function fetchLeetCodeData(username: string) {
     
     if (user.userCalendar?.submissionCalendar) {
       try {
-        const submissionMap = JSON.parse(user.userCalendar.submissionCalendar);
+       const submissionMap = JSON.parse(user.userCalendar.submissionCalendar);
         
-        calendar = Object.entries(submissionMap).map(([timestamp, count]) => ({
-          date: new Date(parseInt(timestamp) * 1000).toISOString().split("T")[0],
-          count: Number(count),
-        }));
+        calendar = Object.entries(submissionMap).map(([timestamp, count]) => {
+            const date = new Date(parseInt(timestamp) * 1000);
+            // FIX: Convert to specific timezone string (e.g., 'Asia/Kolkata' or 'en-CA' for local)
+            // 'en-CA' format returns YYYY-MM-DD which matches the calendar component requirement
+            const isoDate = date.toLocaleDateString("en-CA", { 
+                timeZone: "Asia/Kolkata" // Change this to your preferred timezone
+            });
+
+            return {
+                date: isoDate,
+                count: Number(count),
+            };
+        });
       } catch (e) {
         console.error("Failed to parse LeetCode calendar JSON", e);
       }
