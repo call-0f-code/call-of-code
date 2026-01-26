@@ -75,12 +75,14 @@ export default function HeatmapDeck({
     return acc;
   }, {});
 
-  const leetcodeNormalized = Object.entries(leetcodeGrouped).map(([date, count]) => ({
-    date,
-    count: count as number,
-    level: Math.min(Math.floor((count as number) / 2), 4),
-  }));
-
+  const leetcodeNormalized = Object.entries(leetcodeGrouped).map(([date, count]) => {
+    const validCount = count as number;
+    return {
+      date,
+      count: validCount,
+      level: validCount === 0 ? 0 : Math.max(1, Math.min(Math.floor(validCount / 2), 4)),
+    };
+  });
   const hasGithub = githubData && githubContributions.length > 0;
   const hasLeetcode = leetcodeData && leetcodeNormalized.length > 0;
 
@@ -124,7 +126,7 @@ export default function HeatmapDeck({
               data={githubContributions.map((d: ContributionData) => ({
                 date: d.date,
                 count: d.count,
-                level: Math.min(Math.floor(d.count / 3), 4),
+                level: d.count === 0 ? 0 : Math.max(1, Math.min(Math.floor(d.count / 3), 4)),              
               }))}
               theme={{
                 light: ["#e5e7eb", "#0e4429", "#006d32", "#26a641", "#39d353"],
@@ -169,8 +171,8 @@ export default function HeatmapDeck({
             <ActivityCalendar
               data={leetcodeNormalized}
               theme={{
-                light: ["#e5e7eb", "#fbbf24", "#f59e0b", "#f97316", "#ea580c"],
-                dark: ["#161b22", "#fbbf24", "#f59e0b", "#f97316", "#ea580c"],
+                light: ["#e5e7eb", "#ea580c", "#f97316", "#f59e0b", "#fbbf24"],
+                dark: ["#161b22", "#ea580c", "#f97316", "#f59e0b", "#fbbf24"],
               }}
               colorScheme={isDarkMode ? "dark" : "light"}
               blockSize={getBlockSize(leetcode.width)}
