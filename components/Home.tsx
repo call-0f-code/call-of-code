@@ -8,6 +8,32 @@ import Ferris from "./ui/ferris-eyes";
 import { Button } from 'pixel-retroui';
 import localFont from "next/font/local";
 
+interface HomeAction {
+  key: string;
+  label: string;
+  url: string;
+  isVisible: boolean;
+}
+
+interface GalleryItem {
+  imageUrl: string;
+  caption: string;
+  altText: string;
+}
+
+interface HomeResponse {
+  success: boolean;
+  data: {
+    actions: HomeAction[];
+    hero: {
+      imageUrl: string;
+      caption: string;
+      altText: string;
+    };
+    gallery: GalleryItem[];
+  };
+}
+
 const pressStart2P = localFont({
   src: "../app/fonts/PressStart2P-Regular.ttf",
   display: "swap",
@@ -18,7 +44,24 @@ const pressStart2P = localFont({
 export default function HeroSection() {
   const [color, setColor] = useState("#000000");
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [showButton ] = useState(false);
+  const [actions, setActions] = useState<HomeAction[]>([]);
+
+  useEffect(() => {
+    async function fetchHomeData() {
+      try {
+        const res = await fetch("/api/home");
+        if (res.ok) {
+          const json: HomeResponse = await res.json();
+          if (json.success && json.data && Array.isArray(json.data.actions)) {
+            setActions(json.data.actions);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch home page data:", err);
+      }
+    }
+    fetchHomeData();
+  }, []);
 
   useEffect(() => {
     const updateColor = () => {
@@ -68,7 +111,7 @@ export default function HeroSection() {
   shadow-[6px_6px_0px_rgba(0,0,0,1)] dark:shadow-[6px_6px_0px_rgba(255,255,255,1)]
   hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] dark:hover:shadow-[8px_8px_0px_rgba(255,255,255,1)]
   active:translate-x-0.5 active:translate-y-0.5
-  transition-all duration-200 mb-32
+  transition-all duration-200
 `.replace(/\s+/g, ' ').trim();
 
 
@@ -183,17 +226,24 @@ export default function HeroSection() {
       </motion.svg>
 
 
-<Button
-  onClick={() => {
-    window.open("https://forms.gle/qME3Qh1Skj7JvsBr9", "_blank");
-  }}
-  className={buttonStyles}
-  aria-label="Register for Call of Code event"
-  style={{display : showButton ? "inline-block" : "none"}}
->
-  Register Now!
-</Button>
-      
+      {actions.filter(action => action.isVisible).length > 0 && (
+        <div className="flex flex-wrap justify-center items-center gap-6 mb-32 z-20">
+          {actions.filter(action => action.isVisible).map((action) => (
+            <a
+              key={action.key}
+              href={action.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block"
+            >
+              <Button className={buttonStyles} aria-label={action.label}>
+                {action.label}
+              </Button>
+            </a>
+          ))}
+        </div>
+      )}
+
 
       <h2 className="bg-clip-text text-transparent text-center bg-gradient-to-r from-red-600 via-purple-600 to-blue-500 dark:from-red-600 dark:via-purple-600 dark:to-blue-500 text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-sans relative z-20 font-bold tracking-tight leading-tight mb-8 px-4">
         &lt;&gt; CALL OF CODE &lt;/&gt;
