@@ -284,7 +284,10 @@ export async function fetchCodeChefData(username: string) {
     const problemsMatch = html.match(/<h3>Total Problems Solved:\s*(\d+)<\/h3>/);
     const totalSolved = problemsMatch ? parseInt(problemsMatch[1]) : null;
 
-    const ratingMatch = html.match(/<div class="rating-number">(\d+)<\/div>/);
+    // Read the first (competitive) rating, allowing CodeChef's formatted whitespace.
+    // Match the container first so an unrated profile cannot pick up its DSA rating.
+    const ratingBlock = html.match(/<div class="rating-number">([^<]*)<\/div>/);
+    const ratingMatch = ratingBlock?.[1].match(/^\s*(\d+)\s*$/);
     const rating = ratingMatch ? parseInt(ratingMatch[1]) : null;
 
     const highestMatch = html.match(/Highest Rating\s+(\d+)/);
